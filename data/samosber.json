@@ -1,0 +1,42 @@
+{
+  "enabled": true,
+  "booking_enabled": true,
+  "announcement": "Předběžné zářijové termíny samosběru švestek jsou otevřené.",
+  "offer_label": "Předběžná nabídka",
+  "title": "Samosběr švestek · září 2026",
+  "description": "Vyberte preferovaný termín. Skutečné otevření sadu závisí na zralosti plodů a počasí.",
+  "time_summary": "8:00–11:30",
+  "confirmation_title": "Předběžná rezervace není automatické potvrzení.",
+  "confirmation_note": "Farma se ozve s potvrzením termínu, přesným místem příjezdu a aktuálními podmínkami samosběru.",
+  "empty_message": "Aktuálně nejsou vypsané žádné veřejné termíny. Zavolejte nám a ověřte individuální možnosti.",
+  "allow_other_term": true,
+  "slots": [
+    {
+      "visible": true,
+      "date": "2026-09-05",
+      "start": "08:00",
+      "end": "11:30",
+      "fruit": "Švestky",
+      "status": "preliminary",
+      "note": "K potvrzení podle zralosti"
+    },
+    {
+      "visible": true,
+      "date": "2026-09-12",
+      "start": "08:00",
+      "end": "11:30",
+      "fruit": "Švestky",
+      "status": "preliminary",
+      "note": "K potvrzení podle zralosti"
+    },
+    {
+      "visible": true,
+      "date": "2026-09-19",
+      "start": "08:00",
+      "end": "11:30",
+      "fruit": "Švestky",
+      "status": "preliminary",
+      "note": "K potvrzení podle zralosti"
+    }
+  ]
+}
