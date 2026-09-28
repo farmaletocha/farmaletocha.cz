@@ -53,6 +53,7 @@ if (reduceMotion || !("IntersectionObserver" in window)) {
   );
 
   revealElements.forEach((element) => revealObserver.observe(element));
+  document.documentElement.classList.add("js");
 }
 
 const currentMonth = new Date().getMonth() + 1;
@@ -115,13 +116,6 @@ const slotStatuses = {
     button: "Zrušeno",
     reservable: false
   }
-};
-
-const createElement = (tagName, className, text) => {
-  const element = document.createElement(tagName);
-  if (className) element.className = className;
-  if (text !== undefined) element.textContent = text;
-  return element;
 };
 
 const getPragueDate = () => {
@@ -323,18 +317,21 @@ const showHarvestLoadError = () => {
   if (harvestAnnouncement) {
     harvestAnnouncement.textContent = "Aktuální termíny se nepodařilo načíst. Ověřte je prosím telefonicky.";
   }
-  setAnnouncementLink("Zavolat na farmu", "tel:+420602793987");
+  const contact = getContactDetails();
+  setAnnouncementLink(contact ? "Zavolat na farmu" : "Kontaktovat farmu", contact ? `tel:${contact.phone}` : "#kontakt");
   if (offerLabel) offerLabel.textContent = "Telefonické ověření";
   if (offerTitle) offerTitle.textContent = "Termíny ověřte přímo na farmě";
   if (offerDescription) {
-    offerDescription.textContent = "Datový soubor s aktuální nabídkou není právě dostupný.";
+    offerDescription.textContent = "Aktuální termíny se nepodařilo zobrazit. Rádi vám je sdělíme telefonicky.";
   }
   if (offerMeta) offerMeta.hidden = true;
   if (slotGrid) {
     slotGrid.replaceChildren(createElement(
       "p",
       "slot-empty slot-empty--error",
-      "Zavolejte na 602 793 987 a ověřte aktuální možnosti samosběru."
+      contact
+        ? `Zavolejte na ${formatPhone(contact.phone)} a ověřte aktuální možnosti samosběru.`
+        : "Aktuální možnosti samosběru si prosím ověřte přímo na farmě."
     ));
   }
   if (reservationSection) reservationSection.hidden = true;
@@ -403,7 +400,12 @@ reservationForm?.addEventListener("submit", (event) => {
   const message = buildReservationMessage();
   if (!message) return;
 
-  const mailto = `mailto:leosletocha@seznam.cz?subject=${encodeURIComponent(message.subject)}&body=${encodeURIComponent(message.body)}`;
+  const contact = getContactDetails();
+  if (!contact) {
+    reservationFeedback.textContent = "Kontaktní údaje se nepodařilo načíst. Zkuste prosím stránku znovu načíst.";
+    return;
+  }
+  const mailto = `mailto:${contact.email}?subject=${encodeURIComponent(message.subject)}&body=${encodeURIComponent(message.body)}`;
   if (reservationFeedback) {
     reservationFeedback.textContent = "Žádost je připravená. Otevírám váš e-mailový program…";
   }
@@ -477,3 +479,150 @@ if (lightbox && lightboxImage && lightboxCaption && typeof lightbox.showModal ==
     if (clickedOutside) lightbox.close();
   });
 }
+
+const initializeHeroCarousel = (autoplay) => {
+  const carousel = document.querySelector("[data-hero-carousel]");
+  if (!carousel) return;
+  const slides = Array.from(carousel.querySelectorAll("[data-hero-slide]"));
+  const buttons = Array.from(carousel.querySelectorAll("[data-hero-select]"));
+  const toggle = carousel.querySelector("[data-hero-toggle]");
+  const caption = carousel.querySelector("[data-hero-caption]");
+  const title = carousel.querySelector("[data-hero-title]");
+  const description = carousel.querySelector("[data-hero-description]");
+  const feedback = carousel.querySelector("[data-hero-feedback]");
+  const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let index = 0;
+  let playing = autoplay && !motion.matches;
+  let timer;
+  let request = 0;
+  let hovered = false;
+  let visible = !("IntersectionObserver" in window);
+  let focusPlayback = false;
+  let pointerIntent = null;
+
+  const updateCaption = () => {
+    const slide = slides[index];
+    title.textContent = slide.dataset.title;
+    description.textContent = slide.dataset.description;
+    caption.dataset.fruitColor = slide.dataset.heroSlide;
+    carousel.dataset.activeFruit = slide.dataset.heroSlide;
+    slides.forEach((item, position) => {
+      const active = position === index;
+      item.classList.toggle("is-active", active);
+      item.setAttribute("aria-hidden", String(!active));
+      item.setAttribute("aria-label", `${position + 1} ze ${slides.length}: ${item.dataset.name}`);
+      buttons[position].setAttribute("aria-pressed", String(active));
+    });
+  };
+
+  const updatePlayback = () => {
+    toggle.textContent = playing ? "Ⅱ" : "▶";
+    toggle.setAttribute("aria-label", playing ? "Pozastavit střídání fotografií" : "Spustit střídání fotografií");
+    caption.setAttribute("aria-live", playing ? "off" : "polite");
+    carousel.dataset.playing = String(playing);
+  };
+
+  const schedule = () => {
+    window.clearTimeout(timer);
+    const focused = carousel.contains(document.activeElement);
+    if (playing && visible && !hovered && !document.hidden && (!focused || focusPlayback)) {
+      timer = window.setTimeout(() => showSlide((index + 1) % slides.length), 6000);
+    }
+  };
+
+  const setPlaying = (value) => {
+    if (!value) request += 1;
+    playing = value;
+    updatePlayback();
+    schedule();
+  };
+
+  const showSlide = async (next) => {
+    const currentRequest = ++request;
+    window.clearTimeout(timer);
+    const image = slides[next].querySelector("img");
+    try {
+      image.loading = "eager";
+      await image.decode();
+      if (currentRequest !== request) return;
+      index = next;
+      feedback.hidden = true;
+      updateCaption();
+      schedule();
+    } catch (error) {
+      if (currentRequest !== request) return;
+      console.error("Nepodařilo se zobrazit fotografii ovoce.", error);
+      feedback.textContent = "Fotografii se nepodařilo zobrazit. Zkuste jiné ovoce.";
+      feedback.hidden = false;
+      setPlaying(false);
+    }
+  };
+
+  buttons.forEach((button, position) => {
+    button.addEventListener("click", () => {
+      focusPlayback = false;
+      setPlaying(false);
+      showSlide(position);
+    });
+  });
+  toggle.addEventListener("pointerdown", () => { pointerIntent = !playing; });
+  toggle.addEventListener("click", () => {
+    const next = pointerIntent ?? !playing;
+    pointerIntent = null;
+    focusPlayback = next;
+    setPlaying(next);
+  });
+  carousel.addEventListener("pointercancel", () => { pointerIntent = null; });
+  carousel.addEventListener("pointerenter", (event) => {
+    if (event.pointerType === "touch") return;
+    hovered = true;
+    schedule();
+  });
+  carousel.addEventListener("pointerleave", () => {
+    hovered = false;
+    pointerIntent = null;
+    schedule();
+  });
+  carousel.addEventListener("focusin", () => {
+    focusPlayback = false;
+    setPlaying(false);
+  });
+  carousel.addEventListener("focusout", () => {
+    window.setTimeout(schedule, 0);
+  });
+  carousel.addEventListener("keydown", (event) => {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const next = event.key === "Home" ? 0
+      : event.key === "End" ? slides.length - 1
+      : (index + (event.key === "ArrowRight" ? 1 : -1) + slides.length) % slides.length;
+    setPlaying(false);
+    buttons[next].focus();
+    showSlide(next);
+  });
+  motion.addEventListener("change", (event) => {
+    if (event.matches) setPlaying(false);
+  });
+  document.addEventListener("visibilitychange", schedule);
+  window.addEventListener("pagehide", () => window.clearTimeout(timer));
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      schedule();
+    }, { threshold: 0.15 });
+    observer.observe(carousel);
+  }
+  carousel.querySelector("[data-hero-controls]").hidden = false;
+  updateCaption();
+  updatePlayback();
+  schedule();
+};
+
+initializeContent()
+  .then(({ web }) => initializeHeroCarousel(web ? web.intro.rotate_fruit : true))
+  .catch((error) => {
+    console.error("Nepodařilo se zobrazit obsah webu.", error);
+    const message = document.querySelector("[data-content-error]");
+    message.textContent = "Informace se nepodařilo zobrazit. Zkuste prosím stránku znovu načíst.";
+    message.hidden = false;
+  });

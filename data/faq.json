@@ -1,0 +1,46 @@
+{
+  "items": [
+    {
+      "visible": true,
+      "question": "Jaké ovoce je na farmě k dostání?",
+      "answer_source": "text",
+      "answer": "Podle sezóny nabízíme jablka, meruňky, švestky a černý rybíz. Konkrétní dostupnost se mění s dozráváním a počasím."
+    },
+    {
+      "visible": true,
+      "question": "Co lze sklízet samostatně?",
+      "answer_source": "text",
+      "answer": "V sezóně je možný samosběr meruněk a švestek. U černého rybízu je samosběr možný po předchozí dohodě."
+    },
+    {
+      "visible": true,
+      "question": "Které odrůdy jsou nyní v nabídce?",
+      "answer_source": "availability",
+      "answer": ""
+    },
+    {
+      "visible": true,
+      "question": "Jaká je cena aktuální nabídky a kdy probíhá prodej?",
+      "answer_source": "sales",
+      "answer": ""
+    },
+    {
+      "visible": true,
+      "question": "Co znamená integrovaná produkce?",
+      "answer_source": "text",
+      "answer": "Sady Farmy Letocha jsou vedené v režimu integrované produkce ovoce. Pěstované rezistentní odrůdy jabloní mají výrazně sníženou potřebu chemie při ošetřování."
+    },
+    {
+      "visible": true,
+      "question": "Můžeme přijet bez domluvy?",
+      "answer_source": "text",
+      "answer": "Mimo prodejní dobu se prosím domluvte telefonicky. Před cestou doporučujeme ověřit dostupnost ovoce. Samosběr si vždy domluvte předem."
+    },
+    {
+      "visible": true,
+      "question": "Jak rezervovat samosběr?",
+      "answer_source": "text",
+      "answer": "Vyberte termín a odešlete nám žádost e-mailem. Rezervace platí až po potvrzení farmou."
+    }
+  ]
+}

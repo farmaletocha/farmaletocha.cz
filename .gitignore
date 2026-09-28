@@ -1,43 +1,59 @@
-# Public repository: deployment files only.
+# Public repository: only the website's deployment files are allowed.
 /*
 !/.gitignore
 !/.nojekyll
+!/CNAME
 !/index.html
-!/robots.txt
-!/script.js
-!/site.webmanifest
-!/sitemap.xml
 !/styles.css
-
-!/assets/
-/assets/*
+!/script.js
+!/content.js
+!/robots.txt
+!/sitemap.xml
+!/site.webmanifest
 
 !/data/
 /data/*
+!/data/web.json
+!/data/nabidka.json
+!/data/faq.json
 !/data/samosber.json
 
+!/assets/
+/assets/*
 !/assets/images/
 /assets/images/*
-!/assets/images/apricots-placeholder-800.webp
-!/assets/images/apricots-placeholder.webp
-!/assets/images/blackcurrants-placeholder-800.webp
-!/assets/images/blackcurrants-placeholder.webp
-!/assets/images/farm-real.webp
 !/assets/images/favicon-192.png
-!/assets/images/hero-orchard-placeholder-900.webp
-!/assets/images/hero-orchard-placeholder.webp
 !/assets/images/logo-source.jpg
 !/assets/images/logo-transparent.png
 !/assets/images/og-image.jpg
-!/assets/images/orchard-real-01-800.webp
-!/assets/images/orchard-real-01.webp
-!/assets/images/orchard-real-02-800.webp
-!/assets/images/orchard-real-02.webp
-!/assets/images/plums-placeholder-800.webp
-!/assets/images/plums-placeholder.webp
-!/assets/images/portrait-real.webp
-!/assets/images/surroundings-placeholder-900.webp
-!/assets/images/surroundings-placeholder.webp
+!/assets/images/apricots-generated.webp
+!/assets/images/apricots-generated-768.webp
+!/assets/images/plums-generated.webp
+!/assets/images/plums-generated-768.webp
+!/assets/images/blackcurrants-generated.webp
+!/assets/images/blackcurrants-generated-768.webp
+!/assets/images/orchard-winter-edited.webp
+!/assets/images/orchard-winter-edited-768.webp
+!/assets/images/farm/
+/assets/images/farm/*
+!/assets/images/farm/DSC01174.webp
+!/assets/images/farm/DSC01174-320.webp
+!/assets/images/farm/DSC01181.webp
+!/assets/images/farm/DSC01181-480.webp
+!/assets/images/farm/DSC01187.webp
+!/assets/images/farm/DSC01187-480.webp
+!/assets/images/farm/DSC07872.webp
+!/assets/images/farm/DSC07872-320.webp
+!/assets/images/farm/DSC07901.webp
+!/assets/images/farm/DSC07901-480.webp
+!/assets/images/farm/DSC07917.webp
+!/assets/images/farm/DSC07917-480.webp
+!/assets/images/farm/DSC07933.webp
+!/assets/images/farm/DSC07933-320.webp
+!/assets/images/farm/DSC07940.webp
+!/assets/images/farm/DSC07940-320.webp
+!/assets/images/farm/DSC07985.webp
+!/assets/images/farm/DSC07985-320.webp
 
-# Private authoring material is maintained separately.
+# Reserved for a separate private repository; never publish this directory.
 /private/
