@@ -11,6 +11,13 @@
 !/sitemap.xml
 !/site.webmanifest
 
+!/kontakt/
+/kontakt/*
+!/kontakt/index.html
+!/o-nas/
+/o-nas/*
+!/o-nas/index.html
+
 !/data/
 /data/*
 !/data/web.json
