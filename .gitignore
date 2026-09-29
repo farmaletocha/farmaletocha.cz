@@ -1,7 +1,8 @@
-# Public repository: only the website's deployment files are allowed.
+# Public repository: deployment files plus the approved root Pages CMS configuration.
 /*
 !/.gitignore
 !/.nojekyll
+!/.pages.yml
 !/CNAME
 !/index.html
 !/styles.css
