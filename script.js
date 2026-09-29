@@ -246,7 +246,7 @@ const fillSlotSelect = (reservableSlots, allowOtherTerm) => {
   });
 
   if (allowOtherTerm) {
-    const otherTerm = "Jiný termín po telefonické dohodě";
+    const otherTerm = "Jiný termín po domluvě";
     slotSelect.add(new Option(otherTerm, otherTerm));
   }
 
@@ -258,7 +258,7 @@ const renderHarvestOffer = (data) => {
   const bookingEnabled = data?.booking_enabled !== false;
 
   if (harvestAnnouncement) {
-    harvestAnnouncement.textContent = data?.announcement || "Aktuální nabídku samosběru ověřte telefonicky.";
+    harvestAnnouncement.textContent = data?.announcement || "Na možnosti samosběru se nás zeptejte e-mailem.";
   }
 
   if (!enabled) {
@@ -273,7 +273,7 @@ const renderHarvestOffer = (data) => {
   if (offerTitle) offerTitle.textContent = data.title || "Termíny samosběru";
   if (offerDescription) offerDescription.textContent = data.description || "";
   if (offerConfirmationTitle) {
-    offerConfirmationTitle.textContent = data.confirmation_title || "Rezervace platí až po potvrzení farmou.";
+    offerConfirmationTitle.textContent = data.confirmation_title || "Termín platí až po našem potvrzení.";
   }
   if (offerConfirmationNote) offerConfirmationNote.textContent = data.confirmation_note || "";
   if (offerTime) offerTime.textContent = data.time_summary || "Podle termínu";
@@ -307,7 +307,7 @@ const renderHarvestOffer = (data) => {
   if (reservationSection) reservationSection.hidden = !bookingEnabled;
 
   if (bookingEnabled && (reservableSlots.length || data.allow_other_term !== false)) {
-    setAnnouncementLink("Vybrat termín", "#rezervace");
+    setAnnouncementLink(reservableSlots.length ? "Vybrat termín" : "Domluvit termín", "#rezervace");
   } else {
     setAnnouncementLink("Zobrazit nabídku", "#samosber");
   }
@@ -315,14 +315,14 @@ const renderHarvestOffer = (data) => {
 
 const showHarvestLoadError = () => {
   if (harvestAnnouncement) {
-    harvestAnnouncement.textContent = "Aktuální termíny se nepodařilo načíst. Ověřte je prosím telefonicky.";
+    harvestAnnouncement.textContent = "Termíny samosběru se teď nepodařilo načíst.";
   }
   const contact = getContactDetails();
-  setAnnouncementLink(contact ? "Zavolat na farmu" : "Kontaktovat farmu", contact ? `tel:${contact.phone}` : "#kontakt");
-  if (offerLabel) offerLabel.textContent = "Telefonické ověření";
-  if (offerTitle) offerTitle.textContent = "Termíny ověřte přímo na farmě";
+  setAnnouncementLink(contact ? "Napsat e-mail" : "Kontaktovat farmu", contact ? `mailto:${contact.email}` : "#kontakt");
+  if (offerLabel) offerLabel.textContent = "Nedostupné";
+  if (offerTitle) offerTitle.textContent = "Termíny samosběru nejsou dostupné";
   if (offerDescription) {
-    offerDescription.textContent = "Aktuální termíny se nepodařilo zobrazit. Rádi vám je sdělíme telefonicky.";
+    offerDescription.textContent = "Zkuste prosím stránku znovu načíst.";
   }
   if (offerMeta) offerMeta.hidden = true;
   if (slotGrid) {
@@ -330,8 +330,8 @@ const showHarvestLoadError = () => {
       "p",
       "slot-empty slot-empty--error",
       contact
-        ? `Zavolejte na ${formatPhone(contact.phone)} a ověřte aktuální možnosti samosběru.`
-        : "Aktuální možnosti samosběru si prosím ověřte přímo na farmě."
+        ? `Napište nám na ${contact.email} a zeptejte se na možnosti samosběru.`
+        : "Informace o samosběru nejsou k dispozici."
     ));
   }
   if (reservationSection) reservationSection.hidden = true;
@@ -373,11 +373,11 @@ const buildReservationMessage = () => {
   const amount = String(formData.get("Mnozstvi") || "").trim();
   const note = String(formData.get("Poznamka") || "").trim();
 
-  const subject = `Předběžná rezervace samosběru – ${term}`;
+  const subject = `Žádost o samosběr – ${term}`;
   const body = [
     "Dobrý den,",
     "",
-    "prosím o potvrzení předběžné rezervace samosběru:",
+    "prosím o domluvu samosběru:",
     "",
     `Termín: ${term}`,
     `Jméno: ${name}`,
@@ -386,7 +386,7 @@ const buildReservationMessage = () => {
     `Předpokládané množství: ${amount}`,
     `Poznámka: ${note || "bez poznámky"}`,
     "",
-    "Rozumím, že termín platí až po potvrzení farmou podle zralosti ovoce a počasí.",
+    "Rozumím, že termín platí až po vašem potvrzení podle zralosti ovoce a počasí.",
     "",
     "Děkuji."
   ].join("\n");
@@ -442,11 +442,13 @@ copyReservationButton?.addEventListener("click", async () => {
   try {
     await copyText(`${message.subject}\n\n${message.body}`);
     if (reservationFeedback) {
-      reservationFeedback.textContent = "Údaje rezervace jsou zkopírované. Můžete je vložit do SMS nebo e-mailu.";
+      reservationFeedback.textContent = "Údaje rezervace jsou zkopírované. Můžete je vložit do e-mailu.";
     }
   } catch {
     if (reservationFeedback) {
-      reservationFeedback.textContent = "Kopírování se nepodařilo. Použijte prosím e-mailové tlačítko nebo zavolejte.";
+      reservationFeedback.textContent = getContactDetails()
+        ? "Kopírování se nepodařilo. Použijte prosím tlačítko „Připravit žádost e-mailem“."
+        : "Kopírování se nepodařilo. Zkuste prosím stránku znovu načíst.";
     }
   }
 });

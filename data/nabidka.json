@@ -4,27 +4,27 @@
   "price_subject": "Jablka",
   "price": "10–24",
   "unit": "Kč/kg",
-  "price_note": "Podle kvality plodů.",
+  "price_note": "Záleží na kvalitě plodů.",
   "hours": "Každou sobotu 9–11 h.",
-  "arrangement": "Jindy po telefonické dohodě.",
+  "arrangement": "Jindy po předchozí domluvě.",
   "varieties": [
     {
       "name": "Rajka",
       "status": "V prodeji",
       "sold_out": false,
-      "description": "Sladká, ihned ke konzumaci. V dobrém sklepě vydrží do Vánoc."
+      "description": "Sladká a hned k jídlu. V dobrém sklepě vydrží až do Vánoc."
     },
     {
       "name": "Topaz",
       "status": "Od října",
       "sold_out": false,
-      "description": "Sladkokyselé jablko na uskladnění do Velikonoc. Konzumní zralosti dosahuje v listopadu."
+      "description": "Sladkokyselé jablko na uskladnění. K jídlu dozrává v listopadu a při dobrém skladování vydrží do Velikonoc."
     },
     {
       "name": "Rubinola a Šampion",
       "status": "Vyprodáno",
       "sold_out": true,
-      "description": "Tyto odrůdy jsou v aktuální nabídce vyprodané."
+      "description": "Tyto odrůdy jsou už vyprodané."
     }
   ]
 }

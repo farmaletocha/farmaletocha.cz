@@ -2,25 +2,25 @@
   "items": [
     {
       "visible": true,
-      "question": "Jaké ovoce je na farmě k dostání?",
+      "question": "Jaké ovoce u nás koupíte?",
       "answer_source": "text",
-      "answer": "Podle sezóny nabízíme jablka, meruňky, švestky a černý rybíz. Konkrétní dostupnost se mění s dozráváním a počasím."
+      "answer": "Podle sezony nabízíme jablka, meruňky, černý rybíz a švestky. Co je právě k dostání, se řídí zralostí plodů a počasím."
     },
     {
       "visible": true,
-      "question": "Co lze sklízet samostatně?",
+      "question": "Co si můžeme natrhat sami?",
       "answer_source": "text",
-      "answer": "V sezóně je možný samosběr meruněk a švestek. U černého rybízu je samosběr možný po předchozí dohodě."
+      "answer": "V sezoně meruňky a švestky, po předchozí domluvě také černý rybíz."
     },
     {
       "visible": true,
-      "question": "Které odrůdy jsou nyní v nabídce?",
+      "question": "Které odrůdy máte v nabídce?",
       "answer_source": "availability",
       "answer": ""
     },
     {
       "visible": true,
-      "question": "Jaká je cena aktuální nabídky a kdy probíhá prodej?",
+      "question": "Kolik stojí ovoce v nabídce a kdy prodáváte?",
       "answer_source": "sales",
       "answer": ""
     },
@@ -28,19 +28,19 @@
       "visible": true,
       "question": "Co znamená integrovaná produkce?",
       "answer_source": "text",
-      "answer": "Sady Farmy Letocha jsou vedené v režimu integrované produkce ovoce. Pěstované rezistentní odrůdy jabloní mají výrazně sníženou potřebu chemie při ošetřování."
+      "answer": "Integrovaná produkce ovoce je způsob pěstování, který dává přednost účinným nechemickým postupům a přípravky na ochranu rostlin používá jen v nezbytném rozsahu. U jabloní nám pomáhají odolné odrůdy, které potřebují výrazně méně chemického ošetřování."
     },
     {
       "visible": true,
       "question": "Můžeme přijet bez domluvy?",
       "answer_source": "text",
-      "answer": "Mimo prodejní dobu se prosím domluvte telefonicky. Před cestou doporučujeme ověřit dostupnost ovoce. Samosběr si vždy domluvte předem."
+      "answer": "V prodejní době můžete přijet nakoupit i bez domluvy. Jindy nám prosím napište a samosběr si vždy domluvte předem. Pokud jedete pro konkrétní odrůdu, raději se zeptejte, zda ji ještě máme."
     },
     {
       "visible": true,
-      "question": "Jak rezervovat samosběr?",
+      "question": "Jak se domluvit na samosběru?",
       "answer_source": "text",
-      "answer": "Vyberte termín a odešlete nám žádost e-mailem. Rezervace platí až po potvrzení farmou."
+      "answer": "Vyberte volný termín nebo nám e-mailem napište, že máte zájem o jiný. Termín platí až po našem potvrzení."
     }
   ]
 }

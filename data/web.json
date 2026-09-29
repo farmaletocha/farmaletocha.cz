@@ -9,35 +9,35 @@
     "latitude": 49.6802067,
     "longitude": 17.3246451,
     "location_text": "Farma se nachází v obci Bělkovice-Lašťany, na půl cesty mezi Olomoucí a Šternberkem.",
-    "directions": "Prohlédněte si mapu níže nebo si jedním kliknutím spusťte navigaci až k farmě."
+    "directions": "Mapu najdete níže a navigaci až k nám spustíte jedním kliknutím."
   },
   "intro": {
     "location": "Bělkovice-Lašťany · Olomoucko",
     "title": "Ovoce ze sadu.",
     "subtitle": "Přímo ze dvora.",
-    "description": "Na devíti hektarech mezi Olomoucí a Šternberkem pěstujeme jablka, meruňky, švestky a černý rybíz v režimu integrované produkce ovoce.",
+    "description": "Na devíti hektarech mezi Olomoucí a Šternberkem pěstujeme jablka, meruňky, černý rybíz a švestky – šetrně, v režimu integrované produkce.",
     "rotate_fruit": true
   },
   "story": {
     "title": "Devět hektarů, čtyři druhy ovoce a práce, která se řídí přírodou.",
-    "lead": "Farma Letocha leží v Bělkovicích-Lašťanech. Obhospodařujeme přibližně devět hektarů jabloní, slivoní, meruněk a černého rybízu.",
-    "description": "Sady jsou vedené v režimu integrované produkce ovoce. Pěstované odrůdy jabloní jsou rezistentní, a proto vyžadují výrazně méně chemického ošetřování. Většina úrody putuje přímo k lidem prostřednictvím prodeje ze dvora."
+    "lead": "Naše sady najdete v Bělkovicích-Lašťanech. Dozrávají v nich jablka, meruňky, černý rybíz a švestky.",
+    "description": "Ovoce pěstujeme v režimu integrované produkce. Odolné odrůdy jabloní potřebují výrazně méně chemického ošetřování. Většinu úrody prodáváme ze dvora."
   },
   "fruit": {
     "apples": {
       "name": "Jablka",
       "season": "od září",
       "months": ["9", "10"],
-      "description": "Pěstujeme Topaz, Rajku, Rubinolu a Šampion. Rezistentní odrůdy pro přímý konzum, Topaz také na uskladnění. Dostupnost najdete v aktuální nabídce výše.",
+      "description": "Pěstujeme odolné odrůdy jablek. Převažuje sladkokyselý Topaz vhodný k uskladnění.",
       "varieties": ["Topaz", "Rajka", "Rubinola", "Šampion"],
-      "hero_title": "Jablka přímo ze sadu",
+      "hero_title": "Jablka z našeho sadu",
       "hero_description": "od září, Topaz na uskladnění"
     },
     "apricots": {
       "name": "Meruňky",
       "season": "červen–srpen",
       "months": ["6", "7", "8"],
-      "description": "Osm odrůd s postupným dozráváním od konce června do konce srpna. V sezóně také samosběr.",
+      "description": "Osm odrůd dozrává postupně od konce června do konce srpna. V sezoně nabízíme také samosběr meruněk.",
       "hero_title": "8 odrůd meruněk",
       "hero_description": "postupně celé léto"
     },
@@ -45,7 +45,7 @@
       "name": "Švestky",
       "season": "srpen–září",
       "months": ["8", "9"],
-      "description": "Stanley a Gabrovská. Snadno se oddělují od pecky a hodí se k jídlu, sušení, na povidla i slivovici.",
+      "description": "Švestky odrůd Stanley a Gabrovská snadno zbavíte pecky. Hodí se k jídlu, sušení, na povidla i slivovici.",
       "hero_title": "Švestky ze sadu",
       "hero_description": "Stanley a Gabrovská"
     },
@@ -53,44 +53,44 @@
       "name": "Černý rybíz",
       "season": "červen–červenec",
       "months": ["6", "7"],
-      "description": "Odrůda Titánie se sklízí speciálním sklízečem na přelomu června a července. Samosběr je možný po dohodě.",
+      "description": "Odrůdu Titánie sklízíme speciálním sklízečem na přelomu června a července. Po domluvě si rybíz můžete nasbírat i sami.",
       "hero_title": "Černý rybíz Titánie",
       "hero_description": "na přelomu června a července"
     }
   },
   "trees": {
     "title": "Ovocné stromky pro vaši zahradu",
-    "description": "Sortiment a prodej po telefonické dohodě. Domluvte si aktuální nabídku a termín odběru."
+    "description": "Rádi vám napíšeme, jaké stromky právě máme, a domluvíme se na odběru."
   },
   "calendar": [
     {
       "month": "6",
       "title": "Začíná léto",
-      "description": "Na konci měsíce přicházejí první meruňky a začíná sklizeň černého rybízu.",
+      "description": "Koncem měsíce dozrávají první meruňky a začínáme sklízet černý rybíz.",
       "fruits": ["apricots", "blackcurrants"]
     },
     {
       "month": "7",
-      "title": "Meruňková sezóna",
-      "description": "Postupně dozrávají další meruňkové odrůdy, na začátku měsíce vrcholí rybíz.",
+      "title": "Meruňková sezona",
+      "description": "Postupně dozrávají další odrůdy meruněk a začátkem měsíce sklízíme černý rybíz.",
       "fruits": ["apricots", "blackcurrants"]
     },
     {
       "month": "8",
       "title": "Léto v plné chuti",
-      "description": "Pokračují pozdní meruňky a postupně začínají dozrávat švestky.",
+      "description": "Sklízíme pozdní meruňky a dozrávají první švestky.",
       "fruits": ["apricots", "plums"]
     },
     {
       "month": "9",
       "title": "Čas jablek",
-      "description": "Začíná prodej jablek a pokračuje sklizeň švestek. Rajka je určená k přímému konzumu.",
+      "description": "Začínáme prodávat jablka a dál sklízíme švestky. Sladká Rajka je k jídlu hned.",
       "fruits": ["apples", "plums"]
     },
     {
       "month": "10",
       "title": "Topaz na uskladnění",
-      "description": "Od října nabízíme Topaz na uskladnění. Konzumní zralosti dosahuje v listopadu.",
+      "description": "Od října nabízíme Topaz. K jídlu dozrává v listopadu.",
       "fruits": ["apples"]
     }
   ]

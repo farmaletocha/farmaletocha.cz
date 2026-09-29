@@ -218,9 +218,9 @@ const renderOffer = (data) => {
     document.createTextNode(`${data.arrangement} `)
   );
   if (contactDetails) {
-    const phone = createElement("a", "", formatPhone(contactDetails.phone));
-    phone.href = `tel:${contactDetails.phone}`;
-    hours.append(phone);
+    const email = createElement("a", "", contactDetails.email);
+    email.href = `mailto:${contactDetails.email}`;
+    hours.append(email);
   }
   summary.append(createElement("p", "eyebrow", "Aktuální nabídka"), heading, price,
     createElement("p", "", data.price_note), hours);
@@ -255,10 +255,10 @@ const renderFaq = (data, offer) => {
       } else {
         answer = [
           offer.enabled
-            ? `${sentence(`${offer.price_subject} v aktuální nabídce: ${offer.price} ${offer.unit}`)} ${sentence(offer.price_note)} Cenu ostatního ovoce prosím ověřte samostatně.`
-            : "",
-          `Prodej: ${sentence(offer.hours)} ${sentence(offer.arrangement)}`,
-          contactDetails ? `Telefon: ${formatPhone(contactDetails.phone)}.` : ""
+            ? `${sentence(`${offer.price_subject} v aktuální nabídce: ${offer.price} ${offer.unit}`)} ${sentence(offer.price_note)} Na cenu dalšího ovoce se nás prosím zeptejte.`
+            : "Ceny teď na webu neuvádíme.",
+          `Prodejní doba: ${sentence(offer.hours)} ${sentence(offer.arrangement)}`,
+          contactDetails ? `Napište nám na ${contactDetails.email}.` : ""
         ].filter(Boolean).join(" ");
       }
     }
@@ -272,7 +272,9 @@ const renderFaq = (data, offer) => {
     return details;
   }));
   if (missingOffer) {
-    list.append(createElement("p", "content-message", "Aktuální nabídku se nepodařilo načíst. S dotazy se na nás obraťte přímo."));
+    list.append(createElement("p", "content-message", contactDetails
+      ? "Ceny a prodejní dobu se teď nepodařilo načíst. Napište nám, rádi vám je pošleme."
+      : "Ceny a prodejní dobu se teď nepodařilo načíst. Zkuste prosím stránku znovu načíst."));
   }
   document.querySelector("[data-faq-section]").hidden = !questions.length && !missingOffer;
   const schema = document.querySelector("[data-faq-schema]");
@@ -336,7 +338,9 @@ const initializeContent = async () => {
     renderOffer(offer);
   } else {
     document.querySelectorAll("[data-sale-hours]").forEach((element) => {
-      element.textContent = "Prodejní dobu si ověřte přímo na farmě.";
+      element.textContent = contactDetails
+        ? "Prodejní dobu vám rádi pošleme e-mailem."
+        : "Prodejní dobu ani kontaktní údaje se nepodařilo načíst. Zkuste prosím stránku znovu načíst.";
     });
     document.querySelectorAll("[data-sale-arrangement]").forEach((element) => {
       element.textContent = "";
@@ -345,14 +349,18 @@ const initializeContent = async () => {
     const heading = createElement("h3", "", "Aktuální nabídka");
     heading.id = "aktualni-nabidka-nadpis";
     panel.replaceChildren(heading, createElement("p", "content-message",
-      "Aktuální nabídku se nepodařilo načíst. Rádi vám ji sdělíme telefonicky."));
+      contactDetails
+        ? "Aktuální nabídku se teď nepodařilo načíst. Rádi vám ji pošleme e-mailem."
+        : "Aktuální nabídku ani kontaktní údaje se nepodařilo načíst. Zkuste prosím stránku znovu načíst."));
     panel.hidden = false;
   }
   if (faq) {
     renderFaq(faq, offer);
   } else {
     document.querySelector("[data-faq-list]").replaceChildren(createElement("p", "content-message",
-      "Odpovědi se nepodařilo načíst. S dotazy se na nás obraťte přímo."));
+      contactDetails
+        ? "Odpovědi se teď nepodařilo načíst. Napište nám, rádi poradíme."
+        : "Odpovědi se teď nepodařilo načíst. Zkuste prosím stránku znovu načíst."));
   }
   updateBusinessSchema(web);
   return { web, offer };

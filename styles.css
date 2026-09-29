@@ -1875,14 +1875,6 @@ h3 {
   margin-top: 2px;
 }
 
-.reservation-form__actions > a {
-  margin-left: auto;
-  color: var(--ink-2);
-  border-bottom: 1px solid rgba(23, 56, 41, 0.3);
-  font-size: 11px;
-  font-weight: 800;
-}
-
 .copy-button {
   min-height: 46px;
   padding: 10px 15px;
@@ -2400,7 +2392,7 @@ h3 {
 .faq__intro .inline-cta {
   margin-top: 18px;
   font-family: var(--serif);
-  font-size: 25px;
+  font-size: clamp(20px, 6.4vw, 25px);
 }
 
 .faq__list {
@@ -2986,11 +2978,6 @@ h3 {
   .reservation-form__actions .button,
   .copy-button {
     width: 100%;
-  }
-
-  .reservation-form__actions > a {
-    align-self: center;
-    margin-left: 0;
   }
 
   .gallery {
