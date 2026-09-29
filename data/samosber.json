@@ -39,7 +39,7 @@
       "note": "K potvrzení podle zralosti"
     },
     {
-      "visible": false,
+      "visible": true,
       "date": "2026-10-05",
       "start": "08:30",
       "end": "11:00",
