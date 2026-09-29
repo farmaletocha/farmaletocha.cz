@@ -37,6 +37,15 @@
       "fruit": "Švestky",
       "status": "preliminary",
       "note": "K potvrzení podle zralosti"
+    },
+    {
+      "visible": false,
+      "date": "2026-10-05",
+      "start": "08:30",
+      "end": "11:00",
+      "fruit": "Jablka",
+      "status": "preliminary",
+      "note": "Termín podle zralosti"
     }
   ]
 }
