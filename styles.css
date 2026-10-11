@@ -9,11 +9,12 @@
   --paper: #fffdf8;
   --apricot: #ed9858;
   --apricot-dark: #cf7440;
+  --apricot-text: #995027;
   --plum: #5c3954;
   --currant: #201c24;
   --apple: #a9bc58;
   --white: #fff;
-  --muted: #69756d;
+  --muted: #59685e;
   --border: rgba(23, 56, 41, 0.16);
   --shadow: 0 26px 70px rgba(31, 49, 37, 0.14);
   --radius-sm: 14px;
@@ -175,11 +176,19 @@ svg {
   position: sticky;
   top: 0;
   z-index: 90;
-  background: rgba(255, 253, 248, 0.89);
   border-bottom: 1px solid transparent;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.site-header::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(255, 253, 248, 0.89);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+  pointer-events: none;
+  content: "";
 }
 
 .site-header.is-scrolled {
@@ -311,6 +320,18 @@ svg {
   transform: translateX(3px);
 }
 
+a[aria-disabled="true"] {
+  opacity: 0.6;
+  filter: grayscale(1);
+  cursor: not-allowed;
+}
+
+a[aria-disabled="true"]:hover,
+a[aria-disabled="true"]:hover svg {
+  transform: none;
+  box-shadow: none;
+}
+
 .button--small {
   min-height: 44px;
   padding: 11px 20px;
@@ -375,12 +396,12 @@ svg {
   border-bottom: 1px solid rgba(23, 56, 41, 0.35);
 }
 
-.text-link span {
+.text-link span:not([data-harvest-action-label]) {
   font-size: 18px;
   transition: transform 0.2s ease;
 }
 
-.text-link:hover span {
+.text-link:hover span:not([data-harvest-action-label]) {
   transform: translate(3px, 3px);
 }
 
@@ -1010,7 +1031,7 @@ h3 {
 
 .section-heading > p {
   padding-bottom: 8px;
-  color: #657168;
+  color: var(--muted);
 }
 
 .section-heading--center {
@@ -1598,7 +1619,19 @@ h3 {
 }
 
 .slot-card.is-past {
-  opacity: 0.55;
+  background: var(--cream);
+}
+
+[data-reservation-unavailable] {
+  margin-top: 24px;
+}
+
+.slot-card.is-past .slot-card__date {
+  background: var(--muted);
+}
+
+.slot-card.is-past .slot-card__status {
+  color: var(--muted);
 }
 
 .slot-card.is-past:hover,
@@ -1623,7 +1656,7 @@ h3 {
 
 .slot-card--full .slot-card__status,
 .slot-card--closed .slot-card__status {
-  color: #727b75;
+  color: var(--muted);
 }
 
 .slot-card--cancelled .slot-card__status {
@@ -1670,7 +1703,7 @@ h3 {
 }
 
 .slot-card__status {
-  color: var(--apricot-dark);
+  color: var(--apricot-text);
   font-size: 8px;
   font-weight: 850;
   letter-spacing: 0.07em;
@@ -1695,8 +1728,8 @@ h3 {
 .slot-card button:hover,
 .slot-card.is-selected button {
   color: var(--white);
-  background: var(--apricot-dark);
-  border-color: var(--apricot-dark);
+  background: var(--apricot-text);
+  border-color: var(--apricot-text);
 }
 
 .harvest-offer__note {
@@ -1829,7 +1862,7 @@ h3 {
 }
 
 .form-field label span {
-  color: #929b95;
+  color: var(--muted);
   font-size: 8px;
 }
 
@@ -1856,7 +1889,8 @@ h3 {
 
 .form-field input::placeholder,
 .form-field textarea::placeholder {
-  color: #8e9691;
+  color: var(--muted);
+  opacity: 1;
 }
 
 .form-field input:focus,
@@ -2330,7 +2364,7 @@ h3 {
 }
 
 .contact__person span {
-  color: rgba(255, 255, 255, 0.48);
+  color: rgba(255, 255, 255, 0.64);
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -2387,7 +2421,7 @@ h3 {
 }
 
 .contact__links small {
-  color: rgba(255, 255, 255, 0.46);
+  color: rgba(255, 255, 255, 0.64);
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -2695,6 +2729,18 @@ h3 {
   }
 }
 
+@media (min-width: 941px) and (max-width: 1120px) {
+  .story__stamp {
+    top: 16px;
+    width: 90px;
+    height: 90px;
+  }
+
+  .story__stamp > span {
+    font-size: 15px;
+  }
+}
+
 @media (max-width: 940px) {
   html {
     scroll-padding-top: 90px;
@@ -2726,7 +2772,7 @@ h3 {
 
   .main-nav {
     position: fixed;
-    top: 110px;
+    top: var(--menu-top, 110px);
     right: 0;
     bottom: 0;
     left: 0;
@@ -2738,6 +2784,7 @@ h3 {
     overflow-y: auto;
     color: var(--cream);
     background: rgba(18, 49, 34, 0.98);
+    visibility: hidden;
     opacity: 0;
     pointer-events: none;
     transform: translateY(-12px);
@@ -2745,6 +2792,7 @@ h3 {
   }
 
   .main-nav.is-open {
+    visibility: visible;
     opacity: 1;
     pointer-events: auto;
     transform: none;

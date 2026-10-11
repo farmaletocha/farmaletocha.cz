@@ -192,7 +192,9 @@ const renderWeb = (data) => {
     article.append(createElement("div", "calendar__number", String(month).padStart(2, "0")), text);
     return article;
   }));
-  document.querySelector("#sezona").hidden = data.calendar.length === 0;
+  const hasCalendar = data.calendar.length > 0;
+  document.querySelector("#sezona").hidden = !hasCalendar;
+  document.querySelectorAll('a[href="#sezona"]').forEach((link) => { link.hidden = !hasCalendar; });
 };
 
 const renderOffer = (data) => {
@@ -292,10 +294,10 @@ const renderFaq = (data, offer) => {
 const updateBusinessSchema = (web) => {
   const element = document.querySelector("[data-business-schema]");
   const data = JSON.parse(element.textContent);
+  delete data.founder;
   if (web) {
     data.telephone = web.contact.phone;
     data.email = web.contact.email;
-    data.founder.name = web.contact.name;
     data.address.addressLocality = web.contact.locality;
     data.address.streetAddress = web.contact.address;
     data.address.postalCode = web.contact.postal_code;
@@ -308,7 +310,6 @@ const updateBusinessSchema = (web) => {
   } else {
     delete data.telephone;
     delete data.email;
-    delete data.founder;
     delete data.hasOfferCatalog;
   }
   element.textContent = JSON.stringify(data);

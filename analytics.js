@@ -17,13 +17,35 @@
   if (document.getElementById("farm-ga4-tag")) return;
 
   // Enhanced Measurement can read URL parameters outside page_location overrides.
-  const campaignKeys = new Set(["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_id"]);
-  const clickIdKeys = new Set(["fbclid", "gclid", "dclid", "msclkid", "gbraid", "wbraid"]);
+  const campaignFields = new Map([
+    ["utm_source", "campaign_source"],
+    ["utm_medium", "campaign_medium"],
+    ["utm_campaign", "campaign_name"],
+    ["utm_content", "campaign_content"],
+    ["utm_id", "campaign_id"],
+    ["utm_term", "campaign_term"]
+  ]);
+  const clickIdKeys = new Set(["fbclid", "gclid", "dclid", "msclkid", "gbraid", "wbraid", "igshid", "igsh"]);
+  const campaignOverrides = {};
+  const cleanCampaignValue = (value) => {
+    const text = value.trim();
+    const digits = text.replace(/\D/g, "");
+    const phone = /^\+?[\d\s().-]+$/.test(text) && digits.length >= 9 && digits.length <= 15 &&
+      (text.startsWith("+") || text.startsWith("00") || text.startsWith("420") || /[\s().-]/.test(text));
+    return /[@<>\r\n]|(?:https?:|mailto:|tel:)/i.test(text) || phone ? "redacted" : text.slice(0, 100);
+  };
   const query = [...new URLSearchParams(window.location.search)];
   const safeQuery = new Set(query.map(([key]) => key)).size === query.length &&
-    query.every(([key, value]) => campaignKeys.has(key)
-      ? /^[a-z][a-z0-9._-]{0,79}$/i.test(value) && !/\d{5}/.test(value)
-      : clickIdKeys.has(key) && /^[a-z0-9_-]{16,512}$/i.test(value) && /[a-z]/i.test(value));
+    query.every(([key, value]) => {
+      if (campaignFields.has(key)) {
+        campaignOverrides[campaignFields.get(key)] = cleanCampaignValue(value);
+        return true;
+      }
+      if (key === "gtm_debug") return /^(?:1|true|x|\d{10,13})$/.test(value);
+      const minimum = key === "igshid" || key === "igsh" ? 6 : 16;
+      return clickIdKeys.has(key) && value.length >= minimum &&
+        /^[a-z0-9_-]{1,512}$/i.test(value) && /[a-z]/i.test(value);
+    });
   let safeFragment = true;
   if (window.location.hash) {
     try {
@@ -96,6 +118,7 @@
   window.gtag("js", new Date());
   window.gtag("config", measurementId, {
     ...pageData,
+    ...campaignOverrides,
     send_page_view: false,
     allow_google_signals: false,
     allow_ad_personalization_signals: false,
@@ -107,6 +130,7 @@
   const script = document.createElement("script");
   script.id = "farm-ga4-tag";
   script.async = true;
+  script.referrerPolicy = "origin";
   script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
   script.addEventListener("error", () => {
     available = false;

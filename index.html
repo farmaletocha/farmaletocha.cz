@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="assets/images/favicon-192.png">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preload" as="image" href="assets/images/farm/DSC07933-final.webp" imagesrcset="assets/images/farm/DSC07933-final-480.webp 480w, assets/images/farm/DSC07933-final-800.webp 800w, assets/images/farm/DSC07933-final.webp 1280w" imagesizes="(max-width: 720px) calc(100vw - 30px), (max-width: 940px) 560px, (max-width: 1120px) 46vw, 560px" type="image/webp" fetchpriority="high">
-  <link rel="stylesheet" href="styles.css?v=20261011-gallery">
+  <link rel="stylesheet" href="styles.css?v=20261011-audit-fixes">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="cs_CZ">
@@ -50,10 +50,6 @@
     "description": "Ovocná farma v Bělkovicích-Lašťanech s přibližně 9 hektary sadů. Jablka, meruňky, černý rybíz a švestky, prodej ze dvora a sezonní samosběr.",
     "telephone": "+420602793987",
     "email": "leosletocha@seznam.cz",
-    "founder": {
-      "@type": "Person",
-      "name": "Leoš Letocha"
-    },
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Bělkovice-Lašťany",
@@ -157,8 +153,8 @@
               Prohlédnout nabídku
               <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m5 12 14 0M13 6l6 6-6 6"/></svg>
             </a>
-            <a class="text-link" href="#samosber">
-              Rezervovat samosběr
+            <a class="text-link" href="#samosber" data-harvest-action>
+              <span data-harvest-action-label>Rezervovat samosběr</span>
               <span aria-hidden="true">↘</span>
             </a>
           </div>
@@ -417,6 +413,7 @@
           </div>
         </section>
 
+        <p class="slot-empty" data-reservation-unavailable role="status" hidden></p>
         <section class="reservation reveal" id="rezervace" aria-labelledby="rezervace-nadpis" data-reservation-section hidden>
           <div class="reservation__intro">
             <p class="eyebrow eyebrow--light"><span></span> Nezávazná rezervace</p>
@@ -710,8 +707,8 @@
     Napište nám
   </a>
 
-  <script src="content.js" defer></script>
-  <script src="script.js?v=20261011-ga4" defer></script>
-  <script src="analytics.js?v=20261011-ga4" defer></script>
+  <script src="content.js?v=20261011-audit-fixes" defer></script>
+  <script src="script.js?v=20261011-audit-fixes" defer></script>
+  <script src="analytics.js?v=20261011-audit-fixes" defer></script>
 </body>
 </html>

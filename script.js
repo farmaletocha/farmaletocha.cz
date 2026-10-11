@@ -2,35 +2,82 @@ const header = document.querySelector("[data-header]");
 const menuButton = document.querySelector("[data-menu-toggle]");
 const menu = document.querySelector("[data-menu]");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const mobileMenu = window.matchMedia("(max-width: 940px)");
+const menuBackground = document.querySelectorAll("main, .site-footer, .mobile-call");
 
-const closeMenu = () => {
-  if (!menuButton || !menu) return;
-  menuButton.setAttribute("aria-expanded", "false");
-  menu.classList.remove("is-open");
-  document.body.classList.remove("menu-open");
+const menuIsOpen = () => menuButton?.getAttribute("aria-expanded") === "true";
+
+const updateMenuPosition = () => {
+  if (menu && header && mobileMenu.matches && menuIsOpen()) {
+    menu.style.setProperty("--menu-top", `${Math.max(0, header.getBoundingClientRect().bottom)}px`);
+  }
 };
+
+const menuLinks = () => Array.from(menu?.querySelectorAll("a[href]") || [])
+  .filter((link) => link.getClientRects().length && link.getAttribute("aria-disabled") !== "true");
+
+const setMenuOpen = (open, restoreFocus = false) => {
+  if (!menuButton || !menu) return;
+  const expanded = open && mobileMenu.matches;
+  menuButton.setAttribute("aria-expanded", String(expanded));
+  menu.classList.toggle("is-open", expanded);
+  document.body.classList.toggle("menu-open", expanded);
+  menu.inert = mobileMenu.matches && !expanded;
+  if (mobileMenu.matches) menu.setAttribute("aria-hidden", String(!expanded));
+  else menu.removeAttribute("aria-hidden");
+  menuBackground.forEach((element) => { element.inert = expanded; });
+  updateMenuPosition();
+  if (expanded) {
+    menu.scrollTop = 0;
+    menuLinks()[0]?.focus({ preventScroll: true });
+  }
+  else if (restoreFocus && mobileMenu.matches) menuButton.focus({ preventScroll: true });
+};
+
+const closeMenu = (restoreFocus = false) => setMenuOpen(false, restoreFocus);
 
 if (menuButton && menu) {
   menuButton.addEventListener("click", () => {
-    const willOpen = menuButton.getAttribute("aria-expanded") !== "true";
-    menuButton.setAttribute("aria-expanded", String(willOpen));
-    menu.classList.toggle("is-open", willOpen);
-    document.body.classList.toggle("menu-open", willOpen);
+    if (menuIsOpen()) closeMenu(true);
+    else setMenuOpen(true);
   });
 
-  menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+  menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => closeMenu()));
+  document.querySelectorAll(".site-header .brand, .notice-bar a").forEach((link) => {
+    link.addEventListener("click", () => closeMenu());
+  });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeMenu();
+    if (!menuIsOpen()) return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeMenu(true);
+    } else if (event.key === "Tab" && !event.altKey && !event.ctrlKey && !event.metaKey) {
+      const headerLinks = Array.from(document.querySelectorAll(".notice-bar a[href], .site-header .brand[href]"))
+        .filter((link) => link.getBoundingClientRect().bottom > 0 && link.getClientRects().length);
+      const controls = [...headerLinks, menuButton, ...menuLinks()];
+      const index = controls.indexOf(document.activeElement);
+      if (event.shiftKey && index <= 0) {
+        event.preventDefault();
+        controls[controls.length - 1].focus();
+      } else if (!event.shiftKey && (index === -1 || index === controls.length - 1)) {
+        event.preventDefault();
+        controls[0].focus();
+      }
+    }
   });
 
   window.addEventListener("resize", () => {
-    if (window.innerWidth > 940) closeMenu();
+    if (!mobileMenu.matches) closeMenu();
+    else if (!menuIsOpen()) closeMenu(menu.contains(document.activeElement));
+    else updateMenuPosition();
   });
+  closeMenu();
 }
 
 const updateHeader = () => {
   header?.classList.toggle("is-scrolled", window.scrollY > 12);
+  updateMenuPosition();
 };
 
 updateHeader();
@@ -89,6 +136,10 @@ const offerConfirmationTitle = document.querySelector("[data-offer-confirmation-
 const offerConfirmationNote = document.querySelector("[data-offer-confirmation-note]");
 const reservationFeedback = document.querySelector("[data-reservation-feedback]");
 const copyReservationButton = document.querySelector("[data-copy-reservation]");
+const reservationUnavailable = document.querySelector("[data-reservation-unavailable]");
+const harvestAction = document.querySelector("[data-harvest-action]");
+const otherReservationTerm = "Jiný termín po domluvě";
+let harvestData = null;
 
 const slotStatuses = {
   preliminary: {
@@ -118,15 +169,21 @@ const slotStatuses = {
   }
 };
 
-const getPragueDate = () => {
+const getPragueNow = () => {
   const parts = new Intl.DateTimeFormat("en", {
     timeZone: "Europe/Prague",
     year: "numeric",
     month: "2-digit",
-    day: "2-digit"
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23"
   }).formatToParts(new Date());
   const values = Object.fromEntries(parts.map(({ type, value }) => [type, value]));
-  return `${values.year}-${values.month}-${values.day}`;
+  return {
+    date: `${values.year}-${values.month}-${values.day}`,
+    time: `${values.hour}:${values.minute}`
+  };
 };
 
 const parseSlotDate = (value) => {
@@ -171,16 +228,40 @@ const updateSelectedSlot = () => {
   });
 };
 
-const createSlotCard = (slot, bookingEnabled, today) => {
+const describeSlot = (slot, bookingEnabled, now) => {
   const date = parseSlotDate(slot.date);
   if (!date) return null;
 
-  const statusKey = slotStatuses[slot.status] ? slot.status : "preliminary";
+  const statusKey = Object.keys(slotStatuses).includes(slot.status) ? slot.status : "preliminary";
   const status = slotStatuses[statusKey];
-  const isPast = slot.date < today;
+  const hasEndTime = /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(slot.end || "");
+  const isPast = slot.date < now.date ||
+    (slot.date === now.date && hasEndTime && slot.end <= now.time);
   const isReservable = bookingEnabled && !isPast && status.reservable;
   const time = formatSlotTime(slot.start, slot.end);
   const reservationValue = `${formatSlotDate(date, true)} · ${time} · ${slot.fruit}`;
+  return { date, statusKey, status, isPast, isReservable, time, reservationValue };
+};
+
+const visibleHarvestSlots = (data) => Array.isArray(data?.slots)
+  ? data.slots
+      .filter((slot) => slot && slot.visible !== false && parseSlotDate(slot.date))
+      .sort((left, right) => `${left.date}${left.start || ""}`.localeCompare(`${right.date}${right.start || ""}`))
+  : [];
+
+const isAllowedReservation = (value, now = getPragueNow()) => {
+  if (!harvestData || harvestData.enabled === false || harvestData.booking_enabled === false || !getContactDetails()) return false;
+  if (harvestData.allow_other_term !== false && value === otherReservationTerm) return true;
+  return visibleHarvestSlots(harvestData).some((slot) => {
+    const state = describeSlot(slot, true, now);
+    return state.isReservable && state.reservationValue === value;
+  });
+};
+
+const createSlotCard = (slot, bookingEnabled, now) => {
+  const state = describeSlot(slot, bookingEnabled, now);
+  if (!state) return null;
+  const { date, statusKey, status, isPast, isReservable, time, reservationValue } = state;
 
   const card = createElement("article", `slot-card slot-card--${statusKey}`);
   card.dataset.slotCard = "";
@@ -214,7 +295,7 @@ const createSlotCard = (slot, bookingEnabled, today) => {
     )
   );
 
-  const buttonLabel = isPast ? "Proběhlo" : bookingEnabled ? status.button : "Rezervace vypnutá";
+  const buttonLabel = isPast ? "Proběhlo" : bookingEnabled ? status.button : "Nelze rezervovat";
   const button = createElement("button", "", buttonLabel);
   button.type = "button";
   button.disabled = !isReservable;
@@ -234,8 +315,27 @@ const setAnnouncementLink = (label, href) => {
   );
 };
 
+const setHarvestAction = (label, href) => {
+  if (!harvestAction) return;
+  harvestAction.href = href;
+  const text = harvestAction.querySelector("[data-harvest-action-label]");
+  if (text) text.textContent = label;
+};
+
+const setReservationAvailability = (available, message = "") => {
+  if (reservationSection) reservationSection.hidden = !available;
+  const submit = reservationForm?.querySelector('[type="submit"]');
+  if (submit) submit.disabled = !available;
+  if (copyReservationButton) copyReservationButton.disabled = !available;
+  if (reservationUnavailable) {
+    reservationUnavailable.textContent = message;
+    reservationUnavailable.hidden = !message;
+  }
+};
+
 const fillSlotSelect = (reservableSlots, allowOtherTerm) => {
   if (!slotSelect) return;
+  const selected = slotSelect.value;
   slotSelect.replaceChildren(new Option(
     reservableSlots.length ? "Vyberte termín samosběru" : "Aktuálně není termín k rezervaci",
     ""
@@ -246,25 +346,33 @@ const fillSlotSelect = (reservableSlots, allowOtherTerm) => {
   });
 
   if (allowOtherTerm) {
-    const otherTerm = "Jiný termín po domluvě";
-    slotSelect.add(new Option(otherTerm, otherTerm));
+    slotSelect.add(new Option(otherReservationTerm, otherReservationTerm));
   }
 
   slotSelect.disabled = reservableSlots.length === 0 && !allowOtherTerm;
+  if (Array.from(slotSelect.options).some((option) => option.value === selected)) {
+    slotSelect.value = selected;
+  }
+  updateSelectedSlot();
 };
 
 const renderHarvestOffer = (data) => {
   const enabled = data?.enabled !== false;
   const bookingEnabled = data?.booking_enabled !== false;
+  const contact = getContactDetails();
+  const contactError = "Kontaktní údaje se nepodařilo načíst. Zkuste prosím stránku znovu načíst.";
 
   if (harvestAnnouncement) {
-    harvestAnnouncement.textContent = data?.announcement || "Na možnosti samosběru se nás zeptejte e-mailem.";
+    harvestAnnouncement.textContent = contact
+      ? data?.announcement || "Na možnosti samosběru se nás zeptejte e-mailem."
+      : contactError;
   }
 
   if (!enabled) {
     if (harvestOffer) harvestOffer.hidden = true;
-    if (reservationSection) reservationSection.hidden = true;
-    setAnnouncementLink("Kontaktovat farmu", "#kontakt");
+    setReservationAvailability(false);
+    setAnnouncementLink(contact ? "Kontaktovat farmu" : "Znovu načíst stránku", contact ? "#kontakt" : window.location.pathname);
+    setHarvestAction(contact ? "Kontaktovat farmu" : "Znovu načíst stránku", contact ? "#kontakt" : window.location.pathname);
     return;
   }
 
@@ -279,15 +387,11 @@ const renderHarvestOffer = (data) => {
   if (offerTime) offerTime.textContent = data.time_summary || "Podle termínu";
   if (offerMeta) offerMeta.hidden = !data.time_summary;
 
-  const today = getPragueDate();
-  const slots = Array.isArray(data.slots)
-    ? data.slots
-        .filter((slot) => slot && slot.visible !== false && parseSlotDate(slot.date))
-        .sort((left, right) => `${left.date}${left.start || ""}`.localeCompare(`${right.date}${right.start || ""}`))
-    : [];
+  const now = getPragueNow();
+  const slots = visibleHarvestSlots(data);
 
   const renderedSlots = slots
-    .map((slot) => createSlotCard(slot, bookingEnabled, today))
+    .map((slot) => createSlotCard(slot, bookingEnabled && Boolean(contact), now))
     .filter(Boolean);
   const reservableSlots = renderedSlots.filter((slot) => slot.isReservable);
 
@@ -304,12 +408,21 @@ const renderHarvestOffer = (data) => {
   }
 
   fillSlotSelect(reservableSlots, data.allow_other_term !== false);
-  if (reservationSection) reservationSection.hidden = !bookingEnabled;
+  const canReserve = Boolean(contact) && bookingEnabled &&
+    (reservableSlots.length > 0 || data.allow_other_term !== false);
+  setReservationAvailability(canReserve, !contact
+    ? contactError
+    : bookingEnabled && !canReserve ? "Aktuálně není volný termín k rezervaci." : "");
 
-  if (bookingEnabled && (reservableSlots.length || data.allow_other_term !== false)) {
+  if (!contact) {
+    setAnnouncementLink("Znovu načíst stránku", window.location.pathname);
+    setHarvestAction("Znovu načíst stránku", window.location.pathname);
+  } else if (canReserve) {
     setAnnouncementLink(reservableSlots.length ? "Vybrat termín" : "Domluvit termín", "#rezervace");
+    setHarvestAction("Rezervovat samosběr", "#samosber");
   } else {
     setAnnouncementLink("Zobrazit nabídku", "#samosber");
+    setHarvestAction("Zobrazit samosběr", "#samosber");
   }
 };
 
@@ -318,7 +431,8 @@ const showHarvestLoadError = () => {
     harvestAnnouncement.textContent = "Termíny samosběru se teď nepodařilo načíst.";
   }
   const contact = getContactDetails();
-  setAnnouncementLink(contact ? "Napsat e-mail" : "Kontaktovat farmu", contact ? `mailto:${contact.email}` : "#kontakt");
+  setAnnouncementLink(contact ? "Napsat e-mail" : "Znovu načíst stránku", contact ? `mailto:${contact.email}` : window.location.pathname);
+  setHarvestAction(contact ? "Kontaktovat farmu" : "Znovu načíst stránku", contact ? "#kontakt" : window.location.pathname);
   if (offerLabel) offerLabel.textContent = "Nedostupné";
   if (offerTitle) offerTitle.textContent = "Termíny samosběru nejsou dostupné";
   if (offerDescription) {
@@ -334,23 +448,36 @@ const showHarvestLoadError = () => {
         : "Informace o samosběru nejsou k dispozici."
     ));
   }
-  if (reservationSection) reservationSection.hidden = true;
+  setReservationAvailability(false);
 };
 
 const loadHarvestOffer = async () => {
-  try {
-    const response = await fetch("data/samosber.json", { cache: "no-store" });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    renderHarvestOffer(await response.json());
-  } catch (error) {
-    console.error("Nepodařilo se načíst nabídku samosběru.", error);
-    showHarvestLoadError();
+  const response = await fetch("data/samosber.json", { cache: "no-store" });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  const data = await response.json();
+  check(data && typeof data === "object" && !Array.isArray(data), "Invalid self-picking offer");
+  return data;
+};
+
+const showReservationError = (message) => {
+  if (harvestData) renderHarvestOffer(harvestData);
+  if (reservationSection && !reservationSection.hidden && reservationFeedback) {
+    reservationFeedback.textContent = message;
+    slotSelect?.focus({ preventScroll: true });
+  } else if (reservationUnavailable) {
+    reservationUnavailable.textContent = message;
+    reservationUnavailable.hidden = false;
+    reservationUnavailable.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
   }
 };
 
 slotGrid?.addEventListener("click", (event) => {
   const button = event.target.closest?.("[data-slot-value]");
   if (!button || button.disabled || !slotSelect || !reservationForm) return;
+  if (!isAllowedReservation(button.dataset.slotValue)) {
+    showReservationError("Vybraný termín už není dostupný. Zkontrolujte prosím aktuální nabídku.");
+    return;
+  }
   slotSelect.value = button.dataset.slotValue || "";
   updateSelectedSlot();
   reservationSection?.scrollIntoView({
@@ -361,7 +488,24 @@ slotGrid?.addEventListener("click", (event) => {
 });
 
 slotSelect?.addEventListener("change", updateSelectedSlot);
-loadHarvestOffer();
+
+const validateReservation = () => {
+  if (!reservationForm || !harvestData || harvestData.enabled === false ||
+      harvestData.booking_enabled === false || !getContactDetails()) {
+    showReservationError("Rezervaci teď nelze připravit. Zkuste prosím stránku znovu načíst.");
+    return false;
+  }
+  if (!slotSelect || slotSelect.disabled) {
+    showReservationError("Aktuálně není volný termín k rezervaci.");
+    return false;
+  }
+  if (!reservationForm.reportValidity()) return false;
+  if (!isAllowedReservation(slotSelect.value)) {
+    showReservationError("Vybraný termín už není dostupný. Vyberte prosím jiný z aktuální nabídky.");
+    return false;
+  }
+  return true;
+};
 
 const buildReservationMessage = () => {
   if (!reservationForm) return null;
@@ -396,7 +540,7 @@ const buildReservationMessage = () => {
 
 reservationForm?.addEventListener("submit", (event) => {
   event.preventDefault();
-  if (!reservationForm.reportValidity()) return;
+  if (!validateReservation()) return;
   const message = buildReservationMessage();
   if (!message) return;
 
@@ -436,7 +580,7 @@ const copyText = async (text) => {
 };
 
 copyReservationButton?.addEventListener("click", async () => {
-  if (!reservationForm?.reportValidity()) return;
+  if (!validateReservation()) return;
   const message = buildReservationMessage();
   if (!message) return;
 
@@ -670,11 +814,33 @@ const initializeHeroCarousel = (autoplay) => {
   schedule();
 };
 
-initializeContent()
+const showPageLoadError = (error) => {
+  console.error("Nepodařilo se zobrazit obsah webu.", error);
+  const message = document.querySelector("[data-content-error]");
+  message.textContent = "Informace se nepodařilo zobrazit. Zkuste prosím stránku znovu načíst.";
+  message.hidden = false;
+};
+
+const contentReady = initializeContent();
+contentReady
   .then(({ web }) => initializeHeroCarousel(web ? web.intro.rotate_fruit : true))
+  .catch(showPageLoadError);
+
+Promise.allSettled([contentReady, loadHarvestOffer()])
+  .then(([content, harvest]) => {
+    if (content.status === "rejected") {
+      showHarvestLoadError();
+      return;
+    }
+    if (harvest.status === "fulfilled") {
+      harvestData = harvest.value;
+      renderHarvestOffer(harvestData);
+    } else {
+      console.error("Nepodařilo se načíst nabídku samosběru.", harvest.reason);
+      showHarvestLoadError();
+    }
+  })
   .catch((error) => {
-    console.error("Nepodařilo se zobrazit obsah webu.", error);
-    const message = document.querySelector("[data-content-error]");
-    message.textContent = "Informace se nepodařilo zobrazit. Zkuste prosím stránku znovu načíst.";
-    message.hidden = false;
+    showPageLoadError(error);
+    showHarvestLoadError();
   });
