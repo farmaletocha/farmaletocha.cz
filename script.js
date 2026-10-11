@@ -409,6 +409,7 @@ reservationForm?.addEventListener("submit", (event) => {
   if (reservationFeedback) {
     reservationFeedback.textContent = "Žádost je připravená. Otevírám váš e-mailový program…";
   }
+  reservationForm.dispatchEvent(new Event("farma:reservation-email-prepared", { bubbles: true }));
   window.location.href = mailto;
 });
 
