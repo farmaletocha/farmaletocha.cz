@@ -869,7 +869,7 @@ h3 {
 
 .story__media {
   position: relative;
-  min-height: 690px;
+  aspect-ratio: 1;
 }
 
 .story__image {
@@ -886,15 +886,16 @@ h3 {
 }
 
 .story__image--main {
-  inset: 0 14% 12% 0;
-  border-radius: 190px 190px 26px 26px;
+  inset: 0 0 auto;
+  aspect-ratio: 3 / 2;
+  border-radius: 26px 100px 26px 26px;
 }
 
 .story__image--small {
   right: 0;
   bottom: 0;
-  width: 43%;
-  height: 46%;
+  width: 34%;
+  aspect-ratio: 2 / 3;
   border: 10px solid var(--paper);
   border-radius: 120px 120px 20px 20px;
 }
@@ -1148,7 +1149,7 @@ h3 {
 }
 
 .produce-card--wide .produce-card__image {
-  height: 490px;
+  height: 700px;
 }
 
 .produce-card__image::after {
@@ -2070,18 +2071,78 @@ h3 {
   margin: 0;
 }
 
+.lightbox__media {
+  position: relative;
+  min-height: 160px;
+  display: grid;
+  place-items: center;
+}
+
 .lightbox img {
   width: auto;
   margin-inline: auto;
   max-height: 82vh;
+  max-height: min(82vh, calc(100dvh - 160px));
   object-fit: contain;
   border-radius: 18px 18px 0 0;
 }
 
 .lightbox figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   padding: 16px 22px;
   color: rgba(255, 255, 255, 0.8);
   font-size: 13px;
+}
+
+.lightbox__position {
+  flex: 0 0 auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.lightbox__feedback {
+  margin: 0;
+  padding: 0 22px 16px;
+  color: var(--cream);
+  font-size: 14px;
+}
+
+.lightbox__nav {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: var(--ink);
+  background: var(--cream);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.lightbox__nav--previous {
+  left: 12px;
+}
+
+.lightbox__nav--next {
+  right: 12px;
+}
+
+.lightbox__nav svg {
+  width: 22px;
+  height: 22px;
+}
+
+.lightbox__nav:disabled {
+  opacity: 0.45;
+  cursor: default;
 }
 
 .lightbox__close {
@@ -2116,7 +2177,7 @@ h3 {
 
 .location__visual {
   position: relative;
-  min-height: 550px;
+  aspect-ratio: 3 / 2;
   overflow: hidden;
   margin: 0;
   border-radius: 28px 170px 28px 28px;
@@ -2767,10 +2828,6 @@ h3 {
     max-width: 720px;
   }
 
-  .location__visual {
-    min-height: 500px;
-  }
-
   .contact__shell {
     grid-template-columns: 1fr;
   }
@@ -2890,17 +2947,8 @@ h3 {
     text-align: left;
   }
 
-  .story__media {
-    min-height: 560px;
-  }
-
-  .story__image--main {
-    right: 8%;
-  }
-
   .story__image--small {
-    width: 49%;
-    height: 42%;
+    width: 38%;
   }
 
   .story__stamp {
@@ -2999,7 +3047,6 @@ h3 {
   }
 
   .location__visual {
-    min-height: 440px;
     border-radius: 24px 110px 24px 24px;
   }
 
@@ -3107,10 +3154,6 @@ h3 {
     font-size: 10px;
   }
 
-  .story__media {
-    min-height: 470px;
-  }
-
   .story__image--small {
     border-width: 6px;
   }
@@ -3154,10 +3197,6 @@ h3 {
   .reservation__intro,
   .reservation-form {
     padding: 32px 22px;
-  }
-
-  .location__visual {
-    min-height: 380px;
   }
 
   .location__route span {

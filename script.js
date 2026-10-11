@@ -457,17 +457,66 @@ const lightbox = document.querySelector("[data-lightbox]");
 const lightboxImage = document.querySelector("[data-lightbox-image]");
 const lightboxCaption = document.querySelector("[data-lightbox-caption]");
 const lightboxClose = document.querySelector("[data-lightbox-close]");
+const lightboxPrevious = document.querySelector("[data-lightbox-previous]");
+const lightboxNext = document.querySelector("[data-lightbox-next]");
+const lightboxPosition = document.querySelector("[data-lightbox-position]");
+const lightboxFeedback = document.querySelector("[data-lightbox-feedback]");
 
 if (lightbox && lightboxImage && lightboxCaption && typeof lightbox.showModal === "function") {
-  document.querySelectorAll("[data-gallery-src]").forEach((item) => {
+  const galleryItems = Array.from(document.querySelectorAll("[data-gallery-src]"));
+  let lightboxIndex = 0;
+
+  const showLightboxPhoto = (index) => {
+    lightboxIndex = (index + galleryItems.length) % galleryItems.length;
+    const item = galleryItems[lightboxIndex];
+    lightbox.setAttribute("aria-busy", "true");
+    if (lightboxFeedback) {
+      lightboxFeedback.textContent = "Načítám fotografii…";
+      lightboxFeedback.hidden = false;
+    }
+    lightboxImage.hidden = false;
+    lightboxImage.src = item.dataset.gallerySrc;
+    lightboxImage.alt = item.dataset.galleryAlt || "";
+    lightboxCaption.textContent = item.dataset.galleryCaption || "";
+    if (lightboxPosition) lightboxPosition.textContent = `${lightboxIndex + 1} z ${galleryItems.length}`;
+  };
+
+  lightboxImage.addEventListener("load", () => {
+    lightbox.removeAttribute("aria-busy");
+    if (lightboxFeedback) lightboxFeedback.hidden = true;
+  });
+  lightboxImage.addEventListener("error", () => {
+    lightbox.removeAttribute("aria-busy");
+    lightboxImage.hidden = true;
+    console.error("Nepodařilo se zobrazit fotografii z galerie.", lightboxImage.src);
+    if (lightboxFeedback) {
+      lightboxFeedback.textContent = "Fotografii se nepodařilo načíst. Zkuste předchozí nebo další.";
+      lightboxFeedback.hidden = false;
+    }
+  });
+
+  galleryItems.forEach((item, index) => {
     item.addEventListener("click", () => {
-      lightboxImage.src = item.dataset.gallerySrc;
-      lightboxImage.alt = item.dataset.galleryAlt || "";
-      lightboxCaption.textContent = item.dataset.galleryCaption || "";
+      showLightboxPhoto(index);
       lightbox.showModal();
     });
   });
 
+  if (lightboxPrevious) {
+    lightboxPrevious.disabled = galleryItems.length < 2;
+    lightboxPrevious.addEventListener("click", () => showLightboxPhoto(lightboxIndex - 1));
+  }
+  if (lightboxNext) {
+    lightboxNext.disabled = galleryItems.length < 2;
+    lightboxNext.addEventListener("click", () => showLightboxPhoto(lightboxIndex + 1));
+  }
+  lightbox.addEventListener("keydown", (event) => {
+    if (galleryItems.length < 2 || event.altKey || event.ctrlKey || event.metaKey) return;
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      event.preventDefault();
+      showLightboxPhoto(lightboxIndex + (event.key === "ArrowRight" ? 1 : -1));
+    }
+  });
   lightboxClose?.addEventListener("click", () => lightbox.close());
 
   lightbox.addEventListener("click", (event) => {
