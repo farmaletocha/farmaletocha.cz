@@ -14,18 +14,6 @@
     },
     {
       "visible": true,
-      "question": "Které odrůdy máte v nabídce?",
-      "answer_source": "availability",
-      "answer": ""
-    },
-    {
-      "visible": true,
-      "question": "Kolik stojí ovoce v nabídce a kdy prodáváte?",
-      "answer_source": "sales",
-      "answer": ""
-    },
-    {
-      "visible": true,
       "question": "Co znamená integrovaná produkce?",
       "answer_source": "text",
       "answer": "Integrovaná produkce ovoce je způsob pěstování, který dává přednost účinným nechemickým postupům a přípravky na ochranu rostlin používá jen v nezbytném rozsahu. U jabloní nám pomáhají odolné odrůdy, které potřebují výrazně méně chemického ošetřování."
@@ -50,15 +38,15 @@
     },
     {
       "visible": true,
-      "question": "Jak se domluvíme na ceně a platbě za samosběr?",
+      "question": "Jak můžeme zaplatit?",
       "answer_source": "text",
-      "answer": "Platba kartou není možná. Aktuální cenu i způsob platby vám upřesníme při potvrzení samosběru."
+      "answer": "Zaplatit můžete v hotovosti nebo pomocí QR kódu. Platba kartou není možná."
     },
     {
       "visible": true,
       "question": "Kam přijet a kde zaparkovat?",
       "answer_source": "text",
-      "answer": "Pro nákup ze dvora použijte adresu a navigaci uvedenou v kontaktech. U samosběru vám přesné místo příjezdu i pokyny k parkování pošleme spolu s potvrzením termínu."
+      "answer": "Zaparkovat můžete před farmou, případně podle pokynů při příjezdu. Adresu a navigaci najdete v kontaktech. Místo samosběru vám upřesníme při potvrzení termínu."
     },
     {
       "visible": true,
