@@ -2,7 +2,8 @@
   "contact": {
     "name": "Leoš Letocha",
     "phone": "+420602793987",
-    "email": "leosletocha@seznam.cz",
+    "email": "info@farmaletocha.cz",
+    "sales_email": "prodej@farmaletocha.cz",
     "locality": "Bělkovice-Lašťany",
     "address": "Bělkovice-Lašťany 635",
     "postal_code": "783 16",
@@ -38,6 +39,7 @@
       "season": "červen–srpen",
       "months": ["6", "7", "8"],
       "description": "Osm odrůd dozrává postupně od konce června do konce srpna. V sezoně nabízíme také samosběr meruněk.",
+      "varieties": [],
       "hero_title": "8 odrůd meruněk",
       "hero_description": "postupně celé léto"
     },
@@ -45,7 +47,8 @@
       "name": "Švestky",
       "season": "srpen–září",
       "months": ["8", "9"],
-      "description": "Švestky odrůd Stanley a Gabrovská snadno zbavíte pecky. Hodí se k jídlu, sušení, na povidla i slivovici.",
+      "description": "Švestky snadno zbavíte pecky. Hodí se k jídlu, sušení, na povidla i slivovici.",
+      "varieties": ["Stanley", "Gabrovská"],
       "hero_title": "Švestky ze sadu",
       "hero_description": "Stanley a Gabrovská"
     },
@@ -53,7 +56,8 @@
       "name": "Černý rybíz",
       "season": "červen–červenec",
       "months": ["6", "7"],
-      "description": "Odrůdu Titánie sklízíme speciálním sklízečem na přelomu června a července. Po domluvě si rybíz můžete nasbírat i sami.",
+      "description": "Černý rybíz sklízíme speciálním sklízečem na přelomu června a července. Po domluvě si rybíz můžete nasbírat i sami.",
+      "varieties": ["Titánie"],
       "hero_title": "Černý rybíz Titánie",
       "hero_description": "na přelomu června a července"
     }

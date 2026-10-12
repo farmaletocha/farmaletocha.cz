@@ -1140,11 +1140,13 @@ h3 {
 
 .produce-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
 }
 
 .produce-card {
+  display: grid;
+  grid-template-columns: 38% minmax(0, 1fr);
   overflow: hidden;
   background: var(--paper);
   border: 1px solid rgba(23, 56, 41, 0.08);
@@ -1158,19 +1160,11 @@ h3 {
   box-shadow: 0 26px 50px rgba(32, 51, 40, 0.12);
 }
 
-.produce-card--wide {
-  grid-row: span 2;
-}
-
 .produce-card__image {
   position: relative;
-  height: 255px;
+  min-height: 260px;
   overflow: hidden;
   background: var(--cream-2);
-}
-
-.produce-card--wide .produce-card__image {
-  height: 700px;
 }
 
 .produce-card__image::after {
@@ -1182,6 +1176,8 @@ h3 {
 }
 
 .produce-card__image img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1192,12 +1188,15 @@ h3 {
   transform: scale(1.035);
 }
 
-.produce-card--wide .produce-card__image img {
+.produce-card[data-fruit="apples"] .produce-card__image img {
   object-position: 52% 45%;
 }
 
 .produce-card__body {
-  padding: 27px 30px 31px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
 }
 
 .produce-card__topline {
@@ -1238,16 +1237,17 @@ h3 {
 }
 
 .produce-card p {
-  min-height: 74px;
-  margin-bottom: 20px;
+  margin: 0 0 18px;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.7;
 }
 
 .produce-card a {
+  align-self: flex-start;
   display: inline-flex;
   gap: 8px;
+  margin-top: auto;
   color: var(--ink-2);
   border-bottom: 1px solid rgba(23, 56, 41, 0.3);
   font-size: 12px;
@@ -1258,18 +1258,20 @@ h3 {
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
-  margin: 25px 0 0;
+  margin: 0 0 18px;
   padding: 0;
   list-style: none;
 }
 
 .tag-list li {
+  max-width: 100%;
   padding: 6px 10px;
   color: var(--ink-2);
   background: var(--cream);
   border-radius: 999px;
   font-size: 10px;
   font-weight: 700;
+  overflow-wrap: anywhere;
 }
 
 .tree-banner {
@@ -2379,6 +2381,13 @@ h3 {
   font-weight: 500;
 }
 
+.contact__address {
+  margin: 0 0 26px;
+  color: var(--cream);
+  font-size: 15px;
+  font-style: normal;
+}
+
 .contact__links {
   display: grid;
   gap: 10px;
@@ -2591,6 +2600,10 @@ h3 {
   color: var(--white);
 }
 
+.footer__contact address {
+  font-style: normal;
+}
+
 .footer__cta {
   padding: 25px;
   background: rgba(255, 255, 255, 0.06);
@@ -2692,22 +2705,6 @@ h3 {
     height: 120px;
   }
 
-  .produce-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .produce-card--wide {
-    grid-row: span 1;
-  }
-
-  .produce-card--wide .produce-card__image {
-    height: 255px;
-  }
-
-  .produce-card--wide .produce-card__image img {
-    object-position: 50% 52%;
-  }
-
   .footer__main {
     grid-template-columns: 1.3fr 0.8fr 0.9fr;
   }
@@ -2742,6 +2739,10 @@ h3 {
 }
 
 @media (max-width: 940px) {
+  .produce-grid {
+    grid-template-columns: 1fr;
+  }
+
   html {
     scroll-padding-top: 90px;
   }
@@ -3005,17 +3006,8 @@ h3 {
     height: 110px;
   }
 
-  .produce-grid {
-    grid-template-columns: 1fr;
-  }
-
   .current-offer {
     grid-template-columns: 1fr;
-  }
-
-  .produce-card__image,
-  .produce-card--wide .produce-card__image {
-    height: 320px;
   }
 
   .tree-banner {
@@ -3210,9 +3202,21 @@ h3 {
     display: none;
   }
 
-  .produce-card__image,
-  .produce-card--wide .produce-card__image {
-    height: 260px;
+  .produce-card {
+    grid-template-columns: 1fr;
+  }
+
+  .produce-card__image {
+    height: 200px;
+    min-height: 0;
+  }
+
+  .produce-card[data-fruit="apples"] .produce-card__image img {
+    object-position: 50% 52%;
+  }
+
+  .produce-card__body {
+    padding: 20px;
   }
 
   .tree-banner {

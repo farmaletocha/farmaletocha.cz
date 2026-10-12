@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="assets/images/favicon-192.png">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preload" as="image" href="assets/images/farm/DSC07933-final.webp" imagesrcset="assets/images/farm/DSC07933-final-480.webp 480w, assets/images/farm/DSC07933-final-800.webp 800w, assets/images/farm/DSC07933-final.webp 1280w" imagesizes="(max-width: 720px) calc(100vw - 30px), (max-width: 940px) 560px, (max-width: 1120px) 46vw, 560px" type="image/webp" fetchpriority="high">
-  <link rel="stylesheet" href="styles.css?v=20261011-audit-fixes">
+  <link rel="stylesheet" href="styles.css?v=20261012-footer-address">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="cs_CZ">
@@ -49,7 +49,7 @@
     ],
     "description": "Ovocná farma v Bělkovicích-Lašťanech s přibližně 9 hektary sadů. Jablka, meruňky, černý rybíz a švestky, prodej ze dvora a sezonní samosběr.",
     "telephone": "+420602793987",
-    "email": "leosletocha@seznam.cz",
+    "email": "info@farmaletocha.cz",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Bělkovice-Lašťany",
@@ -109,7 +109,7 @@
   <div class="notice-bar">
     <div class="container notice-bar__inner">
       <p><span class="status-dot" aria-hidden="true"></span> <span data-harvest-announcement>Načítám aktuální nabídku samosběru…</span></p>
-      <a href="#samosber" data-harvest-announcement-link>Zobrazit nabídku <strong>→</strong></a>
+      <a href="#samosber" data-harvest-announcement-link data-sales-email>Zobrazit nabídku <strong>→</strong></a>
     </div>
   </div>
 
@@ -132,7 +132,7 @@
         <a href="#sezona">Sezona</a>
         <a href="#samosber">Samosběr</a>
         <a href="#kontakt">Kontakt</a>
-        <a class="button button--small button--dark nav-phone" href="mailto:leosletocha@seznam.cz">
+        <a class="button button--small button--dark nav-phone" href="mailto:info@farmaletocha.cz">
           <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="m3 7 9 7 9-7"/></svg>
           Napište nám
         </a>
@@ -286,9 +286,9 @@
         <noscript><p>Aktuální nabídku a ceny vám rádi pošleme e-mailem.</p></noscript>
 
         <div class="produce-grid">
-          <article class="produce-card produce-card--wide reveal" data-fruit="apples">
+          <article class="produce-card reveal" data-fruit="apples">
             <div class="produce-card__image">
-              <img src="assets/images/farm/DSC07891-final.webp" srcset="assets/images/farm/DSC07891-final-480.webp 480w, assets/images/farm/DSC07891-final-800.webp 800w, assets/images/farm/DSC07891-final.webp 1280w" sizes="(max-width: 720px) calc(100vw - 30px), (max-width: 1120px) 46vw, 30vw" width="1280" height="1920" alt="Detail červených jablek na větvi v sadu Farmy Letocha" data-photo-id="DSC07891" loading="lazy">
+              <img src="assets/images/farm/DSC07891-final.webp" srcset="assets/images/farm/DSC07891-final-480.webp 480w, assets/images/farm/DSC07891-final-800.webp 800w, assets/images/farm/DSC07891-final.webp 1280w" sizes="(max-width: 480px) calc(100vw - 30px), (max-width: 940px) 38vw, (max-width: 1288px) 19vw, 231px" width="1280" height="1920" alt="Detail červených jablek na větvi v sadu Farmy Letocha" data-photo-id="DSC07891" loading="lazy">
             </div>
             <div class="produce-card__body">
               <div class="produce-card__topline">
@@ -296,15 +296,16 @@
               </div>
               <h3>Jablka</h3>
               <p data-fruit-description>Pěstujeme odolné odrůdy jablek. Převažuje sladkokyselý Topaz vhodný k uskladnění.</p>
-              <ul class="tag-list" aria-label="Pěstované odrůdy jablek" data-apple-varieties>
+              <ul class="tag-list" aria-label="Pěstované odrůdy jablek" data-fruit-varieties data-apple-varieties>
                 <li>Topaz</li><li>Rajka</li><li>Rubinola</li><li>Šampion</li>
               </ul>
+              <a href="#samosber">Více o samosběru <span aria-hidden="true">↗</span></a>
             </div>
           </article>
 
           <article class="produce-card reveal" data-fruit="apricots">
             <div class="produce-card__image">
-              <img src="assets/images/apricots-generated.webp" srcset="assets/images/apricots-generated-768.webp 768w, assets/images/apricots-generated.webp 1536w" sizes="(max-width: 720px) calc(100vw - 30px), (max-width: 1120px) 46vw, 30vw" width="1536" height="1024" alt="Ilustrace zralých meruněk na větvi" loading="lazy">
+              <img src="assets/images/apricots-generated.webp" srcset="assets/images/apricots-generated-768.webp 768w, assets/images/apricots-generated.webp 1536w" sizes="(max-width: 480px) calc(100vw - 30px), (max-width: 940px) 38vw, (max-width: 1288px) 19vw, 231px" width="1536" height="1024" alt="Ilustrace zralých meruněk na větvi" loading="lazy">
             </div>
             <div class="produce-card__body">
               <div class="produce-card__topline">
@@ -312,34 +313,41 @@
               </div>
               <h3>Meruňky</h3>
               <p data-fruit-description>Osm odrůd dozrává postupně od konce června do konce srpna. V sezoně nabízíme také samosběr meruněk.</p>
+              <ul class="tag-list" aria-label="Pěstované odrůdy meruněk" data-fruit-varieties hidden></ul>
               <a href="#samosber">Více o samosběru <span aria-hidden="true">↗</span></a>
             </div>
           </article>
 
           <article class="produce-card reveal" data-fruit="blackcurrants">
             <div class="produce-card__image">
-              <img src="assets/images/blackcurrants-generated.webp" srcset="assets/images/blackcurrants-generated-768.webp 768w, assets/images/blackcurrants-generated.webp 1536w" sizes="(max-width: 720px) calc(100vw - 30px), (max-width: 1120px) 46vw, 30vw" width="1536" height="1024" alt="Ilustrace černého rybízu" loading="lazy">
+              <img src="assets/images/blackcurrants-generated.webp" srcset="assets/images/blackcurrants-generated-768.webp 768w, assets/images/blackcurrants-generated.webp 1536w" sizes="(max-width: 480px) calc(100vw - 30px), (max-width: 940px) 38vw, (max-width: 1288px) 19vw, 231px" width="1536" height="1024" alt="Ilustrace černého rybízu" loading="lazy">
             </div>
             <div class="produce-card__body">
               <div class="produce-card__topline">
                 <span class="season-chip" data-months="6,7">červen–červenec</span>
               </div>
               <h3>Černý rybíz</h3>
-              <p data-fruit-description>Odrůdu Titánie sklízíme speciálním sklízečem na přelomu června a července. Po domluvě si rybíz můžete nasbírat i sami.</p>
-              <a href="mailto:leosletocha@seznam.cz">Domluvit odběr <span aria-hidden="true">↗</span></a>
+              <p data-fruit-description>Černý rybíz sklízíme speciálním sklízečem na přelomu června a července. Po domluvě si rybíz můžete nasbírat i sami.</p>
+              <ul class="tag-list" aria-label="Pěstované odrůdy černého rybízu" data-fruit-varieties>
+                <li>Titánie</li>
+              </ul>
+              <a href="mailto:prodej@farmaletocha.cz" data-sales-email>Domluvit odběr <span aria-hidden="true">↗</span></a>
             </div>
           </article>
 
           <article class="produce-card reveal" data-fruit="plums">
             <div class="produce-card__image">
-              <img src="assets/images/plums-generated.webp" srcset="assets/images/plums-generated-768.webp 768w, assets/images/plums-generated.webp 1536w" sizes="(max-width: 720px) calc(100vw - 30px), (max-width: 1120px) 46vw, 30vw" width="1536" height="1024" alt="Ilustrace zralých fialových švestek na větvi" loading="lazy">
+              <img src="assets/images/plums-generated.webp" srcset="assets/images/plums-generated-768.webp 768w, assets/images/plums-generated.webp 1536w" sizes="(max-width: 480px) calc(100vw - 30px), (max-width: 940px) 38vw, (max-width: 1288px) 19vw, 231px" width="1536" height="1024" alt="Ilustrace zralých fialových švestek na větvi" loading="lazy">
             </div>
             <div class="produce-card__body">
               <div class="produce-card__topline">
                 <span class="season-chip" data-months="8,9">srpen–září</span>
               </div>
               <h3>Švestky</h3>
-              <p data-fruit-description>Švestky odrůd Stanley a Gabrovská snadno zbavíte pecky. Hodí se k jídlu, sušení, na povidla i slivovici.</p>
+              <p data-fruit-description>Švestky snadno zbavíte pecky. Hodí se k jídlu, sušení, na povidla i slivovici.</p>
+              <ul class="tag-list" aria-label="Pěstované odrůdy švestek" data-fruit-varieties>
+                <li>Stanley</li><li>Gabrovská</li>
+              </ul>
               <a href="#samosber">Více o samosběru <span aria-hidden="true">↗</span></a>
             </div>
           </article>
@@ -356,7 +364,7 @@
             <h3 data-copy="trees.title">Ovocné stromky pro vaši zahradu</h3>
             <p data-copy="trees.description">Rádi vám napíšeme, jaké stromky právě máme, a domluvíme se na odběru.</p>
           </div>
-          <a class="button button--outline" href="mailto:leosletocha@seznam.cz">Zeptat se na stromky</a>
+          <a class="button button--outline" href="mailto:prodej@farmaletocha.cz" data-sales-email>Zeptat se na stromky</a>
         </aside>
       </div>
     </section>
@@ -367,7 +375,7 @@
           <p class="eyebrow eyebrow--light"><span></span> Kalendář sklizně</p>
           <h2>Od prvních bobulí až po jablka na zimu.</h2>
           <p>Kalendář je orientační. Zralost ovoce se každý rok posouvá podle průběhu počasí.</p>
-          <a class="button button--cream" href="mailto:leosletocha@seznam.cz">
+          <a class="button button--cream" href="mailto:prodej@farmaletocha.cz" data-sales-email>
             Co právě dozrává?
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="m3 7 9 7 9-7"/></svg>
           </a>
@@ -426,7 +434,7 @@
             </ul>
           </div>
 
-          <form class="reservation-form" action="mailto:leosletocha@seznam.cz" method="post" enctype="text/plain" data-reservation-form>
+          <form class="reservation-form" action="mailto:prodej@farmaletocha.cz" method="post" enctype="text/plain" data-reservation-form>
             <div class="form-field form-field--wide">
               <label for="reservation-slot">Preferovaný termín</label>
               <select id="reservation-slot" name="Termin" required data-slot-select>
@@ -607,12 +615,24 @@
             <strong data-copy="contact.name">Leoš Letocha</strong>
           </div>
 
+          <address class="contact__address">
+            <span data-copy="contact.address">Bělkovice-Lašťany 635</span><br>
+            <span data-copy="contact.postal_code">783 16</span> <span data-copy="contact.locality">Bělkovice-Lašťany</span>
+          </address>
+
           <div class="contact__links">
-            <a href="mailto:leosletocha@seznam.cz">
+            <a href="mailto:prodej@farmaletocha.cz" data-sales-email>
               <span class="contact__icon">
                 <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="m3 7 9 7 9-7"/></svg>
               </span>
-              <span><small>E-mail</small><strong data-email-text>leosletocha@seznam.cz</strong></span>
+              <span><small>Prodej a samosběr</small><strong data-email-text>prodej@farmaletocha.cz</strong></span>
+              <svg class="contact__arrow" aria-hidden="true" viewBox="0 0 24 24"><path d="m5 12 14 0M13 6l6 6-6 6"/></svg>
+            </a>
+            <a href="mailto:info@farmaletocha.cz">
+              <span class="contact__icon">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="m3 7 9 7 9-7"/></svg>
+              </span>
+              <span><small>Obecné dotazy</small><strong data-email-text>info@farmaletocha.cz</strong></span>
               <svg class="contact__arrow" aria-hidden="true" viewBox="0 0 24 24"><path d="m5 12 14 0M13 6l6 6-6 6"/></svg>
             </a>
             <a href="tel:+420602793987">
@@ -638,8 +658,8 @@
           <p class="eyebrow"><span></span> Časté otázky</p>
           <h2>Než se vydáte pro ovoce.</h2>
           <p>Nenašli jste odpověď? Napište nám – rádi poradíme.</p>
-          <a class="inline-cta" href="mailto:leosletocha@seznam.cz">
-            <span data-email-text>leosletocha@seznam.cz</span>
+          <a class="inline-cta" href="mailto:info@farmaletocha.cz">
+            <span data-email-text>info@farmaletocha.cz</span>
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m5 12 14 0M13 6l6 6-6 6"/></svg>
           </a>
         </header>
@@ -666,13 +686,16 @@
       </div>
       <div class="footer__contact">
         <strong>Kontakt</strong>
-        <a href="mailto:leosletocha@seznam.cz" data-email-text>leosletocha@seznam.cz</a>
+        <a href="mailto:info@farmaletocha.cz" data-email-text>info@farmaletocha.cz</a>
         <a href="tel:+420602793987" data-phone-text>602&nbsp;793&nbsp;987</a>
-        <span data-copy="contact.locality">Bělkovice-Lašťany</span>
+        <address>
+          <span data-copy="contact.address">Bělkovice-Lašťany 635</span><br>
+          <span data-copy="contact.postal_code">783 16</span> <span data-copy="contact.locality">Bělkovice-Lašťany</span>
+        </address>
       </div>
       <div class="footer__cta">
         <span>Co právě dozrává?</span>
-        <a class="button button--cream" href="mailto:leosletocha@seznam.cz">Napište nám</a>
+        <a class="button button--cream" href="mailto:prodej@farmaletocha.cz" data-sales-email>Napište nám</a>
       </div>
     </div>
     <div class="container footer__bottom">
@@ -702,13 +725,13 @@
     <p class="lightbox__feedback" data-lightbox-feedback role="status" hidden></p>
   </dialog>
 
-  <a class="mobile-call" href="mailto:leosletocha@seznam.cz">
+  <a class="mobile-call" href="mailto:info@farmaletocha.cz">
     <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="m3 7 9 7 9-7"/></svg>
     Napište nám
   </a>
 
-  <script src="content.js?v=20261011-audit-fixes" defer></script>
-  <script src="script.js?v=20261011-audit-fixes" defer></script>
+  <script src="content.js?v=20261012-fruit-cards" defer></script>
+  <script src="script.js?v=20261012-fruit-cards" defer></script>
   <script src="analytics.js?v=20261011-audit-fixes" defer></script>
 </body>
 </html>

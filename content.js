@@ -11,6 +11,8 @@ let contactDetails = null;
 
 const getContactDetails = () => contactDetails;
 
+const getSalesEmail = (contact) => contact.sales_email ?? contact.email;
+
 const createElement = (tagName, className, text) => {
   const element = document.createElement(tagName);
   if (className) element.className = className;
@@ -37,10 +39,15 @@ const checkFields = (object, fields, path) => {
 
 const isMonth = (value) => /^(?:[1-9]|1[0-2])$/.test(String(value));
 
+const isEmail = (value) => typeof value === "string" && /^[^\s@<>?&#]+@[^\s@<>?&#]+\.[^\s@<>?&#]+$/.test(value);
+
 const validateWeb = (data) => {
   checkFields(data?.contact, ["name", "phone", "email", "locality", "address", "postal_code", "location_text", "directions"], "contact");
   check(/^\+[1-9]\d{6,14}$/.test(data.contact.phone), "Invalid contact phone");
-  check(/^[^\s@<>?&#]+@[^\s@<>?&#]+\.[^\s@<>?&#]+$/.test(data.contact.email), "Invalid contact email");
+  check(isEmail(data.contact.email), "Invalid contact email");
+  if (data.contact.sales_email !== undefined) {
+    check(isEmail(data.contact.sales_email), "Invalid sales email");
+  }
   check(Number.isFinite(data.contact.latitude) && Math.abs(data.contact.latitude) <= 90, "Invalid map latitude");
   check(Number.isFinite(data.contact.longitude) && Math.abs(data.contact.longitude) <= 180, "Invalid map longitude");
   checkFields(data.intro, ["location", "title", "subtitle", "description"], "intro");
@@ -51,9 +58,11 @@ const validateWeb = (data) => {
     const fruit = data.fruit?.[key];
     checkFields(fruit, ["name", "season", "description", "hero_title", "hero_description"], `fruit.${key}`);
     check(Array.isArray(fruit.months) && fruit.months.every(isMonth), `Invalid season months: ${key}`);
+    if (key === "apples" || fruit.varieties !== undefined) {
+      check(Array.isArray(fruit.varieties), `Invalid fruit varieties: ${key}`);
+      fruit.varieties.forEach((value) => checkText(value, `fruit.${key}.varieties`));
+    }
   });
-  check(Array.isArray(data.fruit.apples.varieties), "Invalid apple varieties");
-  data.fruit.apples.varieties.forEach((value) => checkText(value, "apple variety"));
   check(Array.isArray(data.calendar), "Invalid calendar");
   const months = new Set();
   data.calendar.forEach((month) => {
@@ -94,6 +103,7 @@ const loadJson = async (filename, validate) => {
 };
 
 const bindContact = (contact) => {
+  const emailFor = (element) => element.closest("[data-sales-email]") ? getSalesEmail(contact) : contact.email;
   document.querySelectorAll('a[href^="tel:"], a[data-phone-link]').forEach((link) => {
     link.dataset.phoneLink = "";
     if (contact) {
@@ -107,7 +117,7 @@ const bindContact = (contact) => {
   document.querySelectorAll('a[href^="mailto:"], a[data-email-link]').forEach((link) => {
     link.dataset.emailLink = "";
     if (contact) {
-      link.href = `mailto:${contact.email}`;
+      link.href = `mailto:${emailFor(link)}`;
       link.removeAttribute("aria-disabled");
     } else {
       link.removeAttribute("href");
@@ -118,11 +128,11 @@ const bindContact = (contact) => {
     element.textContent = contact ? formatPhone(contact.phone) : "Telefon není dostupný";
   });
   document.querySelectorAll("[data-email-text]").forEach((element) => {
-    element.textContent = contact ? contact.email : "E-mail není dostupný";
+    element.textContent = contact ? emailFor(element) : "E-mail není dostupný";
   });
   const form = document.querySelector("[data-reservation-form]");
   if (form) {
-    if (contact) form.action = `mailto:${contact.email}`;
+    if (contact) form.action = `mailto:${getSalesEmail(contact)}`;
     else form.removeAttribute("action");
     form.querySelector('[type="submit"]').disabled = !contact;
   }
@@ -153,6 +163,12 @@ const renderWeb = (data) => {
     const card = document.querySelector(`[data-fruit="${key}"]`);
     card.querySelector("h3").textContent = fruit.name;
     card.querySelector("[data-fruit-description]").textContent = fruit.description;
+    const varieties = card.querySelector("[data-fruit-varieties], [data-apple-varieties]");
+    if (varieties) {
+      const names = fruit.varieties ?? [];
+      varieties.replaceChildren(...names.map((name) => createElement("li", "", name)));
+      varieties.hidden = names.length === 0;
+    }
     const chip = card.querySelector(".season-chip");
     chip.textContent = fruit.season;
     chip.dataset.months = fruit.months.join(",");
@@ -164,9 +180,6 @@ const renderWeb = (data) => {
     const control = document.querySelector(`[data-hero-select="${key}"]`);
     control.setAttribute("aria-label", `Zobrazit: ${fruit.name}`);
   });
-  document.querySelector("[data-apple-varieties]").replaceChildren(
-    ...data.fruit.apples.varieties.map((name) => createElement("li", "", name))
-  );
   const calendar = document.querySelector("[data-calendar]");
   calendar.replaceChildren(...data.calendar.map((entry) => {
     const month = Number(entry.month);
@@ -220,8 +233,10 @@ const renderOffer = (data) => {
     document.createTextNode(`${data.arrangement} `)
   );
   if (contactDetails) {
-    const email = createElement("a", "", contactDetails.email);
-    email.href = `mailto:${contactDetails.email}`;
+    const address = getSalesEmail(contactDetails);
+    const email = createElement("a", "", address);
+    email.href = `mailto:${address}`;
+    email.dataset.salesEmail = "";
     hours.append(email);
   }
   summary.append(createElement("p", "eyebrow", "Aktuální nabídka"), heading, price,
@@ -260,7 +275,7 @@ const renderFaq = (data, offer) => {
             ? `${sentence(`${offer.price_subject} v aktuální nabídce: ${offer.price} ${offer.unit}`)} ${sentence(offer.price_note)} Na cenu dalšího ovoce se nás prosím zeptejte.`
             : "Ceny teď na webu neuvádíme.",
           `Prodejní doba: ${sentence(offer.hours)} ${sentence(offer.arrangement)}`,
-          contactDetails ? `Napište nám na ${contactDetails.email}.` : ""
+          contactDetails ? `Napište nám na ${getSalesEmail(contactDetails)}.` : ""
         ].filter(Boolean).join(" ");
       }
     }
