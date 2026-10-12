@@ -4,13 +4,13 @@
       "visible": true,
       "question": "Jaké ovoce u nás koupíte?",
       "answer_source": "text",
-      "answer": "Podle sezony nabízíme jablka, meruňky, černý rybíz a švestky. Co je právě k dostání, se řídí zralostí plodů a počasím."
+      "answer": "Podle sezony nabízíme [jablka, meruňky, černý rybíz a švestky](#ovoce). Co je právě k dostání, se řídí zralostí plodů a počasím."
     },
     {
       "visible": true,
       "question": "Co si můžeme natrhat sami?",
       "answer_source": "text",
-      "answer": "V sezoně meruňky a švestky, po předchozí domluvě také černý rybíz."
+      "answer": "V sezoně [meruňky a švestky](#samosber), po předchozí domluvě také černý rybíz."
     },
     {
       "visible": true,
@@ -22,19 +22,19 @@
       "visible": true,
       "question": "Můžeme přijet bez domluvy?",
       "answer_source": "text",
-      "answer": "V prodejní době můžete přijet nakoupit i bez domluvy. Jindy nám prosím napište a samosběr si vždy domluvte předem. Pokud jedete pro konkrétní odrůdu, raději se zeptejte, zda ji ještě máme."
+      "answer": "V [prodejní době](#kontakt) můžete přijet nakoupit i bez domluvy. Jindy nám prosím napište a [samosběr](#samosber) si vždy domluvte předem. Pokud jedete pro konkrétní odrůdu, raději se zeptejte, zda ji ještě máme."
     },
     {
       "visible": true,
       "question": "Jak se domluvit na samosběru?",
       "answer_source": "text",
-      "answer": "Vyberte volný termín nebo nám e-mailem napište, že máte zájem o jiný. Termín platí až po našem potvrzení."
+      "answer": "Pokud je vypsaný volný termín, vyberte ho v [nabídce samosběru](#samosber). Jinak nám [napište e-mailem](#kontakt), že máte zájem o jiný. Termín platí až po našem potvrzení."
     },
     {
       "visible": true,
       "question": "Co si vzít na samosběr?",
       "answer_source": "text",
-      "answer": "Doporučujeme vlastní přepravky nebo košíky a pevnou obuv do sadu. Před začátkem sběru se s námi domluvte na vážení nádob, aby se jejich hmotnost nezapočítala do ovoce."
+      "answer": "Doporučujeme vlastní přepravky nebo košíky a pevnou obuv do sadu. Před začátkem sběru se s námi [domluvte na vážení nádob](#kontakt), aby se jejich hmotnost nezapočítala do ovoce."
     },
     {
       "visible": true,
@@ -46,25 +46,25 @@
       "visible": true,
       "question": "Kam přijet a kde zaparkovat?",
       "answer_source": "text",
-      "answer": "Zaparkovat můžete před farmou, případně podle pokynů při příjezdu. Adresu a navigaci najdete v kontaktech. Místo samosběru vám upřesníme při potvrzení termínu."
+      "answer": "Zaparkovat můžete před farmou, případně podle pokynů při příjezdu. Adresu najdete v [kontaktech](#kontakt), mapu a navigaci v části [Kde nás najdete](#prijezd). Místo samosběru vám upřesníme při potvrzení termínu."
     },
     {
       "visible": true,
       "question": "Můžeme přijet s kočárkem a jsou na místě toalety?",
       "answer_source": "text",
-      "answer": "Na přístup s kočárkem, další požadavky na přístup a dostupnost toalet se nás prosím zeptejte předem. Poradíme vám podle místa a aktuálních podmínek sběru."
+      "answer": "Na přístup s kočárkem, další požadavky na přístup a dostupnost toalet se nás prosím [zeptejte předem](#kontakt). Poradíme vám podle místa a aktuálních podmínek sběru."
     },
     {
       "visible": true,
       "question": "Můžeme přijet se psem?",
       "answer_source": "text",
-      "answer": "Příjezd se psem si prosím domluvte předem."
+      "answer": "Příjezd se psem si prosím [domluvte předem](#kontakt)."
     },
     {
       "visible": true,
       "question": "Co když se změní počasí nebo nemůžeme přijet?",
       "answer_source": "text",
-      "answer": "Pokud budeme muset potvrzený termín změnit nebo zrušit kvůli počasí či zralosti ovoce, dáme vám vědět e-mailem, telefonicky nebo SMS. Jestli nemůžete přijet vy, pošlete nám prosím SMS na číslo uvedené v kontaktech."
+      "answer": "Pokud budeme muset potvrzený termín změnit nebo zrušit kvůli počasí či zralosti ovoce, dáme vám vědět e-mailem, telefonicky nebo SMS. Jestli nemůžete přijet vy, pošlete nám prosím SMS na [číslo uvedené v kontaktech](#kontakt)."
     }
   ]
 }

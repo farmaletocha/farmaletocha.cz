@@ -598,7 +598,7 @@ content:
           - name: answer
             label: Vlastní odpověď
             type: text
-            description: Vyplňte při volbě Vlastní odpověď. Automatické odpovědi se mění podle položky Nabídka a prodej.
+            description: "Vyplňte při volbě Vlastní odpověď. Odkaz vložte například jako [kontaktech](#kontakt). Povolené cíle jsou #farma, #ovoce, #samosber, #prijezd a #kontakt. HTML není podporováno. Automatické odpovědi se mění podle položky Nabídka a prodej."
 
 settings:
   hide: true

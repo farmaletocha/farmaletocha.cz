@@ -47,6 +47,14 @@ const isMonth = (value) => /^(?:[1-9]|1[0-2])$/.test(String(value));
 
 const isEmail = (value) => typeof value === "string" && /^[^\s@<>?&#]+@[^\s@<>?&#]+\.[^\s@<>?&#]+$/.test(value);
 
+const faqLinkTargets = new Set(["#farma", "#ovoce", "#samosber", "#prijezd", "#kontakt"]);
+
+const parseFaqLinks = (answer) => [...answer.matchAll(/\[([^\]\r\n]+)\]\(([^)\s]+)\)/g)].map((match) => {
+  checkText(match[1], "FAQ link text");
+  check(faqLinkTargets.has(match[2]), `Unsupported FAQ link: ${match[2]}`);
+  return match;
+});
+
 const validateWeb = (data) => {
   checkFields(data?.contact, ["name", "phone", "email", "locality", "address", "postal_code", "location_text", "directions"], "contact");
   check(/^\+[1-9]\d{6,14}$/.test(data.contact.phone), "Invalid contact phone");
@@ -97,7 +105,10 @@ const validateFaq = (data) => {
     checkText(item.question, "FAQ question");
     check(typeof item.visible === "boolean", "Invalid FAQ visibility");
     check(["text", "availability", "sales"].includes(item.answer_source), "Invalid FAQ answer source");
-    if (item.answer_source === "text") checkText(item.answer, "FAQ answer");
+    if (item.answer_source === "text") {
+      checkText(item.answer, "FAQ answer");
+      parseFaqLinks(item.answer);
+    }
   });
   return data;
 };
@@ -260,6 +271,20 @@ const renderOffer = (data) => {
 
 const sentence = (text) => /[.!?]$/.test(text) ? text : `${text}.`;
 
+const createFaqAnswer = (answer) => {
+  const paragraph = createElement("p");
+  let offset = 0;
+  for (const match of parseFaqLinks(answer)) {
+    paragraph.append(document.createTextNode(answer.slice(offset, match.index)));
+    const link = createElement("a", "", match[1]);
+    link.href = match[2];
+    paragraph.append(link);
+    offset = match.index + match[0].length;
+  }
+  paragraph.append(document.createTextNode(answer.slice(offset)));
+  return paragraph;
+};
+
 const renderFaq = (data, offer) => {
   const list = document.querySelector("[data-faq-list]");
   const questions = [];
@@ -285,13 +310,16 @@ const renderFaq = (data, offer) => {
         ].filter(Boolean).join(" ");
       }
     }
-    questions.push({ question: item.question, answer });
+    questions.push({
+      question: item.question,
+      answerElement: item.answer_source === "text" ? createFaqAnswer(answer) : createElement("p", "", answer)
+    });
   });
   list.replaceChildren(...questions.map((item) => {
     const details = createElement("details");
     const summary = createElement("summary", "", item.question);
     summary.append(createElement("span"));
-    details.append(summary, createElement("p", "", item.answer));
+    details.append(summary, item.answerElement);
     return details;
   }));
   if (missingOffer) {
@@ -307,7 +335,7 @@ const renderFaq = (data, offer) => {
     mainEntity: questions.map((item) => ({
       "@type": "Question",
       name: item.question,
-      acceptedAnswer: { "@type": "Answer", text: item.answer }
+      acceptedAnswer: { "@type": "Answer", text: item.answerElement.textContent }
     }))
   });
 };

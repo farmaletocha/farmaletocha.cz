@@ -2550,6 +2550,12 @@ h3 {
   font-size: 14px;
 }
 
+.faq__list details p a {
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .site-footer {
   padding-top: 75px;
   color: rgba(255, 255, 255, 0.68);
