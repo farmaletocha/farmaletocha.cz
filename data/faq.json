@@ -41,6 +41,42 @@
       "question": "Jak se domluvit na samosběru?",
       "answer_source": "text",
       "answer": "Vyberte volný termín nebo nám e-mailem napište, že máte zájem o jiný. Termín platí až po našem potvrzení."
+    },
+    {
+      "visible": true,
+      "question": "Co si vzít na samosběr?",
+      "answer_source": "text",
+      "answer": "Doporučujeme vlastní přepravky nebo košíky a pevnou obuv do sadu. Před začátkem sběru se s námi domluvte na vážení nádob, aby se jejich hmotnost nezapočítala do ovoce."
+    },
+    {
+      "visible": true,
+      "question": "Jak se domluvíme na ceně a platbě za samosběr?",
+      "answer_source": "text",
+      "answer": "Platba kartou není možná. Aktuální cenu i způsob platby vám upřesníme při potvrzení samosběru."
+    },
+    {
+      "visible": true,
+      "question": "Kam přijet a kde zaparkovat?",
+      "answer_source": "text",
+      "answer": "Pro nákup ze dvora použijte adresu a navigaci uvedenou v kontaktech. U samosběru vám přesné místo příjezdu i pokyny k parkování pošleme spolu s potvrzením termínu."
+    },
+    {
+      "visible": true,
+      "question": "Můžeme přijet s kočárkem a jsou na místě toalety?",
+      "answer_source": "text",
+      "answer": "Na přístup s kočárkem, další požadavky na přístup a dostupnost toalet se nás prosím zeptejte předem. Poradíme vám podle místa a aktuálních podmínek sběru."
+    },
+    {
+      "visible": true,
+      "question": "Můžeme přijet se psem?",
+      "answer_source": "text",
+      "answer": "Příjezd se psem si prosím domluvte předem."
+    },
+    {
+      "visible": true,
+      "question": "Co když se změní počasí nebo nemůžeme přijet?",
+      "answer_source": "text",
+      "answer": "Pokud budeme muset potvrzený termín změnit nebo zrušit kvůli počasí či zralosti ovoce, dáme vám vědět e-mailem, telefonicky nebo SMS. Jestli nemůžete přijet vy, pošlete nám prosím SMS na číslo uvedené v kontaktech."
     }
   ]
 }

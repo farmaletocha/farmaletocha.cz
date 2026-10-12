@@ -13,6 +13,12 @@ const getContactDetails = () => contactDetails;
 
 const getSalesEmail = (contact) => contact.sales_email ?? contact.email;
 
+const getEmailLink = (contact, sales = false) => {
+  const address = sales ? getSalesEmail(contact) : contact.email;
+  const name = sales ? "Farma Letocha – prodej" : "Farma Letocha";
+  return `mailto:?to=${encodeURIComponent(`"${name}" <${address}>`)}`;
+};
+
 const createElement = (tagName, className, text) => {
   const element = document.createElement(tagName);
   if (className) element.className = className;
@@ -117,7 +123,7 @@ const bindContact = (contact) => {
   document.querySelectorAll('a[href^="mailto:"], a[data-email-link]').forEach((link) => {
     link.dataset.emailLink = "";
     if (contact) {
-      link.href = `mailto:${emailFor(link)}`;
+      link.href = getEmailLink(contact, Boolean(link.closest("[data-sales-email]")));
       link.removeAttribute("aria-disabled");
     } else {
       link.removeAttribute("href");
@@ -132,7 +138,7 @@ const bindContact = (contact) => {
   });
   const form = document.querySelector("[data-reservation-form]");
   if (form) {
-    if (contact) form.action = `mailto:${getSalesEmail(contact)}`;
+    if (contact) form.action = getEmailLink(contact, true);
     else form.removeAttribute("action");
     form.querySelector('[type="submit"]').disabled = !contact;
   }
@@ -235,7 +241,7 @@ const renderOffer = (data) => {
   if (contactDetails) {
     const address = getSalesEmail(contactDetails);
     const email = createElement("a", "", address);
-    email.href = `mailto:${address}`;
+    email.href = getEmailLink(contactDetails, true);
     email.dataset.salesEmail = "";
     hours.append(email);
   }
