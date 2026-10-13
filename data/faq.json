@@ -32,39 +32,39 @@
     },
     {
       "visible": true,
-      "question": "Co si vzít na samosběr?",
+      "question": "Co si máme vzít na samosběr?",
       "answer_source": "text",
-      "answer": "Doporučujeme vlastní přepravky nebo košíky a pevnou obuv do sadu. Před začátkem sběru se s námi [domluvte na vážení nádob](#kontakt), aby se jejich hmotnost nezapočítala do ovoce."
+      "answer": "Doporučujeme vlastní přepravky nebo košíky a pevnou obuv do sadu. Než začnete sbírat, [domluvte se s námi na vážení nádob](#kontakt), aby se jejich hmotnost nezapočítala do ovoce."
     },
     {
       "visible": true,
       "question": "Jak můžeme zaplatit?",
       "answer_source": "text",
-      "answer": "Zaplatit můžete v hotovosti nebo pomocí QR kódu. Platba kartou není možná."
+      "answer": "Zaplatíte v hotovosti nebo pomocí QR kódu. Platby kartou nepřijímáme."
     },
     {
       "visible": true,
-      "question": "Kam přijet a kde zaparkovat?",
+      "question": "Kam máme přijet a kde zaparkovat?",
       "answer_source": "text",
-      "answer": "Zaparkovat můžete před farmou, případně podle pokynů při příjezdu. Adresu najdete v [kontaktech](#kontakt), mapu a navigaci v části [Kde nás najdete](#prijezd). Místo samosběru vám upřesníme při potvrzení termínu."
+      "answer": "Zaparkovat můžete před farmou, případně podle pokynů na místě. Po příjezdu nám prosím zavolejte na [číslo v kontaktech](#kontakt). S cestou vám pomůže [mapa s navigací](#prijezd). Přesné místo samosběru vám pošleme při potvrzení termínu."
     },
     {
       "visible": true,
-      "question": "Můžeme přijet s kočárkem a jsou na místě toalety?",
+      "question": "Můžeme přijet s kočárkem a je na místě toaleta?",
       "answer_source": "text",
-      "answer": "Na přístup s kočárkem, další požadavky na přístup a dostupnost toalet se nás prosím [zeptejte předem](#kontakt). Poradíme vám podle místa a aktuálních podmínek sběru."
+      "answer": "Pro kočárky není sad ideální: je zatravněný a leží ve svahu. Toaleta je k dispozici."
     },
     {
       "visible": true,
       "question": "Můžeme přijet se psem?",
       "answer_source": "text",
-      "answer": "Příjezd se psem si prosím [domluvte předem](#kontakt)."
+      "answer": "Pokud chcete přijet se psem, [domluvte se s námi předem](#kontakt)."
     },
     {
       "visible": true,
-      "question": "Co když se změní počasí nebo nemůžeme přijet?",
+      "question": "Co když se termín změní nebo nemůžeme přijet?",
       "answer_source": "text",
-      "answer": "Pokud budeme muset potvrzený termín změnit nebo zrušit kvůli počasí či zralosti ovoce, dáme vám vědět e-mailem, telefonicky nebo SMS. Jestli nemůžete přijet vy, pošlete nám prosím SMS na [číslo uvedené v kontaktech](#kontakt)."
+      "answer": "Když musíme potvrzený termín změnit nebo zrušit, ozveme se vám e-mailem, telefonicky nebo SMS. Pokud nemůžete přijet vy, pošlete nám prosím SMS na [číslo v kontaktech](#kontakt)."
     }
   ]
 }
