@@ -56,6 +56,12 @@ const validateOperator = (operator) => {
 
 const faqLinkTargets = new Set(["#farma", "#ovoce", "#med", "#stromky", "#samosber", "#prijezd", "#kontakt"]);
 
+const faqGroups = new Map([
+  ["sales", "Ovoce a prodej"],
+  ["picking", "Samosběr a termíny"],
+  ["visit", "Příjezd a zázemí"]
+]);
+
 const parseFaqLinks = (answer) => [...answer.matchAll(/\[([^\]\r\n]+)\]\(([^)\s]+)\)/g)].map((match) => {
   checkText(match[1], "FAQ link text");
   check(faqLinkTargets.has(match[2]), `Unsupported FAQ link: ${match[2]}`);
@@ -113,6 +119,7 @@ const validateFaq = (data) => {
   data.items.forEach((item) => {
     checkText(item.question, "FAQ question");
     check(typeof item.visible === "boolean", "Invalid FAQ visibility");
+    check(faqGroups.has(item.group), "Invalid FAQ group");
     check(["text", "availability", "sales"].includes(item.answer_source), "Invalid FAQ answer source");
     if (item.answer_source === "text") {
       checkText(item.answer, "FAQ answer");
@@ -324,16 +331,30 @@ const renderFaq = (data, offer) => {
       }
     }
     questions.push({
+      group: item.group,
       question: item.question,
       answerElement: item.answer_source === "text" ? createFaqAnswer(answer) : createElement("p", "", answer)
     });
   });
-  list.replaceChildren(...questions.map((item) => {
-    const details = createElement("details");
-    const summary = createElement("summary", "", item.question);
-    summary.append(createElement("span"));
-    details.append(summary, item.answerElement);
-    return details;
+  const groups = [...faqGroups].map(([key, title]) => ({
+    key,
+    title,
+    questions: questions.filter((item) => item.group === key)
+  })).filter((group) => group.questions.length);
+  list.replaceChildren(...groups.map((group) => {
+    const section = createElement("section", "faq__group");
+    const heading = createElement("h3", "faq__group-title", group.title);
+    heading.id = `faq-${group.key}`;
+    section.dataset.faqGroup = group.key;
+    section.setAttribute("aria-labelledby", heading.id);
+    section.append(heading, ...group.questions.map((item) => {
+      const details = createElement("details");
+      const summary = createElement("summary", "", item.question);
+      summary.append(createElement("span"));
+      details.append(summary, item.answerElement);
+      return details;
+    }));
+    return section;
   }));
   if (missingOffer) {
     list.append(createElement("p", "content-message", contactDetails
@@ -345,7 +366,7 @@ const renderFaq = (data, offer) => {
   schema.textContent = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: questions.map((item) => ({
+    mainEntity: groups.flatMap((group) => group.questions).map((item) => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: { "@type": "Answer", text: item.answerElement.textContent }

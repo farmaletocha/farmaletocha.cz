@@ -621,6 +621,7 @@ content:
       - name: items
         label: Otázky a odpovědi
         type: object
+        description: "Otázky se na webu seskupí podle okruhu. Pořadí položek určuje pořadí otázek uvnitř okruhu."
         list:
           collapsible:
             collapsed: true
@@ -630,6 +631,15 @@ content:
             label: Zobrazit otázku
             type: boolean
             required: true
+          - name: group
+            label: Tematický okruh
+            type: select
+            required: true
+            options:
+              values:
+                - { name: sales, label: Ovoce a prodej }
+                - { name: picking, label: Samosběr a termíny }
+                - { name: visit, label: Příjezd a zázemí }
           - name: question
             label: Otázka
             type: string

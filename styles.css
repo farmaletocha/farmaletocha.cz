@@ -2488,14 +2488,14 @@ h3 {
 
 .faq__grid {
   display: grid;
-  grid-template-columns: minmax(300px, 0.7fr) minmax(0, 1.3fr);
+  grid-template-columns: 1fr;
   align-items: start;
-  gap: clamp(70px, 10vw, 150px);
+  gap: 40px;
 }
 
 .faq__intro {
-  position: sticky;
-  top: 145px;
+  position: static;
+  max-width: 720px;
 }
 
 .faq__intro > p:not(.eyebrow) {
@@ -2509,18 +2509,44 @@ h3 {
 }
 
 .faq__list {
-  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 24px;
+}
+
+.faq__list > p {
+  grid-column: 1 / -1;
+}
+
+.faq__group {
+  padding: 24px clamp(20px, 2vw, 28px) 0;
+  background: var(--cream);
+  border-radius: var(--radius-md);
+  overflow-wrap: anywhere;
+}
+
+.faq__group-title {
+  margin: 0 0 8px;
+  color: var(--ink-3);
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .faq__list details {
   border-bottom: 1px solid var(--border);
 }
 
+.faq__group details:last-child {
+  border-bottom: 0;
+}
+
 .faq__list summary {
   position: relative;
-  padding: 27px 55px 27px 0;
+  padding: 22px 34px 22px 0;
   font-family: var(--serif);
-  font-size: 21px;
+  font-size: clamp(19px, 1.7vw, 21px);
   font-weight: 550;
   list-style: none;
   cursor: pointer;
@@ -2554,7 +2580,7 @@ h3 {
 
 .faq__list details p {
   max-width: 710px;
-  margin: -5px 55px 27px 0;
+  margin: -5px 0 24px;
   color: var(--muted);
   font-size: 14px;
 }
@@ -2973,7 +2999,7 @@ h3 {
   .story__grid,
   .season__grid,
   .location__grid,
-  .faq__grid {
+  .faq__list {
     grid-template-columns: 1fr;
   }
 

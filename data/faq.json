@@ -2,69 +2,80 @@
   "items": [
     {
       "visible": true,
+      "group": "sales",
       "question": "Jaké ovoce u nás koupíte?",
       "answer_source": "text",
       "answer": "Podle sezony nabízíme [jablka, meruňky, černý rybíz a švestky](#ovoce). Co je právě k dostání, se řídí zralostí plodů a počasím."
     },
     {
       "visible": true,
-      "question": "Co si můžeme natrhat sami?",
-      "answer_source": "text",
-      "answer": "V sezoně [meruňky a švestky](#samosber), po předchozí domluvě také černý rybíz."
-    },
-    {
-      "visible": true,
-      "question": "Co znamená integrovaná produkce?",
-      "answer_source": "text",
-      "answer": "Integrovaná produkce ovoce je způsob pěstování, který dává přednost účinným nechemickým postupům a přípravky na ochranu rostlin používá jen v nezbytném rozsahu. U jabloní nám pomáhají odolné odrůdy, které potřebují výrazně méně chemického ošetřování."
-    },
-    {
-      "visible": true,
+      "group": "sales",
       "question": "Můžeme přijet bez domluvy?",
       "answer_source": "text",
       "answer": "V [prodejní době](#kontakt) můžete přijet nakoupit i bez domluvy. Jindy nám prosím napište a [samosběr](#samosber) si vždy domluvte předem. Pokud jedete pro konkrétní odrůdu, raději se zeptejte, zda ji ještě máme."
     },
     {
       "visible": true,
-      "question": "Jak se domluvit na samosběru?",
-      "answer_source": "text",
-      "answer": "Pokud je vypsaný volný termín, vyberte ho v [nabídce samosběru](#samosber). Jinak nám [napište e-mailem](#kontakt), že máte zájem o jiný. Termín platí až po našem potvrzení."
-    },
-    {
-      "visible": true,
-      "question": "Co si máme vzít na samosběr?",
-      "answer_source": "text",
-      "answer": "Doporučujeme vlastní přepravky nebo košíky a pevnou obuv do sadu. Než začnete sbírat, [domluvte se s námi na vážení nádob](#kontakt), aby se jejich hmotnost nezapočítala do ovoce."
-    },
-    {
-      "visible": true,
+      "group": "sales",
       "question": "Jak můžeme zaplatit?",
       "answer_source": "text",
       "answer": "Zaplatíte v hotovosti nebo pomocí QR kódu. Platby kartou nepřijímáme."
     },
     {
       "visible": true,
+      "group": "sales",
+      "question": "Co znamená integrovaná produkce?",
+      "answer_source": "text",
+      "answer": "Integrovaná produkce ovoce je způsob pěstování, který dává přednost účinným nechemickým postupům a přípravky na ochranu rostlin používá jen v nezbytném rozsahu. U jabloní nám pomáhají odolné odrůdy, které potřebují výrazně méně chemického ošetřování."
+    },
+    {
+      "visible": true,
+      "group": "picking",
+      "question": "Co si můžeme natrhat sami?",
+      "answer_source": "text",
+      "answer": "V sezoně [meruňky a švestky](#samosber), po předchozí domluvě také černý rybíz."
+    },
+    {
+      "visible": true,
+      "group": "picking",
+      "question": "Jak se domluvit na samosběru?",
+      "answer_source": "text",
+      "answer": "Pokud je vypsaný volný termín, vyberte ho v [nabídce samosběru](#samosber). Jinak nám [napište e-mailem](#kontakt), že máte zájem o jiný. Termín platí až po našem potvrzení."
+    },
+    {
+      "visible": true,
+      "group": "picking",
+      "question": "Co si máme vzít na samosběr?",
+      "answer_source": "text",
+      "answer": "Doporučujeme vlastní přepravky nebo košíky a pevnou obuv do sadu. Než začnete sbírat, [domluvte se s námi na vážení nádob](#kontakt), aby se jejich hmotnost nezapočítala do ovoce."
+    },
+    {
+      "visible": true,
+      "group": "picking",
+      "question": "Co když se termín změní nebo nemůžeme přijet?",
+      "answer_source": "text",
+      "answer": "Když musíme potvrzený termín změnit nebo zrušit, ozveme se vám e-mailem, telefonicky nebo SMS. Pokud nemůžete přijet vy, pošlete nám prosím SMS na [číslo v kontaktech](#kontakt)."
+    },
+    {
+      "visible": true,
+      "group": "visit",
       "question": "Kam máme přijet a kde zaparkovat?",
       "answer_source": "text",
       "answer": "Zaparkovat můžete před farmou, případně podle pokynů na místě. Po příjezdu nám prosím zavolejte na [číslo v kontaktech](#kontakt). S cestou vám pomůže [mapa s navigací](#prijezd). Přesné místo samosběru vám pošleme při potvrzení termínu."
     },
     {
       "visible": true,
+      "group": "visit",
       "question": "Můžeme přijet s kočárkem a je na místě toaleta?",
       "answer_source": "text",
       "answer": "Pro kočárky není sad ideální: je zatravněný a leží ve svahu. Toaleta je k dispozici."
     },
     {
       "visible": true,
+      "group": "visit",
       "question": "Můžeme přijet se psem?",
       "answer_source": "text",
       "answer": "Na farmě už je jeden pes. Pokud chcete přijet se svým psem, [domluvte se s námi předem](#kontakt)."
-    },
-    {
-      "visible": true,
-      "question": "Co když se termín změní nebo nemůžeme přijet?",
-      "answer_source": "text",
-      "answer": "Když musíme potvrzený termín změnit nebo zrušit, ozveme se vám e-mailem, telefonicky nebo SMS. Pokud nemůžete přijet vy, pošlete nám prosím SMS na [číslo v kontaktech](#kontakt)."
     }
   ]
 }
