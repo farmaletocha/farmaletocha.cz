@@ -62,6 +62,8 @@ const validateWeb = (data) => {
   if (data.contact.sales_email !== undefined) {
     check(isEmail(data.contact.sales_email), "Invalid sales email");
   }
+  checkFields(data.operator, ["name", "ico", "registered_address", "registration"], "operator");
+  check(/^\d{8}$/.test(data.operator.ico), "Invalid operator ICO");
   check(Number.isFinite(data.contact.latitude) && Math.abs(data.contact.latitude) <= 90, "Invalid map latitude");
   check(Number.isFinite(data.contact.longitude) && Math.abs(data.contact.longitude) <= 180, "Invalid map longitude");
   checkFields(data.intro, ["location", "title", "subtitle", "description"], "intro");
@@ -345,6 +347,8 @@ const updateBusinessSchema = (web) => {
   const data = JSON.parse(element.textContent);
   delete data.founder;
   if (web) {
+    data.legalName = web.operator.name;
+    data.identifier = { "@type": "PropertyValue", propertyID: "IČO", value: web.operator.ico };
     data.telephone = web.contact.phone;
     data.email = web.contact.email;
     data.address.addressLocality = web.contact.locality;
@@ -357,6 +361,8 @@ const updateBusinessSchema = (web) => {
       description: web.fruit[key].description
     }));
   } else {
+    delete data.legalName;
+    delete data.identifier;
     delete data.telephone;
     delete data.email;
     delete data.hasOfferCatalog;

@@ -563,6 +563,32 @@ content:
                 - { name: blackcurrants, label: Černý rybíz }
                 - { name: plums, label: Švestky }
 
+      - name: operator
+        label: Provozovatel webu
+        type: object
+        required: true
+        description: Právní údaje z registru. Nemění kontaktní osobu ani adresu pro příjezd návštěvníků.
+        fields:
+          - name: name
+            label: Jméno nebo obchodní název
+            type: string
+            required: true
+          - name: ico
+            label: IČO
+            type: string
+            required: true
+            pattern:
+              regex: '^[0-9]{8}$'
+              message: Zadejte osmimístné IČO.
+          - name: registered_address
+            label: Sídlo včetně PSČ
+            type: string
+            required: true
+          - name: registration
+            label: Údaj o zápisu v rejstříku nebo evidenci
+            type: text
+            required: true
+
   - name: faq
     label: Časté otázky
     type: file

@@ -2629,6 +2629,22 @@ h3 {
   width: 100%;
 }
 
+.footer__operator {
+  display: grid;
+  gap: 6px;
+  padding-block: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+}
+
+.footer__operator p {
+  margin: 0;
+}
+
+.footer__operator strong {
+  color: var(--cream);
+}
+
 .footer__bottom {
   min-height: 70px;
   display: grid;
