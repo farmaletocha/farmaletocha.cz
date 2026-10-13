@@ -32,6 +32,9 @@
 !/assets/images/
 /assets/images/*
 !/assets/images/favicon-192.png
+!/assets/images/honey-generated.webp
+!/assets/images/honey-generated-640.webp
+!/assets/images/honey-generated-1200.webp
 !/assets/images/logo-footer.png
 !/assets/images/logo-source.jpg
 !/assets/images/logo-transparent.png

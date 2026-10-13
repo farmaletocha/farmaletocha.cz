@@ -47,7 +47,7 @@ const isMonth = (value) => /^(?:[1-9]|1[0-2])$/.test(String(value));
 
 const isEmail = (value) => typeof value === "string" && /^[^\s@<>?&#]+@[^\s@<>?&#]+\.[^\s@<>?&#]+$/.test(value);
 
-const faqLinkTargets = new Set(["#farma", "#ovoce", "#samosber", "#prijezd", "#kontakt"]);
+const faqLinkTargets = new Set(["#farma", "#ovoce", "#med", "#samosber", "#prijezd", "#kontakt"]);
 
 const parseFaqLinks = (answer) => [...answer.matchAll(/\[([^\]\r\n]+)\]\(([^)\s]+)\)/g)].map((match) => {
   checkText(match[1], "FAQ link text");
@@ -70,6 +70,7 @@ const validateWeb = (data) => {
   check(typeof data.intro.rotate_fruit === "boolean", "Invalid fruit rotation setting");
   checkFields(data.story, ["title", "lead", "description"], "story");
   checkFields(data.trees, ["title", "description"], "trees");
+  checkFields(data.honey, ["title", "description"], "honey");
   fruitKeys.forEach((key) => {
     const fruit = data.fruit?.[key];
     checkFields(fruit, ["name", "season", "description", "hero_title", "hero_description"], `fruit.${key}`);
@@ -360,6 +361,11 @@ const updateBusinessSchema = (web) => {
       name: web.fruit[key].name,
       description: web.fruit[key].description
     }));
+    data.hasOfferCatalog.itemListElement.push({
+      "@type": "OfferCatalog",
+      name: web.honey.title,
+      description: web.honey.description
+    });
   } else {
     delete data.legalName;
     delete data.identifier;

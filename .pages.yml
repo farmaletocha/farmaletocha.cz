@@ -528,6 +528,20 @@ content:
             label: Nabídka a podmínky
             type: text
             required: true
+      - name: honey
+        label: Med
+        type: object
+        required: true
+        fields:
+          - name: title
+            label: Nadpis
+            type: string
+            required: true
+          - name: description
+            label: Nabídka a podmínky
+            type: text
+            required: true
+            description: Uvádějte jen potvrzené informace o nabídce a odběru medu.
       - name: calendar
         label: Kalendář sklizně
         type: object
@@ -624,7 +638,7 @@ content:
           - name: answer
             label: Vlastní odpověď
             type: text
-            description: "Vyplňte při volbě Vlastní odpověď. Odkaz vložte například jako [kontaktech](#kontakt). Povolené cíle jsou #farma, #ovoce, #samosber, #prijezd a #kontakt. HTML není podporováno. Automatické odpovědi se mění podle položky Nabídka a prodej."
+            description: "Vyplňte při volbě Vlastní odpověď. Odkaz vložte například jako [kontaktech](#kontakt). Povolené cíle jsou #farma, #ovoce, #med, #samosber, #prijezd a #kontakt. HTML není podporováno. Automatické odpovědi se mění podle položky Nabídka a prodej."
 
 settings:
   hide: true
