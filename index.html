@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="assets/images/favicon-192.png">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preload" as="image" href="assets/images/farm/DSC07933-final.webp" imagesrcset="assets/images/farm/DSC07933-final-480.webp 480w, assets/images/farm/DSC07933-final-800.webp 800w, assets/images/farm/DSC07933-final.webp 1280w" imagesizes="(max-width: 720px) calc(100vw - 30px), (max-width: 940px) 560px, (max-width: 1120px) 46vw, 560px" type="image/webp" fetchpriority="high">
-  <link rel="stylesheet" href="styles.css?v=20261013-honey">
+  <link rel="stylesheet" href="styles.css?v=20261013-offer-cards">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="cs_CZ">
@@ -100,6 +100,11 @@
           "@type": "OfferCatalog",
           "name": "Med",
           "description": "K ovoci u nás můžete koupit také med. Dostupnost a odběr s vámi rádi domluvíme e-mailem."
+        },
+        {
+          "@type": "OfferCatalog",
+          "name": "Ovocné stromky pro vaši zahradu",
+          "description": "Rádi vám napíšeme, jaké stromky právě máme, a domluvíme se na odběru."
         }
       ]
     }
@@ -364,11 +369,11 @@
           </article>
         </div>
 
-        <article class="honey-offer reveal" id="med" aria-labelledby="med-nadpis">
-          <div class="honey-offer__image">
+        <article class="product-offer honey-offer reveal" id="med" aria-labelledby="med-nadpis">
+          <div class="product-offer__image honey-offer__image">
             <img src="assets/images/honey-generated.webp" srcset="assets/images/honey-generated-640.webp 640w, assets/images/honey-generated-1200.webp 1200w, assets/images/honey-generated.webp 1536w" sizes="(max-width: 720px) calc(100vw - 30px), (max-width: 1288px) 42vw, 520px" width="1536" height="1024" alt="Ilustrace sklenice medu s dřevěnou naběračkou v sadu" loading="lazy">
           </div>
-          <div class="honey-offer__copy">
+          <div class="product-offer__copy honey-offer__copy">
             <p class="eyebrow">Také v nabídce</p>
             <h3 id="med-nadpis" data-copy="honey.title">Med</h3>
             <p data-copy="honey.description">K ovoci u nás můžete koupit také med. Dostupnost a odběr s vámi rádi domluvíme e-mailem.</p>
@@ -376,19 +381,17 @@
           </div>
         </article>
 
-        <aside class="tree-banner reveal" aria-label="Nabídka ovocných stromků">
-          <div class="tree-banner__icon">
-            <svg aria-hidden="true" viewBox="0 0 64 64">
-              <path d="M32 58V27M21 58h22M32 35c-10 0-17-7-17-16 8 0 14 3 17 9M32 28c2-11 10-17 20-17 0 12-7 20-20 20"/>
-            </svg>
+        <article class="product-offer tree-banner reveal" id="stromky" aria-labelledby="stromky-nadpis">
+          <div class="product-offer__image">
+            <img src="assets/images/farm/honza-spring-orchard.webp" srcset="assets/images/farm/honza-spring-orchard-640.webp 640w, assets/images/farm/honza-spring-orchard-1200.webp 1200w, assets/images/farm/honza-spring-orchard.webp 1920w" sizes="(max-width: 720px) calc(100vw - 30px), (max-width: 1288px) 42vw, 520px" width="1920" height="1280" alt="Rozkvetlé ovocné stromy v sadu Farmy Letocha" data-photo-id="honza-spring-orchard" loading="lazy">
           </div>
-          <div>
+          <div class="product-offer__copy">
             <p class="eyebrow">Také v nabídce</p>
-            <h3 data-copy="trees.title">Ovocné stromky pro vaši zahradu</h3>
+            <h3 id="stromky-nadpis" data-copy="trees.title">Ovocné stromky pro vaši zahradu</h3>
             <p data-copy="trees.description">Rádi vám napíšeme, jaké stromky právě máme, a domluvíme se na odběru.</p>
+            <a class="button button--dark" href="mailto:?to=%22Farma%20Letocha%20%E2%80%93%20prodej%22%20%3Cprodej%40farmaletocha.cz%3E" data-sales-email>Zeptat se na stromky</a>
           </div>
-          <a class="button button--outline" href="mailto:?to=%22Farma%20Letocha%20%E2%80%93%20prodej%22%20%3Cprodej%40farmaletocha.cz%3E" data-sales-email>Zeptat se na stromky</a>
-        </aside>
+        </article>
       </div>
     </section>
 
@@ -756,7 +759,7 @@
     Napište nám
   </a>
 
-  <script src="content.js?v=20261013-honey" defer></script>
+  <script src="content.js?v=20261013-offer-cards" defer></script>
   <script src="script.js?v=20261012-email-names" defer></script>
   <script src="analytics.js?v=20261011-audit-fixes" defer></script>
 </body>

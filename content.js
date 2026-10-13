@@ -47,7 +47,7 @@ const isMonth = (value) => /^(?:[1-9]|1[0-2])$/.test(String(value));
 
 const isEmail = (value) => typeof value === "string" && /^[^\s@<>?&#]+@[^\s@<>?&#]+\.[^\s@<>?&#]+$/.test(value);
 
-const faqLinkTargets = new Set(["#farma", "#ovoce", "#med", "#samosber", "#prijezd", "#kontakt"]);
+const faqLinkTargets = new Set(["#farma", "#ovoce", "#med", "#stromky", "#samosber", "#prijezd", "#kontakt"]);
 
 const parseFaqLinks = (answer) => [...answer.matchAll(/\[([^\]\r\n]+)\]\(([^)\s]+)\)/g)].map((match) => {
   checkText(match[1], "FAQ link text");
@@ -361,11 +361,11 @@ const updateBusinessSchema = (web) => {
       name: web.fruit[key].name,
       description: web.fruit[key].description
     }));
-    data.hasOfferCatalog.itemListElement.push({
+    data.hasOfferCatalog.itemListElement.push(...["honey", "trees"].map((key) => ({
       "@type": "OfferCatalog",
-      name: web.honey.title,
-      description: web.honey.description
-    });
+      name: web[key].title,
+      description: web[key].description
+    })));
   } else {
     delete data.legalName;
     delete data.identifier;
