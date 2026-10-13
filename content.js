@@ -47,6 +47,13 @@ const isMonth = (value) => /^(?:[1-9]|1[0-2])$/.test(String(value));
 
 const isEmail = (value) => typeof value === "string" && /^[^\s@<>?&#]+@[^\s@<>?&#]+\.[^\s@<>?&#]+$/.test(value);
 
+const validateOperator = (operator) => {
+  checkFields(operator, ["name", "ico", "registered_address", "registration", "privacy_email"], "operator");
+  check(/^\d{8}$/.test(operator.ico), "Invalid operator ICO");
+  check(isEmail(operator.privacy_email), "Invalid privacy email");
+  return operator;
+};
+
 const faqLinkTargets = new Set(["#farma", "#ovoce", "#med", "#stromky", "#samosber", "#prijezd", "#kontakt"]);
 
 const parseFaqLinks = (answer) => [...answer.matchAll(/\[([^\]\r\n]+)\]\(([^)\s]+)\)/g)].map((match) => {
@@ -62,8 +69,7 @@ const validateWeb = (data) => {
   if (data.contact.sales_email !== undefined) {
     check(isEmail(data.contact.sales_email), "Invalid sales email");
   }
-  checkFields(data.operator, ["name", "ico", "registered_address", "registration"], "operator");
-  check(/^\d{8}$/.test(data.operator.ico), "Invalid operator ICO");
+  validateOperator(data.operator);
   check(Number.isFinite(data.contact.latitude) && Math.abs(data.contact.latitude) <= 90, "Invalid map latitude");
   check(Number.isFinite(data.contact.longitude) && Math.abs(data.contact.longitude) <= 180, "Invalid map longitude");
   checkFields(data.intro, ["location", "title", "subtitle", "description"], "intro");
@@ -158,12 +164,16 @@ const bindContact = (contact) => {
   }
 };
 
-const renderWeb = (data) => {
+const bindWebCopy = (data) => {
   document.querySelectorAll("[data-copy]").forEach((element) => {
     const value = element.dataset.copy.split(".").reduce((value, key) => value?.[key], data);
     checkText(value, element.dataset.copy);
     element.textContent = value;
   });
+};
+
+const renderWeb = (data) => {
+  bindWebCopy(data);
   contactDetails = data.contact;
   bindContact(contactDetails);
   const { latitude, longitude } = data.contact;

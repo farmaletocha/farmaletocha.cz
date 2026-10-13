@@ -2673,6 +2673,97 @@ h3 {
   color: var(--cream);
 }
 
+.footer__privacy,
+.reservation-form__note a,
+.privacy-content a,
+.privacy-back {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.privacy-page .nav-shell {
+  gap: 16px;
+}
+
+.privacy-page .brand {
+  width: min(190px, 40vw);
+}
+
+.privacy-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.privacy-content {
+  max-width: 860px;
+  padding-block: clamp(40px, 6vw, 80px);
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+.privacy-content h1,
+.privacy-content h2 {
+  font-family: var(--serif);
+  font-weight: 500;
+}
+
+.privacy-content h1 {
+  margin-bottom: 20px;
+  font-size: clamp(40px, 5vw, 60px);
+  line-height: 1.12;
+}
+
+.privacy-content h2 {
+  margin: 0 0 16px;
+  font-size: clamp(25px, 3vw, 32px);
+  line-height: 1.25;
+}
+
+.privacy-content section {
+  margin-top: 42px;
+}
+
+.privacy-effective {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.privacy-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.privacy-table caption {
+  margin-bottom: 12px;
+  text-align: left;
+  font-weight: 700;
+}
+
+.privacy-table th:first-child {
+  width: 28%;
+}
+
+.privacy-table th,
+.privacy-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.privacy-footer {
+  padding-top: 0;
+}
+
+.privacy-footer .footer__bottom {
+  padding-block: 20px;
+}
+
 .mobile-call {
   position: fixed;
   right: 14px;

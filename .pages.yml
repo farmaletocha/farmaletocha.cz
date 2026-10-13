@@ -602,6 +602,14 @@ content:
             label: Údaj o zápisu v rejstříku nebo evidenci
             type: text
             required: true
+          - name: privacy_email
+            label: E-mail pro ochranu osobních údajů
+            type: string
+            required: true
+            description: Kontakt na stránce Soukromí a cookies. Nemění obecný ani prodejní e-mail.
+            pattern:
+              regex: '^[^\s@<>?&#]+@[^\s@<>?&#]+\.[^\s@<>?&#]+$'
+              message: Zadejte platnou e-mailovou adresu.
 
   - name: faq
     label: Časté otázky
