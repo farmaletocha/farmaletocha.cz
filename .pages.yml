@@ -606,7 +606,7 @@ content:
             label: E-mail pro ochranu osobních údajů
             type: string
             required: true
-            description: Kontakt na stránce Soukromí a cookies. Nemění obecný ani prodejní e-mail.
+            description: Kontakt na stránce Ochrana osobních údajů. Nemění obecný ani prodejní e-mail.
             pattern:
               regex: '^[^\s@<>?&#]+@[^\s@<>?&#]+\.[^\s@<>?&#]+$'
               message: Zadejte platnou e-mailovou adresu.
