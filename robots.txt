@@ -1,5 +1,4 @@
-# Photo-selection draft; revisit before production publication.
 User-agent: *
 Disallow: /
 
-Sitemap: https://farmaletocha.github.io/farmaletocha.cz/sitemap.xml
+Sitemap: https://www.farmaletocha.cz/sitemap.xml

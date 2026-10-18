@@ -1,0 +1,83 @@
+:root {
+  --ast-normal-container-width: 1200px;
+  --ast-global-color-1: #3c772a;
+  --ast-global-color-3: #3a3a3a;
+}
+
+html {
+  font-size: 93.75%;
+}
+
+body {
+  background: #fff;
+  color: var(--ast-global-color-3);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-size: 1rem;
+  font-weight: inherit;
+  line-height: 1.65em;
+}
+
+::selection {
+  background-color: #3c772a;
+  color: #fff;
+}
+
+.restored-page {
+  padding-bottom: 2em;
+}
+
+.entry-content > .wp-block-columns:not(.alignfull) {
+  max-width: var(--ast-normal-container-width);
+  margin-top: 2em;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 0 20px;
+}
+
+.entry-content > .alignfull .wp-block-image {
+  margin: 0;
+}
+
+.entry-content > .alignfull .wp-block-image img {
+  display: block;
+  width: 100%;
+}
+
+.entry-content h4 {
+  color: var(--ast-global-color-3);
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.2em;
+}
+
+.wp-block-columns {
+  display: flex;
+  gap: 2em;
+  margin-bottom: 1.75em;
+}
+
+.wp-block-column {
+  flex-basis: 0;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.wp-block-image {
+  margin: 0 0 1em;
+}
+
+.wp-block-image img {
+  height: auto;
+  max-width: 100%;
+  vertical-align: bottom;
+}
+
+.has-text-align-left {
+  text-align: left;
+}
+
+.wp-block-separator {
+  margin: 2em auto;
+  border: 0;
+  border-top: 2px solid var(--ast-global-color-1);
+}

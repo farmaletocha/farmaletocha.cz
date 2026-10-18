@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://farmaletocha.github.io/farmaletocha.cz/</loc>
-    <lastmod>2026-10-13T15:52:16Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <loc>https://www.farmaletocha.cz/</loc>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
-    <loc>https://farmaletocha.github.io/farmaletocha.cz/soukromi.html</loc>
+    <loc>https://www.farmaletocha.cz/new/</loc>
+    <lastmod>2026-10-13T15:52:16Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.farmaletocha.cz/new/soukromi.html</loc>
     <lastmod>2026-10-13T13:37:15Z</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
   </url>
 </urlset>
