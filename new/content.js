@@ -13,10 +13,11 @@ const getContactDetails = () => contactDetails;
 
 const getSalesEmail = (contact) => contact.sales_email ?? contact.email;
 
-const getEmailLink = (contact, sales = false) => {
+const getEmailLink = (contact, sales = false, subject = "") => {
   const address = sales ? getSalesEmail(contact) : contact.email;
   const name = sales ? "Farma Letocha – prodej" : "Farma Letocha";
-  return `mailto:?to=${encodeURIComponent(`"${name}" <${address}>`)}`;
+  const subjectHeader = subject ? `&subject=${encodeURIComponent(subject)}` : "";
+  return `mailto:?to=${encodeURIComponent(`"${name}" <${address}>`)}${subjectHeader}`;
 };
 
 const createElement = (tagName, className, text) => {
@@ -150,7 +151,10 @@ const bindContact = (contact) => {
   document.querySelectorAll('a[href^="mailto:"], a[data-email-link]').forEach((link) => {
     link.dataset.emailLink = "";
     if (contact) {
-      link.href = getEmailLink(contact, Boolean(link.closest("[data-sales-email]")));
+      const sales = Boolean(link.closest("[data-sales-email]"));
+      const subject = link.dataset.emailSubject ??
+        (sales ? "Dotaz na prodej a samosběr" : "Dotaz na Farmu Letocha");
+      link.href = getEmailLink(contact, sales, subject);
       link.removeAttribute("aria-disabled");
     } else {
       link.removeAttribute("href");
@@ -165,7 +169,7 @@ const bindContact = (contact) => {
   });
   const form = document.querySelector("[data-reservation-form]");
   if (form) {
-    if (contact) form.action = getEmailLink(contact, true);
+    if (contact) form.action = getEmailLink(contact, true, "Žádost o samosběr");
     else form.removeAttribute("action");
     form.querySelector('[type="submit"]').disabled = !contact;
   }
@@ -272,8 +276,9 @@ const renderOffer = (data) => {
   if (contactDetails) {
     const address = getSalesEmail(contactDetails);
     const email = createElement("a", "", address);
-    email.href = getEmailLink(contactDetails, true);
     email.dataset.salesEmail = "";
+    email.dataset.emailSubject = `Objednávka – ${data.price_subject}`;
+    email.href = getEmailLink(contactDetails, true, email.dataset.emailSubject);
     hours.append(email);
   }
   summary.append(createElement("p", "eyebrow", "Aktuální nabídka"), heading, price,

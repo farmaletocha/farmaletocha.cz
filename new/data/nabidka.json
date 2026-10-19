@@ -11,7 +11,7 @@
     {
       "name": "Rajka",
       "status": "Vyprodáno",
-      "sold_out": false,
+      "sold_out": true,
       "description": "Sladká a hned k jídlu. V dobrém sklepě vydrží až do Vánoc."
     },
     {

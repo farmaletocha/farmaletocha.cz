@@ -185,12 +185,12 @@ content:
             label: Dostupnost
             type: string
             required: true
-            description: Například V prodeji, Od října nebo Vyprodáno.
+            description: Text zobrazený návštěvníkům, například V prodeji nebo Od října. Při vyprodání napište Vyprodáno a zapněte přepínač níže.
           - name: sold_out
             label: Vyprodáno
             type: boolean
             required: true
-            description: Zvýrazní stav jako vyprodaný, položku neodstraní.
+            description: Zapněte při vyprodání a do pole Dostupnost napište Vyprodáno. Přepínač řídí zvýraznění; samotnou položku neodstraní.
           - name: description
             label: Popis
             type: text

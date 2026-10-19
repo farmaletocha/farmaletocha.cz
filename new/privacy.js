@@ -10,7 +10,7 @@
       bindWebCopy({ operator });
       document.querySelectorAll("[data-privacy-email]").forEach((link) => {
         link.textContent = operator.privacy_email;
-        link.href = getEmailLink({ email: operator.privacy_email });
+        link.href = getEmailLink({ email: operator.privacy_email }, false, "Ochrana osobních údajů");
       });
     })
     .catch((error) => {

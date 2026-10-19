@@ -431,7 +431,7 @@ const showHarvestLoadError = () => {
     harvestAnnouncement.textContent = "Termíny samosběru se teď nepodařilo načíst.";
   }
   const contact = getContactDetails();
-  setAnnouncementLink(contact ? "Napsat e-mail" : "Znovu načíst stránku", contact ? getEmailLink(contact, true) : window.location.pathname);
+  setAnnouncementLink(contact ? "Napsat e-mail" : "Znovu načíst stránku", contact ? getEmailLink(contact, true, "Dotaz na samosběr") : window.location.pathname);
   setHarvestAction(contact ? "Kontaktovat farmu" : "Znovu načíst stránku", contact ? "#kontakt" : window.location.pathname);
   if (offerLabel) offerLabel.textContent = "Nedostupné";
   if (offerTitle) offerTitle.textContent = "Termíny samosběru nejsou dostupné";
@@ -553,7 +553,7 @@ reservationForm?.addEventListener("submit", (event) => {
     reservationFeedback.textContent = "Kontaktní údaje se nepodařilo načíst. Zkuste prosím stránku znovu načíst.";
     return;
   }
-  const mailto = `${getEmailLink(contact, true)}&subject=${encodeURIComponent(message.subject)}&body=${encodeURIComponent(message.body)}`;
+  const mailto = `${getEmailLink(contact, true, message.subject)}&body=${encodeURIComponent(message.body)}`;
   if (reservationFeedback) {
     reservationFeedback.textContent = "Žádost je připravená. Otevírám váš e-mailový program…";
   }
