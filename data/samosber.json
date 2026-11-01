@@ -2,10 +2,10 @@
   "enabled": true,
   "booking_enabled": true,
   "announcement": "Na samosběr se domluvte předem – stačí nám napsat.",
-  "offer_label": "Předběžná nabídka",
-  "title": "Samosběr švestek · září 2026",
+  "offer_label": "Domluva e-mailem",
+  "title": "Samosběr po domluvě",
   "description": "Otevření sadu závisí na zralosti ovoce a počasí. Na další možnosti samosběru se nás zeptejte e-mailem.",
-  "time_summary": "8:00–11:30",
+  "time_summary": "",
   "confirmation_title": "Termín platí až po našem potvrzení.",
   "confirmation_note": "Ozveme se vám a pošleme přesné místo příjezdu i aktuální podmínky samosběru.",
   "empty_message": "Teď nemáme vypsané žádné termíny. Napište nám a dáme vám vědět, zda je samosběr možný.",
@@ -21,7 +21,7 @@
       "note": "K potvrzení podle zralosti"
     },
     {
-      "visible": true,
+      "visible": false,
       "date": "2026-09-12",
       "start": "08:00",
       "end": "11:30",
@@ -30,7 +30,7 @@
       "note": "K potvrzení podle zralosti"
     },
     {
-      "visible": true,
+      "visible": false,
       "date": "2026-09-19",
       "start": "08:00",
       "end": "11:30",
@@ -39,7 +39,7 @@
       "note": "K potvrzení podle zralosti"
     },
     {
-      "visible": true,
+      "visible": false,
       "date": "2026-10-05",
       "start": "08:30",
       "end": "11:00",
