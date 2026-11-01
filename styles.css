@@ -2743,6 +2743,11 @@ h3 {
   margin-top: 42px;
 }
 
+.subsidy-logo {
+  width: 360px;
+  height: auto;
+}
+
 .privacy-effective {
   color: var(--muted);
   font-size: 14px;
