@@ -41,9 +41,9 @@
       ],
       "description": "Pěstujeme odolné odrůdy jablek. Převažuje sladkokyselý Topaz vhodný k uskladnění.",
       "varieties": [
-        "Topaz",
-        "Rajka",
         "Rubinola",
+        "Rajka",
+        "Topaz",
         "Šampion"
       ],
       "hero_title": "Jablka z našeho sadu",
@@ -80,8 +80,8 @@
       ],
       "description": "Švestky snadno zbavíte pecky. Hodí se k jídlu, sušení, na povidla i slivovici.",
       "varieties": [
-        "Stanley",
-        "Gabrovská"
+        "Gabrovská",
+        "Stanley"
       ],
       "hero_title": "Švestky ze sadu",
       "hero_description": "Stanley a Gabrovská"
@@ -95,7 +95,7 @@
       ],
       "description": "Černý rybíz sklízíme speciálním sklízečem na přelomu června a července. Po domluvě si rybíz můžete nasbírat i sami.",
       "varieties": [
-        "Titánie"
+        "Titánia"
       ],
       "hero_title": "Černý rybíz Titánie",
       "hero_description": "na přelomu června a července"
