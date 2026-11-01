@@ -2,7 +2,7 @@ content:
   - name: samosber
     label: Samosběr
     type: file
-    path: new/data/samosber.json
+    path: data/samosber.json
     format: json
     operations: { create: false, rename: false, delete: false }
     fields:
@@ -165,7 +165,7 @@ content:
   - name: nabidka
     label: Nabídka a prodej
     type: file
-    path: new/data/nabidka.json
+    path: data/nabidka.json
     format: json
     operations: { create: false, rename: false, delete: false }
     fields:
@@ -236,7 +236,7 @@ content:
   - name: web
     label: Texty a kontakty
     type: file
-    path: new/data/web.json
+    path: data/web.json
     format: json
     operations: { create: false, rename: false, delete: false }
     fields:
@@ -614,7 +614,7 @@ content:
   - name: faq
     label: Časté otázky
     type: file
-    path: new/data/faq.json
+    path: data/faq.json
     format: json
     operations: { create: false, rename: false, delete: false }
     fields:
