@@ -143,7 +143,7 @@ let harvestData = null;
 
 const slotStatuses = {
   preliminary: {
-    label: "K potvrzení podle zralosti",
+    label: "Podle zralosti a počasí",
     button: "Vybrat",
     reservable: true
   },
@@ -381,7 +381,7 @@ const renderHarvestOffer = (data) => {
   if (offerTitle) offerTitle.textContent = data.title || "Termíny samosběru";
   if (offerDescription) offerDescription.textContent = data.description || "";
   if (offerConfirmationTitle) {
-    offerConfirmationTitle.textContent = data.confirmation_title || "Termín platí až po našem potvrzení.";
+    offerConfirmationTitle.textContent = data.confirmation_title || "Rezervace platí automaticky po odeslání e-mailu.";
   }
   if (offerConfirmationNote) offerConfirmationNote.textContent = data.confirmation_note || "";
   if (offerTime) offerTime.textContent = data.time_summary || "Podle termínu";
@@ -530,7 +530,7 @@ const buildReservationMessage = () => {
     `Předpokládané množství: ${amount}`,
     `Poznámka: ${note || "bez poznámky"}`,
     "",
-    "Rozumím, že termín platí až po vašem potvrzení podle zralosti ovoce a počasí.",
+    "Rezervace platí automaticky bez potvrzovací odpovědi; na tento e-mail dostanete odpověď jen v případě komplikací, například při naplněné kapacitě nebo špatném počasí.",
     "",
     "Děkuji."
   ].join("\n");

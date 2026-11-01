@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="assets/images/favicon-192.png">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preload" as="image" href="assets/images/farm/DSC07933-final.webp" imagesrcset="assets/images/farm/DSC07933-final-480.webp 480w, assets/images/farm/DSC07933-final-800.webp 800w, assets/images/farm/DSC07933-final.webp 1280w" imagesizes="(max-width: 720px) calc(100vw - 30px), (max-width: 940px) 560px, (max-width: 1120px) 46vw, 560px" type="image/webp" fetchpriority="high">
-  <link rel="stylesheet" href="styles.css?v=20261101-root">
+  <link rel="stylesheet" href="styles.css?v=20261101-red-apple">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="cs_CZ">
@@ -313,7 +313,7 @@
               <h3>Jablka</h3>
               <p data-fruit-description>Pěstujeme odolné odrůdy jablek. Převažuje sladkokyselý Topaz vhodný k uskladnění.</p>
               <ul class="tag-list" aria-label="Pěstované odrůdy jablek" data-fruit-varieties data-apple-varieties>
-                <li>Topaz</li><li>Rajka</li><li>Rubinola</li><li>Šampion</li>
+                <li>Rajka</li><li>Rubinola</li><li>Šampion</li><li>Topaz</li>
               </ul>
               <a href="#samosber">Více o samosběru <span aria-hidden="true">↗</span></a>
             </div>
@@ -329,7 +329,10 @@
               </div>
               <h3>Meruňky</h3>
               <p data-fruit-description>Osm odrůd dozrává postupně od konce června do konce srpna. V sezoně nabízíme také samosběr meruněk.</p>
-              <ul class="tag-list" aria-label="Pěstované odrůdy meruněk" data-fruit-varieties hidden></ul>
+              <ul class="tag-list" aria-label="Pěstované odrůdy meruněk" data-fruit-varieties>
+                <li>Anegat</li><li>Bergeval</li><li>Congat</li><li>Digat</li>
+                <li>Koolgat</li><li>Lady Cot</li><li>Playa Cot</li><li>Sefora</li>
+              </ul>
               <a href="#samosber">Více o samosběru <span aria-hidden="true">↗</span></a>
             </div>
           </article>
@@ -345,7 +348,7 @@
               <h3>Černý rybíz</h3>
               <p data-fruit-description>Černý rybíz sklízíme speciálním sklízečem na přelomu června a července. Po domluvě si rybíz můžete nasbírat i sami.</p>
               <ul class="tag-list" aria-label="Pěstované odrůdy černého rybízu" data-fruit-varieties>
-                <li>Titánie</li>
+                <li>Titánia</li>
               </ul>
               <a href="mailto:?to=%22Farma%20Letocha%20%E2%80%93%20prodej%22%20%3Cprodej%40farmaletocha.cz%3E&amp;subject=Objedn%C3%A1vka%20%E2%80%93%20%C4%8Dern%C3%BD%20ryb%C3%ADz" data-sales-email data-email-subject="Objednávka – černý rybíz">Domluvit odběr <span aria-hidden="true">↗</span></a>
             </div>
@@ -362,7 +365,7 @@
               <h3>Švestky</h3>
               <p data-fruit-description>Švestky snadno zbavíte pecky. Hodí se k jídlu, sušení, na povidla i slivovici.</p>
               <ul class="tag-list" aria-label="Pěstované odrůdy švestek" data-fruit-varieties>
-                <li>Stanley</li><li>Gabrovská</li>
+                <li>Gabrovská</li><li>Stanley</li>
               </ul>
               <a href="#samosber">Více o samosběru <span aria-hidden="true">↗</span></a>
             </div>
@@ -443,7 +446,7 @@
 
           <div class="harvest-offer__note">
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Zm0-14v4l3 2"/></svg>
-            <p><strong data-offer-confirmation-title>Termín platí až po našem potvrzení.</strong> <span data-offer-confirmation-note>Podrobnosti obdržíte při potvrzení termínu.</span></p>
+            <p><strong data-offer-confirmation-title>Rezervace platí automaticky po odeslání e-mailu.</strong> <span data-offer-confirmation-note>Potvrzení neposíláme; na váš e-mail odpovíme jen při komplikacích, například kvůli kapacitě nebo počasí.</span></p>
           </div>
         </section>
 
@@ -452,7 +455,7 @@
           <div class="reservation__intro">
             <p class="eyebrow eyebrow--light"><span></span> Nezávazná rezervace</p>
             <h3 id="rezervace-nadpis">Rezervujte si místo v sadu.</h3>
-            <p>Vyberte termín a pošlete nám žádost ze svého e-mailu. Ozveme se vám s potvrzením.</p>
+            <p>Vyberte termín a pošlete nám žádost ze svého e-mailu. Rezervace pak platí automaticky.</p>
             <ul>
               <li><span>1</span> Bez platby předem</li>
               <li><span>2</span> Bez registrace</li>
@@ -494,7 +497,6 @@
               <label for="reservation-amount">Předpokládané množství</label>
               <select id="reservation-amount" name="Mnozstvi" required>
                 <option value="">Vyberte</option>
-                <option>do 10 kg</option>
                 <option>10–20 kg</option>
                 <option>20–40 kg</option>
                 <option>více než 40 kg</option>
@@ -513,7 +515,7 @@
               </button>
               <button class="copy-button" type="button" data-copy-reservation>Zkopírovat údaje</button>
             </div>
-            <p class="reservation-form__note form-field--wide">Termín platí až po našem potvrzení. Odesláním žádosti se nezavazujete k odběru ani k platbě. <a href="soukromi.html">Jak pracujeme s vašimi osobními údaji.</a></p>
+            <p class="reservation-form__note form-field--wide">Rezervace platí automaticky po odeslání e-mailu. Odesláním žádosti se nezavazujete k odběru ani k platbě. <a href="soukromi.html">Jak pracujeme s vašimi osobními údaji.</a></p>
             <p class="reservation-form__feedback form-field--wide" role="status" aria-live="polite" data-reservation-feedback></p>
           </form>
         </section>
@@ -528,8 +530,8 @@
           <article class="step reveal">
             <span class="step__number">2</span>
             <svg aria-hidden="true" viewBox="0 0 48 48"><path d="M6 10h36v28H6z"/><path d="m6 14 18 14 18-14"/></svg>
-            <h3>Počkejte na potvrzení</h3>
-            <p>Podle zralosti a počasí vám termín potvrdíme a pošleme pokyny k příjezdu.</p>
+            <h3>Odešlete rezervaci</h3>
+            <p>Po odeslání e-mailu rezervace platí automaticky; odpovíme jen při komplikacích, například kvůli kapacitě nebo počasí.</p>
           </article>
           <article class="step reveal">
             <span class="step__number">3</span>
@@ -710,6 +712,7 @@
         <a href="#sezona">Kalendář sklizně</a>
         <a href="#samosber">Samosběr</a>
         <a class="footer__privacy" href="soukromi.html">Ochrana osobních údajů</a>
+        <a href="dotace.html">Dotace a podpora</a>
       </div>
       <div class="footer__contact">
         <strong>Kontakt</strong>
@@ -758,7 +761,7 @@
   </a>
 
   <script src="content.js?v=20261101-root" defer></script>
-  <script src="script.js?v=20261101-root" defer></script>
+  <script src="script.js?v=20261101-reservation-auto" defer></script>
   <script src="analytics.js?v=20261101-root" defer></script>
 </body>
 </html>

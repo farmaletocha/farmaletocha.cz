@@ -17,6 +17,13 @@
     {
       "visible": true,
       "group": "sales",
+      "question": "Jaké je minimální odebrané množství?",
+      "answer_source": "text",
+      "answer": "Minimální odběr je 10 kg."
+    },
+    {
+      "visible": true,
+      "group": "sales",
       "question": "Jak můžeme zaplatit?",
       "answer_source": "text",
       "answer": "Zaplatíte v hotovosti nebo pomocí QR kódu. Platby kartou nepřijímáme."
@@ -40,7 +47,7 @@
       "group": "picking",
       "question": "Jak se domluvit na samosběru?",
       "answer_source": "text",
-      "answer": "Pokud je vypsaný volný termín, vyberte ho v [nabídce samosběru](#samosber). Jinak nám [napište e-mailem](#kontakt), že máte zájem o jiný. Termín platí až po našem potvrzení."
+      "answer": "Pokud je vypsaný volný termín, vyberte ho v [nabídce samosběru](#samosber). Jinak nám [napište e-mailem](#kontakt), že máte zájem o jiný. Rezervace platí automaticky po odeslání e-mailu; potvrzení neposíláme a odpovíme jen při komplikacích, například kvůli kapacitě nebo počasí."
     },
     {
       "visible": true,
@@ -54,14 +61,14 @@
       "group": "picking",
       "question": "Co když se termín změní nebo nemůžeme přijet?",
       "answer_source": "text",
-      "answer": "Když musíme potvrzený termín změnit nebo zrušit, ozveme se vám e-mailem, telefonicky nebo SMS. Pokud nemůžete přijet vy, pošlete nám prosím SMS na [číslo v kontaktech](#kontakt)."
+      "answer": "Když musíme termín změnit nebo zrušit, odpovíme na váš rezervační e-mail. Pokud nemůžete přijet vy, pošlete nám prosím SMS na [číslo v kontaktech](#kontakt)."
     },
     {
       "visible": true,
       "group": "visit",
       "question": "Kam máme přijet a kde zaparkovat?",
       "answer_source": "text",
-      "answer": "Zaparkovat můžete před farmou, případně podle pokynů na místě. Po příjezdu nám prosím zavolejte na [číslo v kontaktech](#kontakt). S cestou vám pomůže [mapa s navigací](#prijezd). Přesné místo samosběru vám pošleme při potvrzení termínu."
+      "answer": "Zaparkovat můžete před farmou, případně podle pokynů na místě. Po příjezdu nám prosím zavolejte na [číslo v kontaktech](#kontakt). S cestou vám pomůže [mapa s navigací](#prijezd). Přesné místo samosběru si s námi ověřte před cestou."
     },
     {
       "visible": true,

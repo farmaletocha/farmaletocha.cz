@@ -6,8 +6,8 @@
   "title": "Samosběr po domluvě",
   "description": "Otevření sadu závisí na zralosti ovoce a počasí. Na další možnosti samosběru se nás zeptejte e-mailem.",
   "time_summary": "",
-  "confirmation_title": "Termín platí až po našem potvrzení.",
-  "confirmation_note": "Ozveme se vám a pošleme přesné místo příjezdu i aktuální podmínky samosběru.",
+  "confirmation_title": "Rezervace platí automaticky po odeslání e-mailu.",
+  "confirmation_note": "Potvrzení neposíláme; na váš e-mail odpovíme jen při komplikacích, například kvůli kapacitě nebo počasí.",
   "empty_message": "Teď nemáme vypsané žádné termíny. Napište nám a dáme vám vědět, zda je samosběr možný.",
   "allow_other_term": true,
   "slots": [
@@ -18,7 +18,7 @@
       "end": "11:30",
       "fruit": "Švestky",
       "status": "preliminary",
-      "note": "K potvrzení podle zralosti"
+      "note": "Podle zralosti a počasí"
     },
     {
       "visible": false,
@@ -27,7 +27,7 @@
       "end": "11:30",
       "fruit": "Švestky",
       "status": "preliminary",
-      "note": "K potvrzení podle zralosti"
+      "note": "Podle zralosti a počasí"
     },
     {
       "visible": false,
@@ -36,7 +36,7 @@
       "end": "11:30",
       "fruit": "Švestky",
       "status": "preliminary",
-      "note": "K potvrzení podle zralosti"
+      "note": "Podle zralosti a počasí"
     },
     {
       "visible": false,
