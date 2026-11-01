@@ -35,36 +35,68 @@
     "apples": {
       "name": "Jablka",
       "season": "od září",
-      "months": ["9", "10"],
+      "months": [
+        "9",
+        "10"
+      ],
       "description": "Pěstujeme odolné odrůdy jablek. Převažuje sladkokyselý Topaz vhodný k uskladnění.",
-      "varieties": ["Topaz", "Rajka", "Rubinola", "Šampion"],
+      "varieties": [
+        "Topaz",
+        "Rajka",
+        "Rubinola",
+        "Šampion"
+      ],
       "hero_title": "Jablka z našeho sadu",
       "hero_description": "od září, Topaz na uskladnění"
     },
     "apricots": {
       "name": "Meruňky",
       "season": "červen–srpen",
-      "months": ["6", "7", "8"],
+      "months": [
+        "6",
+        "7",
+        "8"
+      ],
       "description": "Osm odrůd dozrává postupně od konce června do konce srpna. V sezoně nabízíme také samosběr meruněk.",
-      "varieties": [],
+      "varieties": [
+        "Anegat",
+        "Bergeval",
+        "Congat",
+        "Digat",
+        "Koolgat",
+        "Lady Cot",
+        "Playa Cot",
+        "Sefora"
+      ],
       "hero_title": "8 odrůd meruněk",
       "hero_description": "postupně celé léto"
     },
     "plums": {
       "name": "Švestky",
       "season": "srpen–září",
-      "months": ["8", "9"],
+      "months": [
+        "8",
+        "9"
+      ],
       "description": "Švestky snadno zbavíte pecky. Hodí se k jídlu, sušení, na povidla i slivovici.",
-      "varieties": ["Stanley", "Gabrovská"],
+      "varieties": [
+        "Stanley",
+        "Gabrovská"
+      ],
       "hero_title": "Švestky ze sadu",
       "hero_description": "Stanley a Gabrovská"
     },
     "blackcurrants": {
       "name": "Černý rybíz",
       "season": "červen–červenec",
-      "months": ["6", "7"],
+      "months": [
+        "6",
+        "7"
+      ],
       "description": "Černý rybíz sklízíme speciálním sklízečem na přelomu června a července. Po domluvě si rybíz můžete nasbírat i sami.",
-      "varieties": ["Titánie"],
+      "varieties": [
+        "Titánie"
+      ],
       "hero_title": "Černý rybíz Titánie",
       "hero_description": "na přelomu června a července"
     }
@@ -82,31 +114,45 @@
       "month": "6",
       "title": "Začíná léto",
       "description": "Koncem měsíce dozrávají první meruňky a začínáme sklízet černý rybíz.",
-      "fruits": ["apricots", "blackcurrants"]
+      "fruits": [
+        "apricots",
+        "blackcurrants"
+      ]
     },
     {
       "month": "7",
       "title": "Meruňková sezona",
       "description": "Postupně dozrávají další odrůdy meruněk a začátkem měsíce sklízíme černý rybíz.",
-      "fruits": ["apricots", "blackcurrants"]
+      "fruits": [
+        "apricots",
+        "blackcurrants"
+      ]
     },
     {
       "month": "8",
       "title": "Léto v plné chuti",
       "description": "Sklízíme pozdní meruňky a dozrávají první švestky.",
-      "fruits": ["apricots", "plums"]
+      "fruits": [
+        "apricots",
+        "plums"
+      ]
     },
     {
       "month": "9",
       "title": "Čas jablek",
       "description": "Začínáme prodávat jablka a dál sklízíme švestky. Sladká Rajka je k jídlu hned.",
-      "fruits": ["apples", "plums"]
+      "fruits": [
+        "apples",
+        "plums"
+      ]
     },
     {
       "month": "10",
       "title": "Topaz na uskladnění",
       "description": "Od října nabízíme Topaz. K jídlu dozrává v listopadu.",
-      "fruits": ["apples"]
+      "fruits": [
+        "apples"
+      ]
     }
   ]
 }
