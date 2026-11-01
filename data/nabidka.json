@@ -1,12 +1,12 @@
 {
-  "enabled": true,
+  "enabled": false,
   "title": "Jablka přímo ze dvora",
   "price_subject": "Jablka",
   "price": "10–24",
   "unit": "Kč/kg",
   "price_note": "Záleží na kvalitě plodů.",
-  "hours": "Každou sobotu 9–11 h.",
-  "arrangement": "Jindy po předchozí domluvě.",
+  "hours": ".",
+  "arrangement": "po dohodě na telefonním čísle 602 793 987",
   "varieties": [
     {
       "name": "Rajka",
