@@ -20,10 +20,18 @@ const getEmailLink = (contact, sales = false, subject = "") => {
   return `mailto:?to=${encodeURIComponent(`"${name}" <${address}>`)}${subjectHeader}`;
 };
 
+const hasText = (value) => typeof value === "string" && /[^\s.,]/u.test(value);
+
+const setText = (element, value) => {
+  if (!element) return;
+  element.hidden = !hasText(value);
+  element.textContent = element.hidden ? "" : value;
+};
+
 const createElement = (tagName, className, text) => {
   const element = document.createElement(tagName);
   if (className) element.className = className;
-  if (text !== undefined) element.textContent = text;
+  if (text !== undefined) setText(element, text);
   return element;
 };
 
@@ -36,12 +44,16 @@ const check = (condition, message) => {
 };
 
 const checkText = (value, path) => {
-  check(typeof value === "string" && value.trim().length > 0, `Missing text: ${path}`);
+  check(hasText(value), `Missing text: ${path}`);
 };
 
-const checkFields = (object, fields, path) => {
+const checkOptionalText = (value, path) => {
+  check(value == null || typeof value === "string", `Invalid text: ${path}`);
+};
+
+const checkFields = (object, fields, path, validate = checkText) => {
   check(object && typeof object === "object" && !Array.isArray(object), `Invalid object: ${path}`);
-  fields.forEach((field) => checkText(object[field], `${path}.${field}`));
+  fields.forEach((field) => validate(object[field], `${path}.${field}`));
 };
 
 const isMonth = (value) => /^(?:[1-9]|1[0-2])$/.test(String(value));
@@ -70,7 +82,8 @@ const parseFaqLinks = (answer) => [...answer.matchAll(/\[([^\]\r\n]+)\]\(([^)\s]
 });
 
 const validateWeb = (data) => {
-  checkFields(data?.contact, ["name", "phone", "email", "locality", "address", "postal_code", "location_text", "directions"], "contact");
+  checkFields(data?.contact, ["name", "phone", "email", "locality", "address", "postal_code"], "contact");
+  checkFields(data.contact, ["location_text", "directions"], "contact", checkOptionalText);
   check(/^\+[1-9]\d{6,14}$/.test(data.contact.phone), "Invalid contact phone");
   check(isEmail(data.contact.email), "Invalid contact email");
   if (data.contact.sales_email !== undefined) {
@@ -79,24 +92,24 @@ const validateWeb = (data) => {
   validateOperator(data.operator);
   check(Number.isFinite(data.contact.latitude) && Math.abs(data.contact.latitude) <= 90, "Invalid map latitude");
   check(Number.isFinite(data.contact.longitude) && Math.abs(data.contact.longitude) <= 180, "Invalid map longitude");
-  checkFields(data.intro, ["location", "title", "subtitle", "description"], "intro");
+  checkFields(data.intro, ["location", "title", "subtitle", "description"], "intro", checkOptionalText);
   check(typeof data.intro.rotate_fruit === "boolean", "Invalid fruit rotation setting");
-  checkFields(data.story, ["title", "lead", "description"], "story");
-  checkFields(data.trees, ["title", "description"], "trees");
-  checkFields(data.honey, ["title", "description"], "honey");
+  checkFields(data.story, ["title", "lead", "description"], "story", checkOptionalText);
+  checkFields(data.trees, ["title", "description"], "trees", checkOptionalText);
+  checkFields(data.honey, ["title", "description"], "honey", checkOptionalText);
   fruitKeys.forEach((key) => {
     const fruit = data.fruit?.[key];
-    checkFields(fruit, ["name", "season", "description", "hero_title", "hero_description"], `fruit.${key}`);
+    checkFields(fruit, ["name", "season", "description", "hero_title", "hero_description"], `fruit.${key}`, checkOptionalText);
     check(Array.isArray(fruit.months) && fruit.months.every(isMonth), `Invalid season months: ${key}`);
-    if (key === "apples" || fruit.varieties !== undefined) {
+    if (fruit.varieties != null) {
       check(Array.isArray(fruit.varieties), `Invalid fruit varieties: ${key}`);
-      fruit.varieties.forEach((value) => checkText(value, `fruit.${key}.varieties`));
+      fruit.varieties.forEach((value) => checkOptionalText(value, `fruit.${key}.varieties`));
     }
   });
-  check(Array.isArray(data.calendar), "Invalid calendar");
+  check(data.calendar == null || Array.isArray(data.calendar), "Invalid calendar");
   const months = new Set();
-  data.calendar.forEach((month) => {
-    checkFields(month, ["title", "description"], "calendar");
+  (data.calendar ?? []).forEach((month) => {
+    checkFields(month, ["title", "description"], "calendar", checkOptionalText);
     check(isMonth(month.month) && !months.has(Number(month.month)), "Invalid or repeated calendar month");
     months.add(Number(month.month));
     check(Array.isArray(month.fruits) && month.fruits.every((key) => fruitKeys.includes(key)), "Invalid calendar fruit");
@@ -105,26 +118,28 @@ const validateWeb = (data) => {
 };
 
 const validateOffer = (data) => {
-  checkFields(data, ["title", "price_subject", "price", "unit", "price_note", "hours", "arrangement"], "offer");
+  checkFields(data, ["title", "off_season_title", "price_subject", "price", "unit", "price_note", "hours", "arrangement"], "offer", checkOptionalText);
   check(typeof data.enabled === "boolean", "Invalid offer visibility");
-  check(Array.isArray(data.varieties), "Invalid offer varieties");
-  data.varieties.forEach((item) => {
-    checkFields(item, ["name", "status", "description"], "offer variety");
+  check(data.season_active === undefined || typeof data.season_active === "boolean", "Invalid sales season");
+  check(data.varieties == null || Array.isArray(data.varieties), "Invalid offer varieties");
+  (data.varieties ?? []).forEach((item) => {
+    checkFields(item, ["name", "status", "description"], "offer variety", checkOptionalText);
     check(typeof item.sold_out === "boolean", "Invalid sold-out state");
   });
   return data;
 };
 
 const validateFaq = (data) => {
-  check(Array.isArray(data?.items), "Invalid FAQ list");
-  data.items.forEach((item) => {
-    checkText(item.question, "FAQ question");
+  checkFields(data, [], "FAQ");
+  check(data.items == null || Array.isArray(data.items), "Invalid FAQ list");
+  (data.items ?? []).forEach((item) => {
+    checkFields(item, ["question"], "FAQ", checkOptionalText);
     check(typeof item.visible === "boolean", "Invalid FAQ visibility");
     check(faqGroups.has(item.group), "Invalid FAQ group");
     check(["text", "availability", "sales"].includes(item.answer_source), "Invalid FAQ answer source");
     if (item.answer_source === "text") {
-      checkText(item.answer, "FAQ answer");
-      parseFaqLinks(item.answer);
+      checkOptionalText(item.answer, "FAQ answer");
+      if (hasText(item.answer)) parseFaqLinks(item.answer);
     }
   });
   return data;
@@ -178,9 +193,42 @@ const bindContact = (contact) => {
 const bindWebCopy = (data) => {
   document.querySelectorAll("[data-copy]").forEach((element) => {
     const value = element.dataset.copy.split(".").reduce((value, key) => value?.[key], data);
-    checkText(value, element.dataset.copy);
-    element.textContent = value;
+    checkOptionalText(value, element.dataset.copy);
+    setText(element, value);
   });
+  document.querySelectorAll("[data-copy-group]").forEach((group) => {
+    group.hidden = [...group.querySelectorAll("[data-copy]")].every((element) => element.hidden);
+    group.querySelectorAll(":scope > br").forEach((separator) => {
+      separator.hidden = [...group.querySelectorAll(":scope > [data-copy]")].some((element) => element.hidden);
+    });
+  });
+};
+
+const syncSectionLinks = () => {
+  document.querySelectorAll('a[href^="#"], a[data-section-target]').forEach((link) => {
+    const href = link.dataset.sectionTarget ?? link.getAttribute("href");
+    const target = document.getElementById(href.slice(1));
+    if (!target) return;
+    const hidden = Boolean(target.closest("[hidden]"));
+    if (link.closest("[data-faq-list]")) {
+      if (hidden) {
+        link.dataset.sectionTarget = href;
+        link.removeAttribute("href");
+      } else {
+        link.href = href;
+        delete link.dataset.sectionTarget;
+      }
+    } else {
+      link.hidden = hidden;
+    }
+  });
+};
+
+const updateProduceVisibility = () => {
+  const section = document.querySelector("#ovoce");
+  section.hidden = [...section.querySelectorAll("[data-current-offer], [data-fruit], .product-offer")]
+    .every((element) => element.hidden);
+  syncSectionLinks();
 };
 
 const renderWeb = (data) => {
@@ -202,27 +250,31 @@ const renderWeb = (data) => {
   fruitKeys.forEach((key) => {
     const fruit = data.fruit[key];
     const card = document.querySelector(`[data-fruit="${key}"]`);
-    card.querySelector("h3").textContent = fruit.name;
-    card.querySelector("[data-fruit-description]").textContent = fruit.description;
+    setText(card.querySelector("h3"), fruit.name);
+    setText(card.querySelector("[data-fruit-description]"), fruit.description);
+    const names = (fruit.varieties ?? []).filter(hasText);
     const varieties = card.querySelector("[data-fruit-varieties], [data-apple-varieties]");
     if (varieties) {
-      const names = fruit.varieties ?? [];
       varieties.replaceChildren(...names.map((name) => createElement("li", "", name)));
       varieties.hidden = names.length === 0;
     }
     const chip = card.querySelector(".season-chip");
-    chip.textContent = fruit.season;
+    setText(chip, fruit.season);
+    chip.closest(".produce-card__topline").hidden = chip.hidden;
     chip.dataset.months = fruit.months.join(",");
     chip.classList.toggle("is-current", fruit.months.map(Number).includes(currentMonth));
+    card.hidden = ![fruit.name, fruit.description, fruit.season].some(hasText) && !names.length;
     const slide = document.querySelector(`[data-hero-slide="${key}"]`);
-    slide.dataset.title = fruit.hero_title;
-    slide.dataset.description = fruit.hero_description;
-    slide.dataset.name = fruit.name;
+    slide.dataset.title = hasText(fruit.hero_title) ? fruit.hero_title : "";
+    slide.dataset.description = hasText(fruit.hero_description) ? fruit.hero_description : "";
+    slide.dataset.name = hasText(fruit.name) ? fruit.name : "";
     const control = document.querySelector(`[data-hero-select="${key}"]`);
-    control.setAttribute("aria-label", `Zobrazit: ${fruit.name}`);
+    control.setAttribute("aria-label", hasText(fruit.name) ? `Zobrazit: ${fruit.name}` : "Zobrazit fotografii ovoce");
   });
+  const entries = (data.calendar ?? []).filter((entry) => [entry.title, entry.description].some(hasText) ||
+    entry.fruits.some((key) => hasText(data.fruit[key].name)));
   const calendar = document.querySelector("[data-calendar]");
-  calendar.replaceChildren(...data.calendar.map((entry) => {
+  calendar.replaceChildren(...entries.map((entry) => {
     const month = Number(entry.month);
     const article = createElement("article", "calendar__month");
     article.dataset.month = String(month);
@@ -231,67 +283,104 @@ const renderWeb = (data) => {
     const monthName = new Intl.DateTimeFormat("cs-CZ", { month: "long", timeZone: "UTC" })
       .format(new Date(Date.UTC(2026, month - 1, 1)));
     const fruits = createElement("div", "calendar__fruit");
-    entry.fruits.forEach((key) => {
+    entry.fruits.filter((key) => hasText(data.fruit[key].name)).forEach((key) => {
       fruits.append(
         createElement("span", `dot dot--${fruitColors[key]}`),
         document.createTextNode(` ${data.fruit[key].name} `)
       );
     });
+    fruits.hidden = fruits.childElementCount === 0;
     text.append(
       createElement("span", "calendar__name", monthName.charAt(0).toUpperCase() + monthName.slice(1)),
-      createElement("h3", "", entry.title),
-      createElement("p", "", entry.description),
+      createElement("h3", "", entry.title ?? ""),
+      createElement("p", "", entry.description ?? ""),
       fruits
     );
     article.append(createElement("div", "calendar__number", String(month).padStart(2, "0")), text);
     return article;
   }));
-  const hasCalendar = data.calendar.length > 0;
+  const hasCalendar = entries.length > 0;
   document.querySelector("#sezona").hidden = !hasCalendar;
-  document.querySelectorAll('a[href="#sezona"]').forEach((link) => { link.hidden = !hasCalendar; });
+  updateProduceVisibility();
 };
 
+const isSalesSeason = (data) => data.season_active !== false;
+
+const hasOfferPrice = (data) => isSalesSeason(data) && hasText(data.price) && hasText(data.price_subject);
+
 const renderOffer = (data) => {
+  const seasonActive = isSalesSeason(data);
+  const title = seasonActive ? data.title : data.off_season_title;
+  const priceNote = seasonActive ? data.price_note : "";
+  const labelText = seasonActive ? "Aktuální nabídka" : "Mimo sezonu";
   document.querySelectorAll("[data-sale-hours]").forEach((element) => {
-    element.textContent = data.hours;
+    setText(element, seasonActive ? data.hours : "");
   });
   document.querySelectorAll("[data-sale-arrangement]").forEach((element) => {
-    element.textContent = data.arrangement;
+    setText(element, seasonActive ? data.arrangement : "");
   });
+  const hasHours = seasonActive && hasText(data.hours);
+  const hasArrangement = seasonActive && hasText(data.arrangement);
+  document.querySelectorAll(".hero__note").forEach((note) => {
+    note.hidden = !hasHours && !hasArrangement;
+    note.querySelector("br").hidden = !hasHours || !hasArrangement;
+  });
+  const items = (data.varieties ?? []).filter((item) => hasText(item.name));
+  const hasPrice = hasOfferPrice(data);
+  const hasSummary = [title, priceNote].some(hasText) || hasPrice || hasHours || hasArrangement;
   const panel = document.querySelector("[data-current-offer]");
-  panel.hidden = !data.enabled;
-  if (!data.enabled) return;
-  const summary = createElement("div", "current-offer__summary");
-  const heading = createElement("h3", "", data.title);
-  heading.id = "aktualni-nabidka-nadpis";
-  const price = createElement("p", "current-offer__price", `${data.price} `);
-  price.append(createElement("span", "", data.unit));
-  price.setAttribute("aria-label", `${data.price_subject}: ${data.price} ${data.unit}`);
-  const hours = createElement("p", "current-offer__hours");
-  hours.append(
-    createElement("strong", "", data.hours),
-    createElement("br"),
-    document.createTextNode(`${data.arrangement} `)
-  );
-  if (contactDetails) {
-    const address = getSalesEmail(contactDetails);
-    const email = createElement("a", "", address);
-    email.dataset.salesEmail = "";
-    email.dataset.emailSubject = `Objednávka – ${data.price_subject}`;
-    email.href = getEmailLink(contactDetails, true, email.dataset.emailSubject);
-    hours.append(email);
+  panel.hidden = !data.enabled || (!hasSummary && !items.length);
+  panel.replaceChildren();
+  if (panel.hidden) {
+    updateProduceVisibility();
+    return;
   }
-  summary.append(createElement("p", "eyebrow", "Aktuální nabídka"), heading, price,
-    createElement("p", "", data.price_note), hours);
+  panel.toggleAttribute("aria-labelledby", hasSummary);
+  if (hasSummary) {
+    panel.setAttribute("aria-labelledby", "aktualni-nabidka-nadpis");
+    panel.removeAttribute("aria-label");
+  } else {
+    panel.setAttribute("aria-label", labelText);
+  }
+  const summary = createElement("div", "current-offer__summary");
+  const label = createElement("p", "eyebrow", labelText);
+  const heading = createElement("h3", "", title ?? "");
+  (hasText(title) ? heading : label).id = "aktualni-nabidka-nadpis";
+  summary.append(label, heading);
+  if (hasPrice) {
+    const price = createElement("p", "current-offer__price", `${data.price}${hasText(data.unit) ? " " : ""}`);
+    if (hasText(data.unit)) price.append(createElement("span", "", data.unit));
+    price.setAttribute("aria-label", `${data.price_subject}: ${[data.price, data.unit].filter(hasText).join(" ")}`);
+    summary.append(price);
+  }
+  if (hasText(priceNote)) summary.append(createElement("p", "", priceNote));
+  if (hasHours || hasArrangement || (hasPrice && contactDetails)) {
+    const hours = createElement("p", "current-offer__hours");
+    if (hasHours) hours.append(createElement("strong", "", data.hours));
+    if (hasHours && (hasArrangement || contactDetails)) hours.append(createElement("br"));
+    if (hasArrangement) hours.append(document.createTextNode(data.arrangement));
+    if (contactDetails) {
+      const email = createElement("a", "", getSalesEmail(contactDetails));
+      email.dataset.salesEmail = "";
+      email.dataset.emailSubject = hasText(data.price_subject)
+        ? `Objednávka – ${data.price_subject}` : "Dotaz na aktuální nabídku ovoce";
+      email.href = getEmailLink(contactDetails, true, email.dataset.emailSubject);
+      hours.append(document.createTextNode(" "), email);
+    }
+    summary.append(hours);
+  }
   const varieties = createElement("dl", "current-offer__varieties");
-  data.varieties.forEach((item) => {
+  items.forEach((item) => {
     const row = createElement("div");
     const name = createElement("dt", "", `${item.name} `);
-    name.append(createElement("span", item.sold_out ? "current-offer__sold-out" : "", item.status));
-    row.append(name, createElement("dd", "", item.description));
+    if (hasText(item.status)) name.append(createElement("span", item.sold_out ? "current-offer__sold-out" : "", item.status));
+    row.append(name);
+    if (seasonActive && hasText(item.description)) row.append(createElement("dd", "", item.description));
     varieties.append(row);
   });
-  panel.replaceChildren(summary, varieties);
+  if (hasSummary) panel.append(summary);
+  if (items.length) panel.append(varieties);
+  updateProduceVisibility();
 };
 
 const sentence = (text) => /[.!?]$/.test(text) ? text : `${text}.`;
@@ -314,27 +403,36 @@ const renderFaq = (data, offer) => {
   const list = document.querySelector("[data-faq-list]");
   const questions = [];
   let missingOffer = false;
-  data.items.filter((item) => item.visible).forEach((item) => {
+  (data.items ?? []).filter((item) => item.visible && hasText(item.question)).forEach((item) => {
     let answer = item.answer;
     if (item.answer_source !== "text") {
       if (!offer) {
         missingOffer = true;
         return;
       }
+      if (!isSalesSeason(offer)) return;
       if (item.answer_source === "availability") {
         if (!offer.enabled) return;
-        answer = offer.varieties.map((variety) => sentence(`${variety.name}: ${variety.status}`)).join(" ");
+        answer = (offer.varieties ?? []).filter((variety) => hasText(variety.name) && hasText(variety.status))
+          .map((variety) => sentence(`${variety.name}: ${variety.status}`)).join(" ");
         if (!answer) return;
       } else {
-        answer = [
-          offer.enabled
-            ? `${sentence(`${offer.price_subject} v aktuální nabídce: ${offer.price} ${offer.unit}`)} ${sentence(offer.price_note)} Na cenu dalšího ovoce se nás prosím zeptejte.`
-            : "Ceny teď na webu neuvádíme.",
-          `Prodejní doba: ${sentence(offer.hours)} ${sentence(offer.arrangement)}`,
-          contactDetails ? `Napište nám na ${getSalesEmail(contactDetails)}.` : ""
-        ].filter(Boolean).join(" ");
+        const parts = [];
+        if (offer.enabled && hasOfferPrice(offer)) {
+          parts.push(sentence(`${offer.price_subject} v aktuální nabídce: ${[offer.price, offer.unit].filter(hasText).join(" ")}`));
+          if (hasText(offer.price_note)) parts.push(sentence(offer.price_note));
+          parts.push("Na cenu dalšího ovoce se nás prosím zeptejte.");
+        } else if (!offer.enabled && [offer.hours, offer.arrangement].some(hasText)) {
+          parts.push("Ceny teď na webu neuvádíme.");
+        }
+        if (hasText(offer.hours)) parts.push(`Prodejní doba: ${sentence(offer.hours)}`);
+        if (hasText(offer.arrangement)) parts.push(sentence(offer.arrangement));
+        if (!parts.length) return;
+        if (contactDetails) parts.push(`Napište nám na ${getSalesEmail(contactDetails)}.`);
+        answer = parts.join(" ");
       }
     }
+    if (!hasText(answer)) return;
     questions.push({
       group: item.group,
       question: item.question,
@@ -377,6 +475,7 @@ const renderFaq = (data, offer) => {
       acceptedAnswer: { "@type": "Answer", text: item.answerElement.textContent }
     }))
   });
+  syncSectionLinks();
 };
 
 const updateBusinessSchema = (web) => {
@@ -392,16 +491,19 @@ const updateBusinessSchema = (web) => {
     data.address.streetAddress = web.contact.address;
     data.address.postalCode = web.contact.postal_code;
     data.geo = { "@type": "GeoCoordinates", latitude: web.contact.latitude, longitude: web.contact.longitude };
-    data.hasOfferCatalog.itemListElement = fruitKeys.map((key) => ({
+    const items = [
+      ...fruitKeys.map((key) => ({ name: web.fruit[key].name, description: web.fruit[key].description })),
+      ...["honey", "trees"].map((key) => ({ name: web[key].title, description: web[key].description }))
+    ].filter((item) => hasText(item.name)).map((item) => ({
       "@type": "OfferCatalog",
-      name: web.fruit[key].name,
-      description: web.fruit[key].description
+      name: item.name,
+      ...(hasText(item.description) ? { description: item.description } : {})
     }));
-    data.hasOfferCatalog.itemListElement.push(...["honey", "trees"].map((key) => ({
-      "@type": "OfferCatalog",
-      name: web[key].title,
-      description: web[key].description
-    })));
+    if (items.length) {
+      data.hasOfferCatalog = { "@type": "OfferCatalog", name: "Nabídka Farmy Letocha", itemListElement: items };
+    } else {
+      delete data.hasOfferCatalog;
+    }
   } else {
     delete data.legalName;
     delete data.identifier;
@@ -452,6 +554,7 @@ const initializeContent = async () => {
         : "Aktuální nabídku ani kontaktní údaje se nepodařilo načíst. Zkuste prosím stránku znovu načíst."));
     panel.hidden = false;
   }
+  updateProduceVisibility();
   if (faq) {
     renderFaq(faq, offer);
   } else {

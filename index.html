@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="assets/images/favicon-192.png">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preload" as="image" href="assets/images/farm/DSC07933-final.webp" imagesrcset="assets/images/farm/DSC07933-final-480.webp 480w, assets/images/farm/DSC07933-final-800.webp 800w, assets/images/farm/DSC07933-final.webp 1280w" imagesizes="(max-width: 720px) calc(100vw - 30px), (max-width: 940px) 560px, (max-width: 1120px) 46vw, 560px" type="image/webp" fetchpriority="high">
-  <link rel="stylesheet" href="styles.css?v=20261101-szif-logo">
+  <link rel="stylesheet" href="styles.css?v=20261102-empty-content">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="cs_CZ">
@@ -122,7 +122,7 @@
 <body>
   <a class="skip-link" href="#obsah">Přeskočit na hlavní obsah</a>
 
-  <div class="notice-bar">
+  <div class="notice-bar" hidden>
     <div class="container notice-bar__inner">
       <p><span class="status-dot" aria-hidden="true"></span> <span data-harvest-announcement>Načítám aktuální nabídku samosběru…</span></p>
       <a href="#samosber" data-harvest-announcement-link data-sales-email>Zobrazit nabídku <strong>→</strong></a>
@@ -146,7 +146,7 @@
         <a href="#farma">O farmě</a>
         <a href="#ovoce">Nabídka</a>
         <a href="#sezona">Sezona</a>
-        <a href="#samosber">Samosběr</a>
+        <a href="#samosber" hidden>Samosběr</a>
         <a href="#kontakt">Kontakt</a>
         <a class="button button--small button--dark nav-phone" href="mailto:?to=%22Farma%20Letocha%22%20%3Cinfo%40farmaletocha.cz%3E&amp;subject=Dotaz%20na%20Farmu%20Letocha">
           <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="m3 7 9 7 9-7"/></svg>
@@ -161,15 +161,15 @@
       <div class="hero__grain" aria-hidden="true"></div>
       <div class="container hero__grid">
         <div class="hero__copy">
-          <p class="eyebrow"><span></span> <span data-copy="intro.location">Bělkovice-Lašťany · Olomoucko</span></p>
-          <h1><span data-copy="intro.title">Ovoce ze sadu.</span><br><em data-copy="intro.subtitle">Přímo ze dvora.</em></h1>
+          <p class="eyebrow" data-copy-group><span></span> <span data-copy="intro.location">Bělkovice-Lašťany · Olomoucko</span></p>
+          <h1 data-copy-group><span data-copy="intro.title">Ovoce ze sadu.</span><br><em data-copy="intro.subtitle">Přímo ze dvora.</em></h1>
           <p class="hero__lead" data-copy="intro.description">Na devíti hektarech mezi Olomoucí a Šternberkem pěstujeme jablka, meruňky, černý rybíz a švestky – šetrně, v režimu integrované produkce.</p>
           <div class="hero__actions">
             <a class="button button--primary" href="#ovoce">
               Prohlédnout nabídku
               <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m5 12 14 0M13 6l6 6-6 6"/></svg>
             </a>
-            <a class="text-link" href="#samosber" data-harvest-action>
+            <a class="text-link" href="#samosber" data-harvest-action hidden>
               <span data-harvest-action-label>Rezervovat samosběr</span>
               <span aria-hidden="true">↘</span>
             </a>
@@ -241,7 +241,7 @@
       </div>
     </section>
 
-    <section class="story section" id="farma">
+    <section class="story section" id="farma" data-copy-group>
       <div class="container story__grid">
         <div class="story__media reveal">
           <figure class="story__image story__image--main">
@@ -315,7 +315,7 @@
               <ul class="tag-list" aria-label="Pěstované odrůdy jablek" data-fruit-varieties data-apple-varieties>
                 <li>Rajka</li><li>Rubinola</li><li>Šampion</li><li>Topaz</li>
               </ul>
-              <a href="#samosber">Více o samosběru <span aria-hidden="true">↗</span></a>
+              <a href="#samosber" hidden>Více o samosběru <span aria-hidden="true">↗</span></a>
             </div>
           </article>
 
@@ -333,7 +333,7 @@
                 <li>Anegat</li><li>Bergeval</li><li>Congat</li><li>Digat</li>
                 <li>Koolgat</li><li>Lady Cot</li><li>Playa Cot</li><li>Sefora</li>
               </ul>
-              <a href="#samosber">Více o samosběru <span aria-hidden="true">↗</span></a>
+              <a href="#samosber" hidden>Více o samosběru <span aria-hidden="true">↗</span></a>
             </div>
           </article>
 
@@ -367,12 +367,12 @@
               <ul class="tag-list" aria-label="Pěstované odrůdy švestek" data-fruit-varieties>
                 <li>Gabrovská</li><li>Stanley</li>
               </ul>
-              <a href="#samosber">Více o samosběru <span aria-hidden="true">↗</span></a>
+              <a href="#samosber" hidden>Více o samosběru <span aria-hidden="true">↗</span></a>
             </div>
           </article>
         </div>
 
-        <article class="product-offer honey-offer reveal" id="med" aria-labelledby="med-nadpis">
+        <article class="product-offer honey-offer reveal" id="med" aria-labelledby="med-nadpis" data-copy-group>
           <div class="product-offer__image honey-offer__image">
             <img src="assets/images/honey-generated.webp" srcset="assets/images/honey-generated-640.webp 640w, assets/images/honey-generated-1200.webp 1200w, assets/images/honey-generated.webp 1536w" sizes="(max-width: 720px) calc(100vw - 30px), (max-width: 1288px) 42vw, 520px" width="1536" height="1024" alt="Ilustrace sklenice medu s dřevěnou naběračkou v sadu" loading="lazy">
           </div>
@@ -384,7 +384,7 @@
           </div>
         </article>
 
-        <article class="product-offer tree-banner reveal" id="stromky" aria-labelledby="stromky-nadpis">
+        <article class="product-offer tree-banner reveal" id="stromky" aria-labelledby="stromky-nadpis" data-copy-group>
           <div class="product-offer__image">
             <img src="assets/images/farm/DSC07985-final.webp" srcset="assets/images/farm/DSC07985-final-480.webp 480w, assets/images/farm/DSC07985-final-800.webp 800w, assets/images/farm/DSC07985-final.webp 1280w" sizes="(max-width: 720px) calc(100vw - 30px), (max-width: 1288px) 42vw, 520px" width="1280" height="1920" alt="Detail ovocného stromu v podvečerním slunci" data-photo-id="DSC07985" loading="lazy">
           </div>
@@ -416,7 +416,7 @@
       </div>
     </section>
 
-    <section class="self-pick section" id="samosber">
+    <section class="self-pick section" id="samosber" hidden>
       <div class="container">
         <header class="section-heading section-heading--center reveal">
           <div>
@@ -710,7 +710,7 @@
         <a href="#farma">O farmě</a>
         <a href="#ovoce">Nabídka</a>
         <a href="#sezona">Kalendář sklizně</a>
-        <a href="#samosber">Samosběr</a>
+        <a href="#samosber" hidden>Samosběr</a>
         <a class="footer__privacy" href="soukromi.html">Ochrana osobních údajů</a>
         <a href="dotace.html">Dotace a podpora</a>
       </div>
@@ -760,8 +760,8 @@
     Napište nám
   </a>
 
-  <script src="content.js?v=20261101-root" defer></script>
-  <script src="script.js?v=20261101-reservation-auto" defer></script>
+  <script src="content.js?v=20261102-season-switch" defer></script>
+  <script src="script.js?v=20261102-empty-content" defer></script>
   <script src="analytics.js?v=20261101-root" defer></script>
 </body>
 </html>

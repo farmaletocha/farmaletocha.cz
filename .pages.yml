@@ -87,10 +87,10 @@ content:
               maxlength: 90
 
       - name: enabled
-        label: Zobrazit nabídku samosběru
+        label: Zobrazit sekci samosběru
         type: boolean
         required: true
-        description: Vypnutím se nabídka i termíny skryjí z webu.
+        description: Vypnutím se skryje celá sekce samosběru, termíny, rezervace, horní proužek i související odkazy. Obsah zůstane uložený.
 
       - name: booking_enabled
         label: Povolit e-mailovou rezervaci
@@ -106,15 +106,15 @@ content:
       - name: announcement
         label: Text v horním proužku
         type: string
-        required: true
-        description: Krátká aktuální informace zobrazená úplně nahoře na webu.
+        required: false
+        description: Krátká aktuální informace zobrazená úplně nahoře na webu. Prázdný text nebo pouze tečky, čárky a mezery skryjí celý proužek.
         options:
           maxlength: 120
 
       - name: title
         label: Nadpis nabídky
         type: string
-        required: true
+        required: false
         description: Například Samosběr švestek · září 2026.
         options:
           maxlength: 90
@@ -129,7 +129,7 @@ content:
       - name: offer_label
         label: Štítek nabídky
         type: string
-        required: true
+        required: false
         description: Například Předběžná nabídka nebo Samosběr otevřen.
         options:
           maxlength: 50
@@ -137,28 +137,28 @@ content:
       - name: description
         label: Popis nabídky
         type: text
-        required: true
+        required: false
         options:
           maxlength: 300
 
       - name: empty_message
         label: Text při nulovém počtu termínů
         type: text
-        required: true
+        required: false
         options:
           maxlength: 240
 
       - name: confirmation_title
         label: Nadpis upozornění
         type: string
-        required: true
+        required: false
         options:
           maxlength: 100
 
       - name: confirmation_note
         label: Text upozornění
         type: text
-        required: true
+        required: false
         options:
           maxlength: 300
 
@@ -180,11 +180,11 @@ content:
           - name: name
             label: Ovoce nebo odrůda
             type: string
-            required: true
+            required: false
           - name: status
             label: Dostupnost
             type: string
-            required: true
+            required: false
             description: Text zobrazený návštěvníkům, například V prodeji nebo Od října. Při vyprodání napište Vyprodáno a zapněte přepínač níže.
           - name: sold_out
             label: Vyprodáno
@@ -194,44 +194,55 @@ content:
           - name: description
             label: Popis
             type: text
-            required: true
+            required: false
       - name: enabled
         label: Zobrazit aktuální nabídku
         type: boolean
         required: true
         description: Skryje jen aktuální nabídku a cenu, nikoli ovoce nebo samosběr.
+      - name: season_active
+        label: Sezóna
+        type: boolean
+        required: true
+        description: Zapněte v prodejní sezoně. Vypnutí skryje cenu, poznámku k ceně, prodejní dobu, domluvu, popisy odrůd a automatické prodejní odpovědi ve FAQ. Texty zůstanou uložené. Nadpis mimo sezonu a dostupnost odrůd zůstanou viditelné; samosběr má vlastní přepínač.
       - name: price
         label: Cena nebo cenové rozpětí
         type: string
-        required: true
-        description: Například 10–24.
+        required: false
+        description: Například 10–24. Prázdné pole nebo pouze tečky, čárky a mezery se nezobrazí.
       - name: price_subject
         label: Ovoce, ke kterému se cena vztahuje
         type: string
-        required: true
+        required: false
         description: Například Jablka. Uvádí se u ceny v automatické odpovědi, aby nešlo o univerzální cenu všeho ovoce.
       - name: unit
         label: Jednotka ceny
         type: string
-        required: true
+        required: false
         description: Například Kč/kg.
       - name: price_note
         label: Poznámka k ceně
         type: string
-        required: true
+        required: false
       - name: hours
         label: Prodejní doba
         type: string
-        required: true
+        required: false
         description: Zobrazí se v nabídce, úvodu, kontaktu a automatické odpovědi ve FAQ.
       - name: arrangement
         label: Domluva mimo prodejní dobu
         type: string
-        required: true
+        required: false
       - name: title
-        label: Nadpis nabídky
+        label: Nadpis nabídky v sezoně
         type: string
-        required: true
+        required: false
+        description: Prázdné texty a texty obsahující pouze tečky, čárky a mezery se automaticky skryjí; po doplnění se znovu zobrazí.
+      - name: off_season_title
+        label: Nadpis mimo sezonu
+        type: string
+        required: false
+        description: Zobrazí se místo nadpisu nabídky, když je přepínač Sezóna vypnutý. Například informace o ukončení prodeje; lze ponechat prázdné.
 
   - name: web
     label: Texty a kontakty
@@ -300,32 +311,33 @@ content:
           - name: location_text
             label: Kde nás najdete
             type: text
-            required: true
+            required: false
           - name: directions
             label: Informace k příjezdu
             type: text
-            required: true
+            required: false
       - name: intro
         label: Úvodní část
         type: object
         required: true
+        description: Prázdné texty a texty obsahující pouze tečky, čárky a mezery se na webu nezobrazují.
         fields:
           - name: location
             label: Lokalita nad nadpisem
             type: string
-            required: true
+            required: false
           - name: title
             label: První řádek nadpisu
             type: string
-            required: true
+            required: false
           - name: subtitle
             label: Druhý řádek nadpisu
             type: string
-            required: true
+            required: false
           - name: description
             label: Úvodní text
             type: text
-            required: true
+            required: false
           - name: rotate_fruit
             label: Automaticky střídat fotografie ovoce
             type: boolean
@@ -339,15 +351,15 @@ content:
           - name: title
             label: Nadpis
             type: string
-            required: true
+            required: false
           - name: lead
             label: Úvodní odstavec
             type: text
-            required: true
+            required: false
           - name: description
             label: Hlavní text
             type: text
-            required: true
+            required: false
       - name: fruit
         label: Ovoce a popisky úvodních fotografií
         type: object
@@ -361,11 +373,11 @@ content:
               - name: name
                 label: Název
                 type: string
-                required: true
+                required: false
               - name: season
                 label: Období sklizně
                 type: string
-                required: true
+                required: false
               - name: months
                 label: Měsíce sezony
                 type: select
@@ -388,21 +400,21 @@ content:
               - name: description
                 label: Popis ovoce
                 type: text
-                required: true
+                required: false
               - name: varieties
                 label: Pěstované odrůdy
                 type: string
                 list: true
-                required: true
+                required: false
               - name: hero_title
                 label: Nadpis u úvodní fotografie
                 type: string
-                required: true
+                required: false
                 options: { maxlength: 65 }
               - name: hero_description
                 label: Druhý řádek u úvodní fotografie
                 type: string
-                required: true
+                required: false
                 options: { maxlength: 100 }
           - name: apricots
             label: Meruňky
@@ -412,11 +424,11 @@ content:
               - name: name
                 label: Název
                 type: string
-                required: true
+                required: false
               - name: season
                 label: Období sklizně
                 type: string
-                required: true
+                required: false
               - name: months
                 label: Měsíce sezony
                 type: select
@@ -425,7 +437,7 @@ content:
               - name: description
                 label: Popis ovoce
                 type: text
-                required: true
+                required: false
               - name: varieties
                 label: Pěstované odrůdy
                 type: string
@@ -434,12 +446,12 @@ content:
               - name: hero_title
                 label: Nadpis u úvodní fotografie
                 type: string
-                required: true
+                required: false
                 options: { maxlength: 65 }
               - name: hero_description
                 label: Druhý řádek u úvodní fotografie
                 type: string
-                required: true
+                required: false
                 options: { maxlength: 100 }
           - name: blackcurrants
             label: Černý rybíz
@@ -449,11 +461,11 @@ content:
               - name: name
                 label: Název
                 type: string
-                required: true
+                required: false
               - name: season
                 label: Období sklizně
                 type: string
-                required: true
+                required: false
               - name: months
                 label: Měsíce sezony
                 type: select
@@ -462,7 +474,7 @@ content:
               - name: description
                 label: Popis ovoce
                 type: text
-                required: true
+                required: false
               - name: varieties
                 label: Pěstované odrůdy
                 type: string
@@ -471,12 +483,12 @@ content:
               - name: hero_title
                 label: Nadpis u úvodní fotografie
                 type: string
-                required: true
+                required: false
                 options: { maxlength: 65 }
               - name: hero_description
                 label: Druhý řádek u úvodní fotografie
                 type: string
-                required: true
+                required: false
                 options: { maxlength: 100 }
           - name: plums
             label: Švestky
@@ -486,11 +498,11 @@ content:
               - name: name
                 label: Název
                 type: string
-                required: true
+                required: false
               - name: season
                 label: Období sklizně
                 type: string
-                required: true
+                required: false
               - name: months
                 label: Měsíce sezony
                 type: select
@@ -499,7 +511,7 @@ content:
               - name: description
                 label: Popis ovoce
                 type: text
-                required: true
+                required: false
               - name: varieties
                 label: Pěstované odrůdy
                 type: string
@@ -508,12 +520,12 @@ content:
               - name: hero_title
                 label: Nadpis u úvodní fotografie
                 type: string
-                required: true
+                required: false
                 options: { maxlength: 65 }
               - name: hero_description
                 label: Druhý řádek u úvodní fotografie
                 type: string
-                required: true
+                required: false
                 options: { maxlength: 100 }
       - name: trees
         label: Ovocné stromky
@@ -523,11 +535,11 @@ content:
           - name: title
             label: Nadpis
             type: string
-            required: true
+            required: false
           - name: description
             label: Nabídka a podmínky
             type: text
-            required: true
+            required: false
       - name: honey
         label: Med
         type: object
@@ -536,11 +548,11 @@ content:
           - name: title
             label: Nadpis
             type: string
-            required: true
+            required: false
           - name: description
             label: Nabídka a podmínky
             type: text
-            required: true
+            required: false
             description: Uvádějte jen potvrzené informace o nabídce a odběru medu.
       - name: calendar
         label: Kalendář sklizně
@@ -560,11 +572,11 @@ content:
           - name: title
             label: Nadpis
             type: string
-            required: true
+            required: false
           - name: description
             label: Popis
             type: text
-            required: true
+            required: false
           - name: fruits
             label: Ovoce v daném měsíci
             type: select
@@ -643,7 +655,7 @@ content:
           - name: question
             label: Otázka
             type: string
-            required: true
+            required: false
           - name: answer_source
             label: Odkud vzít odpověď
             type: select
@@ -656,7 +668,7 @@ content:
           - name: answer
             label: Vlastní odpověď
             type: text
-            description: "Vyplňte při volbě Vlastní odpověď. Odkaz vložte například jako [kontaktech](#kontakt). Povolené cíle jsou #farma, #ovoce, #med, #stromky, #samosber, #prijezd a #kontakt. HTML není podporováno. Automatické odpovědi se mění podle položky Nabídka a prodej."
+            description: "Vyplňte při volbě Vlastní odpověď. Prázdná otázka nebo odpověď či pouze tečky, čárky a mezery skryjí celou položku. Odkaz vložte například jako [kontaktech](#kontakt). Povolené cíle jsou #farma, #ovoce, #med, #stromky, #samosber, #prijezd a #kontakt. HTML není podporováno. Automatické odpovědi se mění podle položky Nabídka a prodej."
 
 settings:
   hide: true

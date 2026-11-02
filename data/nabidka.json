@@ -1,36 +1,38 @@
 {
   "enabled": true,
-  "title": "Sezóna prodeje jablek v roce 2026 byla ukončena.",
-  "price_subject": ".",
-  "price": ".",
-  "unit": ".",
-  "price_note": ".",
-  "hours": ".",
-  "arrangement": ".",
+  "season_active": false,
+  "title": "Jablka přímo ze dvora",
+  "off_season_title": "Sezóna prodeje jablek v roce 2026 byla ukončena.",
+  "price_subject": "Jablka",
+  "price": "10–24",
+  "unit": "Kč/kg",
+  "price_note": "Záleží na kvalitě plodů.",
+  "hours": "Každou sobotu 9–11 h.",
+  "arrangement": "po dohodě na telefonním čísle 602 793 987",
   "varieties": [
     {
       "name": "Rajka",
       "status": "Vyprodáno",
       "sold_out": true,
-      "description": "."
+      "description": "Sladká a hned k jídlu. V dobrém sklepě vydrží až do Vánoc."
     },
     {
       "name": "Topaz",
       "status": "Vyprodáno",
       "sold_out": true,
-      "description": "."
+      "description": "Sladkokyselé jablko na uskladnění. K jídlu dozrává v listopadu a při dobrém skladování vydrží do Velikonoc."
     },
     {
       "name": "Rubinola",
       "status": "Vyprodáno",
       "sold_out": true,
-      "description": "."
+      "description": "Tyto odrůdy jsou už vyprodané."
     },
     {
       "name": "Šampión ",
-      "status": ".Vyprodáno",
+      "status": "Vyprodáno",
       "sold_out": false,
-      "description": "."
+      "description": "Tyto odrůdy jsou už vyprodané."
     }
   ]
 }

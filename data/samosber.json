@@ -1,5 +1,5 @@
 {
-  "enabled": true,
+  "enabled": false,
   "booking_enabled": true,
   "announcement": "Na samosběr se domluvte předem – stačí nám napsat.",
   "offer_label": "Domluva e-mailem",

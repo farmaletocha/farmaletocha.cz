@@ -124,6 +124,7 @@ const reservationForm = document.querySelector("[data-reservation-form]");
 const slotSelect = document.querySelector("[data-slot-select]");
 const slotGrid = document.querySelector("[data-slot-grid]");
 const harvestOffer = document.querySelector("[data-harvest-offer]");
+const harvestSection = document.querySelector("#samosber");
 const reservationSection = document.querySelector("[data-reservation-section]");
 const harvestAnnouncement = document.querySelector("[data-harvest-announcement]");
 const harvestAnnouncementLink = document.querySelector("[data-harvest-announcement-link]");
@@ -245,7 +246,7 @@ const describeSlot = (slot, bookingEnabled, now) => {
 
 const visibleHarvestSlots = (data) => Array.isArray(data?.slots)
   ? data.slots
-      .filter((slot) => slot && slot.visible !== false && parseSlotDate(slot.date))
+      .filter((slot) => slot && slot.visible !== false && parseSlotDate(slot.date) && hasText(slot.fruit))
       .sort((left, right) => `${left.date}${left.start || ""}`.localeCompare(`${right.date}${right.start || ""}`))
   : [];
 
@@ -291,7 +292,7 @@ const createSlotCard = (slot, bookingEnabled, now) => {
     createElement(
       "span",
       "slot-card__status",
-      isPast ? "Termín již proběhl" : slot.note || status.label
+      isPast ? "Termín již proběhl" : hasText(slot.note) ? slot.note : status.label
     )
   );
 
@@ -308,6 +309,7 @@ const createSlotCard = (slot, bookingEnabled, now) => {
 
 const setAnnouncementLink = (label, href) => {
   if (!harvestAnnouncementLink) return;
+  harvestAnnouncementLink.hidden = false;
   harvestAnnouncementLink.href = href;
   harvestAnnouncementLink.replaceChildren(
     document.createTextNode(`${label} `),
@@ -317,6 +319,7 @@ const setAnnouncementLink = (label, href) => {
 
 const setHarvestAction = (label, href) => {
   if (!harvestAction) return;
+  harvestAction.hidden = false;
   harvestAction.href = href;
   const text = harvestAction.querySelector("[data-harvest-action-label]");
   if (text) text.textContent = label;
@@ -361,31 +364,35 @@ const renderHarvestOffer = (data) => {
   const bookingEnabled = data?.booking_enabled !== false;
   const contact = getContactDetails();
   const contactError = "Kontaktní údaje se nepodařilo načíst. Zkuste prosím stránku znovu načíst.";
+  if (harvestSection) harvestSection.hidden = !enabled;
+  if (harvestAction) harvestAction.hidden = !enabled;
 
   if (harvestAnnouncement) {
-    harvestAnnouncement.textContent = contact
-      ? data?.announcement || "Na možnosti samosběru se nás zeptejte e-mailem."
-      : contactError;
+    setText(harvestAnnouncement, contact ? data?.announcement : contactError);
+    harvestAnnouncement.closest(".notice-bar").hidden = !enabled || harvestAnnouncement.hidden;
   }
 
   if (!enabled) {
     if (harvestOffer) harvestOffer.hidden = true;
     setReservationAvailability(false);
-    setAnnouncementLink(contact ? "Kontaktovat farmu" : "Znovu načíst stránku", contact ? "#kontakt" : window.location.pathname);
-    setHarvestAction(contact ? "Kontaktovat farmu" : "Znovu načíst stránku", contact ? "#kontakt" : window.location.pathname);
+    syncSectionLinks();
     return;
   }
 
-  if (harvestOffer) harvestOffer.hidden = false;
-  if (offerLabel) offerLabel.textContent = data.offer_label || "Aktuální nabídka";
-  if (offerTitle) offerTitle.textContent = data.title || "Termíny samosběru";
-  if (offerDescription) offerDescription.textContent = data.description || "";
-  if (offerConfirmationTitle) {
-    offerConfirmationTitle.textContent = data.confirmation_title || "Rezervace platí automaticky po odeslání e-mailu.";
+  setText(offerLabel, data.offer_label);
+  if (offerLabel) offerLabel.closest(".offer-status").hidden = offerLabel.hidden;
+  setText(offerTitle, data.title);
+  setText(offerDescription, data.description);
+  setText(offerConfirmationTitle, data.confirmation_title);
+  setText(offerConfirmationNote, data.confirmation_note);
+  const hasConfirmation = [data.confirmation_title, data.confirmation_note].some(hasText);
+  if (offerConfirmationTitle) offerConfirmationTitle.closest(".harvest-offer__note").hidden = !hasConfirmation;
+  setText(offerTime, data.time_summary);
+  if (offerMeta) offerMeta.hidden = !hasText(data.time_summary);
+  if (harvestOffer) {
+    harvestOffer.querySelector(".harvest-offer__head").hidden =
+      ![data.offer_label, data.title, data.description, data.time_summary].some(hasText);
   }
-  if (offerConfirmationNote) offerConfirmationNote.textContent = data.confirmation_note || "";
-  if (offerTime) offerTime.textContent = data.time_summary || "Podle termínu";
-  if (offerMeta) offerMeta.hidden = !data.time_summary;
 
   const now = getPragueNow();
   const slots = visibleHarvestSlots(data);
@@ -398,13 +405,20 @@ const renderHarvestOffer = (data) => {
   if (slotGrid) {
     if (renderedSlots.length) {
       slotGrid.replaceChildren(...renderedSlots.map(({ card }) => card));
-    } else {
+    } else if (hasText(data.empty_message)) {
       slotGrid.replaceChildren(createElement(
         "p",
         "slot-empty",
-        data.empty_message || "Aktuálně nejsou vypsané žádné veřejné termíny."
+        data.empty_message
       ));
+    } else {
+      slotGrid.replaceChildren();
     }
+    slotGrid.hidden = !renderedSlots.length && !hasText(data.empty_message);
+  }
+  if (harvestOffer) {
+    harvestOffer.hidden = !renderedSlots.length && !hasText(data.empty_message) && !hasConfirmation &&
+      ![data.offer_label, data.title, data.description, data.time_summary].some(hasText);
   }
 
   fillSlotSelect(reservableSlots, data.allow_other_term !== false);
@@ -424,22 +438,29 @@ const renderHarvestOffer = (data) => {
     setAnnouncementLink("Zobrazit nabídku", "#samosber");
     setHarvestAction("Zobrazit samosběr", "#samosber");
   }
+  syncSectionLinks();
 };
 
 const showHarvestLoadError = () => {
+  if (harvestSection) harvestSection.hidden = false;
   if (harvestAnnouncement) {
-    harvestAnnouncement.textContent = "Termíny samosběru se teď nepodařilo načíst.";
+    setText(harvestAnnouncement, "Termíny samosběru se teď nepodařilo načíst.");
+    harvestAnnouncement.closest(".notice-bar").hidden = false;
   }
   const contact = getContactDetails();
   setAnnouncementLink(contact ? "Napsat e-mail" : "Znovu načíst stránku", contact ? getEmailLink(contact, true, "Dotaz na samosběr") : window.location.pathname);
   setHarvestAction(contact ? "Kontaktovat farmu" : "Znovu načíst stránku", contact ? "#kontakt" : window.location.pathname);
-  if (offerLabel) offerLabel.textContent = "Nedostupné";
-  if (offerTitle) offerTitle.textContent = "Termíny samosběru nejsou dostupné";
-  if (offerDescription) {
-    offerDescription.textContent = "Zkuste prosím stránku znovu načíst.";
+  if (harvestOffer) {
+    harvestOffer.hidden = false;
+    harvestOffer.querySelector(".harvest-offer__head").hidden = false;
   }
+  setText(offerLabel, "Nedostupné");
+  if (offerLabel) offerLabel.closest(".offer-status").hidden = false;
+  setText(offerTitle, "Termíny samosběru nejsou dostupné");
+  setText(offerDescription, "Zkuste prosím stránku znovu načíst.");
   if (offerMeta) offerMeta.hidden = true;
   if (slotGrid) {
+    slotGrid.hidden = false;
     slotGrid.replaceChildren(createElement(
       "p",
       "slot-empty slot-empty--error",
@@ -449,13 +470,17 @@ const showHarvestLoadError = () => {
     ));
   }
   setReservationAvailability(false);
+  syncSectionLinks();
 };
 
 const loadHarvestOffer = async () => {
   const response = await fetch("data/samosber.json", { cache: "no-store" });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   const data = await response.json();
-  check(data && typeof data === "object" && !Array.isArray(data), "Invalid self-picking offer");
+  checkFields(data, [
+    "announcement", "offer_label", "title", "description", "time_summary",
+    "confirmation_title", "confirmation_note", "empty_message"
+  ], "self-picking", checkOptionalText);
   return data;
 };
 
@@ -702,15 +727,16 @@ const initializeHeroCarousel = (autoplay) => {
 
   const updateCaption = () => {
     const slide = slides[index];
-    title.textContent = slide.dataset.title;
-    description.textContent = slide.dataset.description;
+    setText(title, slide.dataset.title);
+    setText(description, slide.dataset.description);
+    caption.hidden = title.hidden && description.hidden;
     caption.dataset.fruitColor = slide.dataset.heroSlide;
     carousel.dataset.activeFruit = slide.dataset.heroSlide;
     slides.forEach((item, position) => {
       const active = position === index;
       item.classList.toggle("is-active", active);
       item.setAttribute("aria-hidden", String(!active));
-      item.setAttribute("aria-label", `${position + 1} ze ${slides.length}: ${item.dataset.name}`);
+      item.setAttribute("aria-label", `${position + 1} ze ${slides.length}${hasText(item.dataset.name) ? `: ${item.dataset.name}` : ""}`);
       buttons[position].setAttribute("aria-pressed", String(active));
     });
   };

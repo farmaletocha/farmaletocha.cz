@@ -1061,6 +1061,10 @@ h3 {
   border-radius: var(--radius-md);
 }
 
+.current-offer > :only-child {
+  grid-column: 1 / -1;
+}
+
 .current-offer h3 {
   margin-bottom: 22px;
   font-family: var(--serif);
@@ -2589,6 +2593,11 @@ h3 {
   color: var(--ink-2);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.faq__list details p a[data-section-target] {
+  color: inherit;
+  text-decoration: none;
 }
 
 .site-footer {
