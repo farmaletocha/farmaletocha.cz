@@ -29,9 +29,9 @@
       "description": "Tyto odrůdy jsou už vyprodané."
     },
     {
-      "name": "Šampión ",
+      "name": "Šampión",
       "status": "Vyprodáno",
-      "sold_out": false,
+      "sold_out": true,
       "description": "Tyto odrůdy jsou už vyprodané."
     }
   ]
